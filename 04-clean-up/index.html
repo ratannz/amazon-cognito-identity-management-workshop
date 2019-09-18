@@ -439,6 +439,41 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#empty-and-delete-the-s3-bucket" title="Empty and delete the S3 Bucket" class="md-nav__link">
+    Empty and delete the S3 Bucket
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#remove-the-cognito-resources" title="Remove the Cognito Resources" class="md-nav__link">
+    Remove the Cognito Resources
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#detach-iam-policy" title="Detach IAM Policy" class="md-nav__link">
+    Detach IAM Policy
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#remove-wildrydes-backend" title="Remove WildRydes Backend" class="md-nav__link">
+    Remove WildRydes Backend
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#remove-cloud9-and-vpc-stack" title="Remove Cloud9 and VPC Stack" class="md-nav__link">
+    Remove Cloud9 and VPC Stack
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#finished" title="Finished!" class="md-nav__link">
     Finished!
   </a>
@@ -501,6 +536,41 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#empty-and-delete-the-s3-bucket" title="Empty and delete the S3 Bucket" class="md-nav__link">
+    Empty and delete the S3 Bucket
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#remove-the-cognito-resources" title="Remove the Cognito Resources" class="md-nav__link">
+    Remove the Cognito Resources
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#detach-iam-policy" title="Detach IAM Policy" class="md-nav__link">
+    Detach IAM Policy
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#remove-wildrydes-backend" title="Remove WildRydes Backend" class="md-nav__link">
+    Remove WildRydes Backend
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#remove-cloud9-and-vpc-stack" title="Remove Cloud9 and VPC Stack" class="md-nav__link">
+    Remove Cloud9 and VPC Stack
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#finished" title="Finished!" class="md-nav__link">
     Finished!
   </a>
@@ -527,6 +597,68 @@
                 
                 
                 <h1 id="module-4-clean-up">Module 4: Clean up</h1>
+<div class="admonition warning">
+<p class="admonition-title">If you are doing this workshop as part of an AWS sponsored event where Event Engine is being used, you can SKIP clean up.  The Event Engine system will take care of the clean up.</p>
+</div>
+<p>To prevent your account from accruing additional charges, you should remove any resources that are no longer needed.</p>
+<h2 id="empty-and-delete-the-s3-bucket">Empty and delete the S3 Bucket</h2>
+<p>First, you need to empty the <strong><em>S3 bucket</em></strong> that was created by the Serverless Backend CloudFormation template.</p>
+<p>From your <strong>Cloud9 developer environment</strong> run the following:</p>
+<div class="codehilite"><pre><span></span>aws s3 rb s3://MY-BUCKET-NAME --force 
+</pre></div>
+
+
+<div class="admonition tip">
+<p class="admonition-title">Copy and paste your Bucket name from your scratch pad.</p>
+</div>
+<h2 id="remove-the-cognito-resources">Remove the Cognito Resources</h2>
+<p>From your <strong>Cloud9 developer environment</strong> run the following:</p>
+<div class="codehilite"><pre><span></span>aws cognito-identity delete-identity-pool --identity-pool-id YOUR-IDENTITY-POOL-ID-HERE
+</pre></div>
+
+
+<div class="admonition tip">
+<p class="admonition-title">Copy and paste your Cognito identity pool ID from your scratch pad (example: us-west-2:b4b755cd-d359-42a1-9b49-f0e73f5b2571).</p>
+</div>
+<p>Next, run the following command to delete the Cognito User Pool you created:</p>
+<div class="codehilite"><pre><span></span>aws cognito-idp delete-user-pool --user-pool-id YOUR-USER-POOL-ID-HERE
+</pre></div>
+
+
+<div class="admonition tip">
+<p class="admonition-title">Copy and paste your user pool ID from your scratch pad (example: us-west-2:us-west-2_srLwFQiEC).</p>
+</div>
+<h2 id="detach-iam-policy">Detach IAM Policy</h2>
+<p>Before you delete the backend stack, you will need to remove the IAM Policy that you manually attached to the <strong>Auth</strong> role. </p>
+<ol>
+<li>
+<p>Navigate to the Identity and Access Management (IAM) Console and search for the <strong>Auth</strong> role and click into it.</p>
+<p><img alt="Find Auth Role" src="../images/iam-cleanup-findAuthRole.png" /></p>
+</li>
+<li>
+<p>On the Role Summary page, find the policy named <strong>WildRydesAPI-StandardUserPolicy</strong> in the Permissions tab. Once you locate the policy, click the <strong>X</strong> to remove this policy from the IAM Role. A popup window will ask you to confirm that you want to remove it - click the red <strong>Detach</strong> button.</p>
+</li>
+</ol>
+<h2 id="remove-wildrydes-backend">Remove WildRydes Backend</h2>
+<p>Next, you will need to remove the <em>CloudFormation stack</em> for the API. This stack should be named <strong>serverless-idm-backend</strong>. Once again, from the your terminal window, run:</p>
+<div class="codehilite"><pre><span></span>aws cloudformation delete-stack --stack-name serverless-idm-backend
+</pre></div>
+
+
+<div class="admonition tip">
+<p class="admonition-title">If you changed the name of your stack from the default, you will need to update the stack name to what you changed it to.  If you clicked the quick link in the instructions, no adjustment to the above command is needed. You can run <code>aws cloudformation describe-stacks</code> to find the your stack name.</p>
+</div>
+<h2 id="remove-cloud9-and-vpc-stack">Remove Cloud9 and VPC Stack</h2>
+<ol>
+<li>Lastly, you will need to remove the <em>CloudFormation Stack</em> for the <strong>Cloud9 instance</strong> and the its VPC. This stack should be named <strong>serverless-idm-cloud9</strong>. Deleting this stack will <strong>shut down and permanently delete your Cloud9 environment</strong> and all code or projects within so be sure you want to proceed before executing this command.</li>
+</ol>
+<div class="codehilite"><pre><span></span>aws cloudformation delete-stack --stack-name serverless-idm-cloud9
+</pre></div>
+
+
+<div class="admonition tip">
+<p class="admonition-title">If you changed the name of your stack from the default, you will need to update the stack name to what you changed it to.  If you clicked the quick link in the instructions, no adjustment to the command above is needed.  You can run <code>aws cloudformation describe-stacks</code> to find your stack name.</p>
+</div>
 <h2 id="finished">Finished!</h2>
 <p>Congratulations on completing this workshop! This is the workshop's permanent home, so feel free to revisit as often as you'd like.</p>
                 
