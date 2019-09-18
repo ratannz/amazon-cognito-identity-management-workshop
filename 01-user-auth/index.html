@@ -1,0 +1,1053 @@
+
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+        <meta name="description" content="In this workshop, you learn how to build a serverless microservices application demonstrating end-to-end authentication and authorization using Amazon Cognito, Amazon API Gateway, AWS Lambda, and all things IAM. You have the opportunity to build an end-to-end functional app with a secure identity provider showcasing user authentication patterns. All attendees need a laptop, an active AWS Account, an AWS IAM Administrator, and a familiarity with core AWS services.">
+      
+      
+        <link rel="canonical" href="https://serverless-idm.awssecworkshops.com/01-user-auth/">
+      
+      
+        <meta name="author" content="aws-security-workshops@amazon.com">
+      
+      
+        <meta name="lang:clipboard.copy" content="Copy to clipboard">
+      
+        <meta name="lang:clipboard.copied" content="Copied to clipboard">
+      
+        <meta name="lang:search.language" content="en">
+      
+        <meta name="lang:search.pipeline.stopwords" content="True">
+      
+        <meta name="lang:search.pipeline.trimmer" content="True">
+      
+        <meta name="lang:search.result.none" content="No matching documents">
+      
+        <meta name="lang:search.result.one" content="1 matching document">
+      
+        <meta name="lang:search.result.other" content="# matching documents">
+      
+        <meta name="lang:search.tokenizer" content="[\s\-]+">
+      
+      <link rel="shortcut icon" href="../assets/images/aws-favicon.ico">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.0.2">
+    
+    
+      
+        <title>Module 1: User authentication - Serverless authentication and authorization</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/application.982221ab.css">
+      
+      
+    
+    
+      <script src="../assets/javascripts/modernizr.1f0bcf2b.js"></script>
+    
+    
+      
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono">
+        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
+      
+    
+    <link rel="stylesheet" href="../assets/fonts/material-icons.css">
+    
+    
+      <link rel="stylesheet" href="../stylesheets/custom.css">
+    
+    
+      
+    
+    
+  </head>
+  
+    <body dir="ltr">
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+          <svg xmlns="http://www.w3.org/2000/svg" width="416" height="448"
+    viewBox="0 0 416 448" id="__github">
+  <path fill="currentColor" d="M160 304q0 10-3.125 20.5t-10.75 19-18.125
+        8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19 18.125-8.5
+        18.125 8.5 10.75 19 3.125 20.5zM320 304q0 10-3.125 20.5t-10.75
+        19-18.125 8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19
+        18.125-8.5 18.125 8.5 10.75 19 3.125 20.5zM360
+        304q0-30-17.25-51t-46.75-21q-10.25 0-48.75 5.25-17.75 2.75-39.25
+        2.75t-39.25-2.75q-38-5.25-48.75-5.25-29.5 0-46.75 21t-17.25 51q0 22 8
+        38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0
+        37.25-1.75t35-7.375 30.5-15 20.25-25.75 8-38.375zM416 260q0 51.75-15.25
+        82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5-41.75
+        1.125q-19.5 0-35.5-0.75t-36.875-3.125-38.125-7.5-34.25-12.875-30.25-20.25-21.5-28.75q-15.5-30.75-15.5-82.75
+        0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25
+        30.875q36.75-8.75 77.25-8.75 37 0 70 8 26.25-20.5
+        46.75-30.25t47.25-9.75q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34
+        99.5z" />
+</svg>
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
+    
+      <a href="#module-1-user-authentication" tabindex="1" class="md-skip">
+        Skip to content
+      </a>
+    
+    
+      <!--
+  Copyright (c) 2016-2018 Martin Donath <martin.donath@squidfunk.com>
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to
+  deal in the Software without restriction, including without limitation the
+  rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+  sell copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+  The above copyright notice and this permission notice shall be included in
+  all copies or substantial portions of the Software.
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+  IN THE SOFTWARE.
+-->
+
+<!-- Application header -->
+<header class="md-header" data-md-component="header">
+
+    <!-- Top-level navigation -->
+    <nav class="md-header-nav md-grid">
+      <div class="md-flex">
+  
+        <!-- Link to home -->
+        <div class="md-flex__cell md-flex__cell--shrink">
+          <a href="https://aws.amazon.com/"
+              title="Amazon Web Services"
+              class="md-header-nav__button md-logo">
+            
+              <img src="../assets/images/aws_smile_logo.png" width="40" height="24" />
+            
+          </a>
+        </div>
+  
+        <!-- Button to toggle drawer -->
+        <div class="md-flex__cell md-flex__cell--shrink">
+          <label class="md-icon md-icon--menu md-header-nav__button"
+              for="__drawer"></label>
+        </div>
+  
+        <!-- Header title -->
+        <div class="md-flex__cell md-flex__cell--stretch">
+          <div class="md-flex__ellipsis md-header-nav__title"
+              data-md-component="title">
+            
+              
+                <span class="md-header-nav__topic">
+                  Serverless authentication and authorization
+                </span>
+                <span class="md-header-nav__topic">
+                  Module 1: User authentication
+                </span>
+              
+            
+          </div>
+        </div>
+        
+        
+        <!-- Button to open search dialogue -->
+        <!--
+        <div class="md-flex__cell md-flex__cell--shrink">
+          
+            
+              <label class="md-icon md-icon--search md-header-nav__button"
+                  for="__search"></label>
+  
+              
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
+      <label class="md-icon md-search__icon" for="__search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
+        &#xE5CD;
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result">
+          <div class="md-search-result__meta">
+            Type to start searching
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+            
+          
+        </div>
+
+         -->
+         
+         <div class="md-flex__cell md-flex__cell--shrink">
+            <div class="md-flex__ellipsis md-header-nav__lang">
+                <div>
+                    <button onclick="window.location.href = 'https://awssecworkshops.com/';" class="md-lang-dropbtn fa fa-home"></button>
+                </div>
+            </div>
+        </div>
+  
+        <!-- Repository containing source -->
+        
+          <div class="md-flex__cell md-flex__cell--shrink">
+            <div class="md-header-nav__source">
+              
+
+
+  
+
+<a href="https://github.com/aws-samples/amazon-cognito-identity-management-workshop/" title="Go to repository" class="md-source" data-md-source="github">
+  
+    <div class="md-source__icon">
+      <svg viewBox="0 0 24 24" width="24" height="24">
+        <use xlink:href="#__github" width="24" height="24"></use>
+      </svg>
+    </div>
+  
+  <div class="md-source__repository">
+    aws-samples/amazon-cognito-identity-management-workshop
+  </div>
+</a>
+            </div>
+          </div>
+        
+      </div>
+    </nav>
+  </header>
+    
+    <div class="md-container">
+      
+        
+      
+      
+        
+
+<nav class="md-tabs" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  <li class="md-tabs__item">
+    
+      <a href=".." title="Overview" class="md-tabs__link md-tabs__link--active">
+        Overview
+      </a>
+    
+  </li>
+
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </ul>
+  </div>
+</nav>
+      
+      <main class="md-main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <!--
+  Copyright (c) 2016-2019 Martin Donath <martin.donath@squidfunk.com>
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to
+  deal in the Software without restriction, including without limitation the
+  rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+  sell copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+  The above copyright notice and this permission notice shall be included in
+  all copies or substantial portions of the Software.
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+  IN THE SOFTWARE.
+-->
+
+<!-- Main navigation -->
+<nav class="md-nav md-nav--primary" data-md-level="0">
+
+  <!-- Site title -->
+  <label class="md-nav__title md-nav__title--site" for="__drawer">
+    <a href="https://serverless-idm.awssecworkshops.com/"
+        title="Serverless authentication and authorization" class="md-nav__button md-logo">
+      
+        <img src="../assets/images/aws_smile_logo.png" width="48" height="48" />
+      
+    </a>
+    Serverless authentication and authorization
+  </label>
+
+  <!-- Repository containing source -->
+  
+    <div class="md-nav__source">
+      
+
+
+  
+
+<a href="https://github.com/aws-samples/amazon-cognito-identity-management-workshop/" title="Go to repository" class="md-source" data-md-source="github">
+  
+    <div class="md-source__icon">
+      <svg viewBox="0 0 24 24" width="24" height="24">
+        <use xlink:href="#__github" width="24" height="24"></use>
+      </svg>
+    </div>
+  
+  <div class="md-source__repository">
+    aws-samples/amazon-cognito-identity-management-workshop
+  </div>
+</a>
+    </div>
+  
+
+  <!-- Render item list -->
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href=".." title="Overview" class="md-nav__link">
+      Overview
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../00-env-setup/" title="Module 0: Environment setup" class="md-nav__link">
+      Module 0: Environment setup
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Module 1: User authentication
+      </label>
+    
+    <a href="./" title="Module 1: User authentication" class="md-nav__link md-nav__link--active">
+      Module 1: User authentication
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#architecture" title="Architecture" class="md-nav__link">
+    Architecture
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#run-the-website-locally" title="Run the website locally" class="md-nav__link">
+    Run the website locally
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#create-a-cognito-user-pool" title="Create a Cognito User Pool" class="md-nav__link">
+    Create a Cognito User Pool
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#create-a-cognito-identity-pool" title="Create a Cognito Identity Pool" class="md-nav__link">
+    Create a Cognito Identity Pool
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#integrate-your-application-with-amazon-cognito" title="Integrate your application with Amazon Cognito" class="md-nav__link">
+    Integrate your application with Amazon Cognito
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#validate-sign-up-and-sign-in" title="Validate sign-up and sign-in" class="md-nav__link">
+    Validate sign-up and sign-in
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../02-backend-auth/" title="Module 2: Backend authorization" class="md-nav__link">
+      Module 2: Backend authorization
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../03-iam-auth/" title="Module 3: IAM Authorization" class="md-nav__link">
+      Module 3: IAM Authorization
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../04-clean-up/" title="Module 4: Clean up" class="md-nav__link">
+      Module 4: Clean up
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../contribute/" title="Contributing" class="md-nav__link">
+      Contributing
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../license/" title="License" class="md-nav__link">
+      License
+    </a>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#architecture" title="Architecture" class="md-nav__link">
+    Architecture
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#run-the-website-locally" title="Run the website locally" class="md-nav__link">
+    Run the website locally
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#create-a-cognito-user-pool" title="Create a Cognito User Pool" class="md-nav__link">
+    Create a Cognito User Pool
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#create-a-cognito-identity-pool" title="Create a Cognito Identity Pool" class="md-nav__link">
+    Create a Cognito Identity Pool
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#integrate-your-application-with-amazon-cognito" title="Integrate your application with Amazon Cognito" class="md-nav__link">
+    Integrate your application with Amazon Cognito
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#validate-sign-up-and-sign-in" title="Validate sign-up and sign-in" class="md-nav__link">
+    Validate sign-up and sign-in
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/aws-samples/amazon-cognito-identity-management-workshop/edit/master/docs/01-user-auth.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                
+                
+                <h1 id="module-1-user-authentication">Module 1 <small>User authentication</small></h1>
+<p><strong>Time</strong>: 20 minutes</p>
+<p>In this module, you will create an Amazon Cognito User Pool and Identity Pool for the Wild Rydes application.
+The Cognito User Pool will store user profile information and provide sign-up and sign-in capabilities, with the Cognito Identity Pool providing the ability to assume an Identity and Access Management (IAM) role from within the application.</p>
+<p>Since Wild Rydes is a ride sharing application, a key requirement is that all users must sign-up and sign-in before they're allowed to request a ride. You will configure the application to integrate with <a href="https://aws.amazon.com/cognito/" target="_blank">Amazon Cognito</a> for these purposes via the <a href="https://aws-amplify.github.io/" target="_blank">AWS Amplify</a> JavaScript library.</p>
+<h2 id="architecture">Architecture</h2>
+<p>The architecture for this module is very straightforward. All of your static web content including HTML, CSS JavaScript, images and other files will be served locally from your Cloud9 workspace. As you make changes to the website application code, all changes will be automatically updated and shown in your browser via live reload capabilities.</p>
+<p>For this module, we will be creating a Cognito User Pool as our secure user directory then configuring our application to use the AWS Amplify library to easily integrate Amazon Cognito into our application.</p>
+<p><img alt="Website architecture" src="../images/wildrydes-module1-architecture.png" /></p>
+<h2 id="run-the-website-locally">Run the website locally</h2>
+<ol>
+<li>
+<p>From your Cloud9 workspace, select the terminal window and when you are within your <strong>~/environment/aws-serverless-workshops/Auth/website</strong> directory, run the following command to start the local web server </p>
+<p><code>yarn start</code></p>
+<p>Wait for the development server to start. You can ignore any message saying <em>Compiled with warnings</em> as we will resolve these warnings as we add our functionality to the application.</p>
+</li>
+<li>
+<p>Now that the development server has started, click <strong>Preview Running Application</strong> in the top of the screen next to the Run button.</p>
+<p><img alt="Cloud9 Preview" src="../images/cloud9-local-preview.png" />  </p>
+</li>
+<li>
+<p>The web application will load in a small window next to the terminal at the bottom of the Cloud9 IDE. Click the <strong>re-size button</strong> next to the word <strong>Browser</strong> to open this window in a new tab.</p>
+<p><img alt="Cloud9 Preview Re-size" src="../images/cloud9-resize-live-preview.png" />   </p>
+</li>
+</ol>
+<p>As you make changes to the web application, this tab will automatically refresh to reflect your changes. Leave this tab open and return to the Cloud9 IDE tab to continue the workshop.</p>
+<div class="admonition info">
+<p class="admonition-title">Though the Wild Rydes website may look functional, there is currently no integration for sign-up or sign-in requests to go anywhere.</p>
+</div>
+<h2 id="create-a-cognito-user-pool">Create a Cognito User Pool</h2>
+<p>Amazon Cognito User Pools lets you add user sign-up and sign-in capabilities to your web and mobile apps quickly and easily. In this step, we'll create a Cognito user pool for our Wild Rydes app.</p>
+<p>Use the AWS console to create an Amazon Cognito User Pool requiring e-mail verification.</p>
+<div class="admonition warning">
+<p class="admonition-title">The console's region will default to the last region you were using previously. Change this to the same region where you launched your Cloud9 environment previously.</p>
+</div>
+<ol>
+<li>
+<p>In the AWS Management Console choose <strong>Services</strong> then select <strong>Cognito</strong> under Security, Identity, and Compliance.</p>
+</li>
+<li>
+<p>Choose your desired <strong>Region</strong> in top-right of the console if not already selected. This should match the region where you launched your Cloud9 environment previously.</p>
+</li>
+<li>
+<p>Choose <strong>Manage User Pools</strong>.</p>
+</li>
+<li>
+<p>Choose <strong>Create a User Pool</strong> in the top right of the console.</p>
+</li>
+<li>
+<p>Provide a name for your user pool such as <code>WildRydes</code>.</p>
+</li>
+<li>
+<p>Choose <strong>Step through settings</strong> to configure our user pool options.</p>
+<p><img alt="User Pool Setup Step 1" src="../images/cognito-userpool-setup-step1.png" /></p>
+</li>
+<li>
+<p>Leave <strong>Username</strong> selected, but additionally select <strong>Also allow sign in with verified email address</strong> and <strong>Also allow sign in with verified phone number</strong>.</p>
+</li>
+<li>
+<p>Leave all other attribute defaults as-is.</p>
+</li>
+<li>
+<p>Choose <strong>Next step</strong>.</p>
+<p><img alt="User Pool Setup Step 2" src="../images/cognito-userpool-setup-step2.png" /></p>
+</li>
+<li>
+<p>Leave password policies and user sign up settings set to default settings and choose <strong>Next step</strong>.</p>
+<p><img alt="User Pool Setup Step 3" src="../images/cognito-userpool-setup-step3.png" /></p>
+</li>
+<li>
+<p>Leave <strong>MFA set to Off</strong> for this workshop.</p>
+</li>
+<li>
+<p>Leave the default setting selected of requiring e-mail verification.</p>
+</li>
+<li>
+<p>Choose <strong>Next step</strong>.</p>
+<p><img alt="User Pool Setup Step 4" src="../images/cognito-userpool-setup-step4.png" /></p>
+</li>
+<li>
+<p>Leave all message and SES defaults as-is and choose <strong>Next step</strong>.</p>
+</li>
+<li>
+<p>Skip adding any tags and click <strong>Next step</strong>.</p>
+</li>
+<li>
+<p>Choose <strong>No</strong> to not remember your user's devices then click <strong>Next step</strong>.</p>
+<p><img alt="User Pool Setup Step 5" src="../images/cognito-userpool-setup-step5.png" /></p>
+</li>
+<li>
+<p>In the next screen, click the <strong>Add an app client</strong> <em>link</em>.</p>
+</li>
+<li>
+<p>Input <code>wildrydes-web-app</code> as the app client name.</p>
+</li>
+<li>
+<p><strong>Uncheck</strong> <em>Generate client secret</em>. Client secrets are used for server-side applications authentication and are not needed for JavaScript applications.</p>
+</li>
+<li>
+<p>Choose <strong>Create app client</strong>.</p>
+</li>
+<li>
+<p>Choose <strong>Next step</strong>.</p>
+<p><img alt="User Pool Setup Step 6" src="../images/cognito-userpool-setup-step6.png" /></p>
+</li>
+<li>
+<p>Leave all Lambda trigger settings set to <em>none</em>. These trigger settings allow you to extend the out-of-the-box sign-up and sign-in flows with your own custom logic, but we will not be using this feature in this workshop.</p>
+</li>
+<li>
+<p>Choose <strong>Next step</strong>.</p>
+</li>
+<li>
+<p>Review summary of all provided settings for accuracy then choose <strong>Create pool</strong>.</p>
+<p><img alt="User Pool Setup Step 7" src="../images/cognito-userpool-setup-step7.png" /></p>
+</li>
+<li>
+<p>Within Cloud9, click the <strong>+</strong> symbol and choose to create <strong>New File</strong>. You will use this new blank editor tab as a scratchpad for various resource names and variables.</p>
+<p><img alt="Cloud9 Create Scratchpad Tab" src="../images/cloud9-createscratchpadtab.png" /></p>
+</li>
+<li>
+<p>Back in the AWS Cognito console, copy your new <em>User Pool Id</em> into the scratchpad tab.</p>
+<p><img alt="Copy User Pool ID" src="../images/cognito-userpool-copy-userpool-id.png" /></p>
+</li>
+<li>
+<p>Choose <strong>App clients</strong> heading under <em>General settings</em> within the Cognito navigation panel.</p>
+</li>
+<li>
+<p>Copy the <em>App client ID</em> over to your scratchpad. You will be using both of these values later on.</p>
+<p><img alt="Copy User Pool App Client ID" src="../images/cognito-userpool-copy-appclient-id.png" /></p>
+</li>
+</ol>
+<h2 id="create-a-cognito-identity-pool">Create a Cognito Identity Pool</h2>
+<p>Cognito Identity Pools are used to provide AWS credentials via IAM roles to end-user applications. Since we'll be integrating our Cognito deployment and users with other AWS services, we'll go ahead and create this identity pool now.</p>
+<p>You will need to create a Cognito Identity Pool linked to the Cognito User Pool and app client ID you just created. Your application will not require un-authenticated users to access any AWS resources, so you do not need to enable access to unauthenticated identities. </p>
+<ol>
+<li>
+<p>In the Cognito console, choose <strong>Federated Identities</strong> in the header bar to switch to the console for Cognito Federated Identities.</p>
+</li>
+<li>
+<p>Choose <strong>Create new Identity pool</strong>.</p>
+</li>
+<li>
+<p>Input <code>wildrydes_identity_pool</code> as the Identity pool name.</p>
+</li>
+<li>
+<p>Expand <strong>Authentication providers</strong>.</p>
+</li>
+<li>
+<p>Within the Cognito tab, input the User Pool ID and App client Id you copied previously to the scratchpad tab.</p>
+<p><img alt="Identity Pool Setup Step 1" src="../images/cognito-identitypool-setup-step1.png" /></p>
+</li>
+<li>
+<p>Choose <strong>Create Pool</strong>.</p>
+</li>
+<li>
+<p>Choose <strong>Allow</strong> to allow Cognito Identity Pools to setup IAM roles for your application's users. Permissions and settings of these roles can be customized later.</p>
+</li>
+<li>
+<p>Copy/paste the <em>Identity Pool ID</em>, highlighted in red within the code sample in the Get AWS Credentials section, into your Cloud9 scatchpad editor tab.</p>
+<blockquote>
+<p>Do not copy the quotation marks, but include the region code and ":" character.</p>
+</blockquote>
+<p><img alt="Copy Identity Pool Id to Cloud9 scratchpad" src="../images/cognito-identitypool-copyId.png" /></p>
+</li>
+<li>
+<p>Your scratchpad should now have values for the following Cognito resources:</p>
+<p><img alt="Cognito Setup IDs Scratchpad" src="../images/cognito-setup-scratchpad.png" /></p>
+</li>
+</ol>
+<h2 id="integrate-your-application-with-amazon-cognito">Integrate your application with Amazon Cognito</h2>
+<p>Now that you've created and configured your Cognito User Pool and Identity Pool, you need to configure your application to integrate to Amazon Cognito so it can store user profiles and enable sign-up and sign-in.</p>
+<p>You will import the <a href="https://aws-amplify.github.io/" target="_blank">AWS Amplify</a> JavaScript library into the project then add sign-up and sign-in utility classes to integrate with our existing UI and front-end components.</p>
+<p>You'll need to complete the implementation of the onSubmitForm and onSubmitVerification methods within the <strong>/Auth/website/src/auth/signIn.js</strong> file, as well as the methods of the same name within the <strong>/Auth/website/src/auth/signUp.js</strong> file. Finally, you'll need to complete the implementation of a method to check whether the user is authenticated within the <strong>/Auth/website/src/index.js</strong> page.</p>
+<ol>
+<li>
+<p>Before using any AWS Amplify modules, we first need to configure Amplify to use our newly created Cognito resources by updating <strong>/Auth/website/src/amplify-config.js</strong>.</p>
+</li>
+<li>
+<p>After opening this file in your Cloud9 IDE editor, copy the following parameter values from your previous scratchpad into the config value parameter placeholders:</p>
+<ul>
+<li><code>identityPoolId</code></li>
+<li><code>region</code></li>
+<li><code>userPoolId</code></li>
+<li><code>userPoolWebClientId</code></li>
+</ul>
+<div class="admonition warning">
+<p class="admonition-title">Be sure to fill in the <strong>'' blanks</strong> with your config values. You do not need to modify the example values shown in the comments as they are just for reference and not leveraged by your application.</p>
+</div>
+</li>
+<li>
+<p><strong>Save your changes</strong> to the Amplify config file so your new  settings take effect. Any unsaved changes to a file are indicated by a dot icon in the tab of the editor so if you see a gray dot next to the file name, you may have forgotten to save.</p>
+</li>
+<li>
+<p>Next, edit the <em>website/src/index.js</em> file to add the following lines to the <strong>top of the file</strong> <strong>(but below all the other imports)</strong> to configure Amplify then save your changes:</p>
+</li>
+</ol>
+<div class="codehilite"><pre><span></span><span class="kr">import</span> <span class="nx">Amplify</span> <span class="nx">from</span> <span class="s1">&#39;aws-amplify&#39;</span><span class="p">;</span>
+<span class="kr">import</span> <span class="nx">awsConfig</span> <span class="nx">from</span> <span class="s1">&#39;./amplify-config&#39;</span><span class="p">;</span>
+
+<span class="nx">Amplify</span><span class="p">.</span><span class="nx">configure</span><span class="p">(</span><span class="nx">awsConfig</span><span class="p">);</span>
+</pre></div>
+
+
+<p>After making this changes, your imports should be in the following order:</p>
+<p><img alt="Amplify imports order" src="../images/amplify-imports-order.png" /></p>
+<p><strong>Save your changes</strong> to the <em>website/src/index.js</em> file.</p>
+<p>Next, we need to ensure our application evaluates the user's authenticated state. </p>
+<ol>
+<li>In the same <strong>/website/src/index.js</strong> file, find and replace the <strong>isAuthenticated method</strong> with the code below to use our Amplify library's built-in user session to check this status.</li>
+</ol>
+<div class="codehilite"><pre><span></span><span class="kr">const</span> <span class="nx">isAuthenticated</span> <span class="o">=</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="nx">Amplify</span><span class="p">.</span><span class="nx">Auth</span><span class="p">.</span><span class="nx">user</span> <span class="o">!==</span> <span class="kc">null</span><span class="p">;</span>
+</pre></div>
+
+
+<p><strong>Save your changes</strong> to the <em>/website/src/index.js</em> file.</p>
+<p>Now that we've imported the Amplify and configured the Amplify library, we need to update our application's code to sign-up users using Amplify and Cognito User Pools by finding and replacing the following methods within the <strong>/website/src/auth/SignUp.js</strong> file with the following code.</p>
+<div class="admonition tip">
+<p class="admonition-title">Only replace the following two methods. The rest of the SignUp.js file should not be modified</p>
+<p>The onSubmitForm method handles the event when the registration form is submitted. This calls the Auth.signUp method from the AWS Amplify library which registers the user with your Cognito User Pool.</p>
+<p>The onSubmitVerification method handles the event when the verification code entry form is submitted after the initial registration request. This calls the Auth.confirmSignUp method from the AWS Amplify library which confirms the user registration within your Cognito User Pool.</p>
+</div>
+<div class="codehilite"><pre><span></span><span class="nx">async</span> <span class="nx">onSubmitForm</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">e</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
+    <span class="k">try</span> <span class="p">{</span>
+        <span class="kr">const</span> <span class="nx">params</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="nx">username</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">email</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/[@.]/g</span><span class="p">,</span> <span class="s1">&#39;|&#39;</span><span class="p">),</span>
+            <span class="nx">password</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">password</span><span class="p">,</span>
+            <span class="nx">attributes</span><span class="o">:</span> <span class="p">{</span>
+                <span class="nx">email</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">email</span><span class="p">,</span>
+                <span class="nx">phone_number</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">phone</span>
+            <span class="p">},</span>
+            <span class="nx">validationData</span><span class="o">:</span> <span class="p">[]</span>
+        <span class="p">};</span>
+        <span class="kr">const</span> <span class="nx">data</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">Auth</span><span class="p">.</span><span class="nx">signUp</span><span class="p">(</span><span class="nx">params</span><span class="p">);</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">data</span><span class="p">);</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span> <span class="nx">stage</span><span class="o">:</span> <span class="mi">1</span> <span class="p">});</span>
+    <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">err</span> <span class="o">===</span> <span class="s2">&quot;No userPool&quot;</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// User pool not defined in Amplify config file</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="s2">&quot;User Pool not defined&quot;</span><span class="p">);</span>
+        <span class="nx">alert</span><span class="p">(</span><span class="s2">&quot;User Pool not defined. Amplify config must be updated with user pool config&quot;</span><span class="p">);</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">err</span><span class="p">.</span><span class="nx">message</span> <span class="o">===</span> <span class="s2">&quot;User already exists&quot;</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// Setting state to allow user to proceed to enter verification code</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span> <span class="nx">stage</span><span class="o">:</span> <span class="mi">1</span> <span class="p">});</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">err</span><span class="p">.</span><span class="nx">message</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="s2">&quot;phone number format&quot;</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span><span class="nx">err</span><span class="p">.</span><span class="nx">message</span> <span class="o">=</span> <span class="s2">&quot;Invalid phone number format. Must include country code. Example: +14252345678&quot;</span><span class="p">}</span>
+        <span class="nx">alert</span><span class="p">(</span><span class="nx">err</span><span class="p">.</span><span class="nx">message</span><span class="p">);</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="s2">&quot;Exception from Auth.signUp: &quot;</span><span class="p">,</span> <span class="nx">err</span><span class="p">);</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span> <span class="nx">stage</span><span class="o">:</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">email</span><span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="nx">password</span><span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="nx">confirm</span><span class="o">:</span> <span class="s1">&#39;&#39;</span> <span class="p">});</span>
+    <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nx">async</span> <span class="nx">onSubmitVerification</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">e</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
+    <span class="k">try</span> <span class="p">{</span>
+        <span class="kr">const</span> <span class="nx">data</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">Auth</span><span class="p">.</span><span class="nx">confirmSignUp</span><span class="p">(</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">email</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/[@.]/g</span><span class="p">,</span> <span class="s1">&#39;|&#39;</span><span class="p">),</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">code</span>
+        <span class="p">);</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">data</span><span class="p">);</span>
+        <span class="c1">// Go to the sign in page</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">history</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="s1">&#39;/signin&#39;</span><span class="p">);</span>
+    <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">alert</span><span class="p">(</span><span class="nx">err</span><span class="p">.</span><span class="nx">message</span><span class="p">);</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="s2">&quot;Exception from Auth.confirmSignUp: &quot;</span><span class="p">,</span> <span class="nx">err</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p><strong>Save your changes</strong> to the <em>/website/src/auth/SignUp.js</em> file.</p>
+<p>You additionally need to integrate the sign-in capability to use AWS Amplify and Cognito by finding and replacing the following methods within the <strong>/website/src/auth/SignIn.js</strong> file with the code below.</p>
+<div class="admonition tip">
+<p class="admonition-title">You only need to the following two methods. The rest of the SignIn.js file should not be modified.</p>
+<p>The onSubmitForm method initiates the signin request with your Cognito User Pool by invoking the Auth.signIn method from AWS Amplify then sets the local state appropriately to indicate the user has signed in successfully.</p>
+<p>The onSubmitVerification method is used to submit a verification code whenever multi-factor authentication is required to authenticate. For this workshop, this method will not be invoked since you did not require multi-factor authentication earlier when configuring your Cognito User Pool.  </p>
+</div>
+<div class="codehilite"><pre><span></span><span class="nx">async</span> <span class="nx">onSubmitForm</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">e</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
+    <span class="k">try</span> <span class="p">{</span>
+        <span class="kr">const</span> <span class="nx">userObject</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">Auth</span><span class="p">.</span><span class="nx">signIn</span><span class="p">(</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">email</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/[@.]/g</span><span class="p">,</span> <span class="s1">&#39;|&#39;</span><span class="p">),</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">password</span>
+        <span class="p">);</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;userObject&#39;</span><span class="p">,</span> <span class="nx">userObject</span><span class="p">);</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">userObject</span><span class="p">.</span><span class="nx">challengeName</span><span class="p">)</span> <span class="p">{</span>
+            <span class="c1">// Auth challenges are pending prior to token issuance</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span> <span class="nx">userObject</span><span class="p">,</span> <span class="nx">stage</span><span class="o">:</span> <span class="mi">1</span> <span class="p">});</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="c1">// No remaining auth challenges need to be satisfied</span>
+            <span class="kr">const</span> <span class="nx">session</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">Auth</span><span class="p">.</span><span class="nx">currentSession</span><span class="p">();</span>
+            <span class="c1">// console.log(&#39;Cognito User Access Token:&#39;, session.getAccessToken().getJwtToken());</span>
+            <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Cognito User Identity Token:&#39;</span><span class="p">,</span> <span class="nx">session</span><span class="p">.</span><span class="nx">getIdToken</span><span class="p">().</span><span class="nx">getJwtToken</span><span class="p">());</span>
+            <span class="c1">// console.log(&#39;Cognito User Refresh Token&#39;, session.getRefreshToken().getToken());</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span> <span class="nx">stage</span><span class="o">:</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">email</span><span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="nx">password</span><span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="nx">code</span><span class="o">:</span> <span class="s1">&#39;&#39;</span> <span class="p">});</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">history</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="s1">&#39;/app&#39;</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">alert</span><span class="p">(</span><span class="nx">err</span><span class="p">.</span><span class="nx">message</span><span class="p">);</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="s1">&#39;Auth.signIn(): &#39;</span><span class="p">,</span> <span class="nx">err</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nx">async</span> <span class="nx">onSubmitVerification</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">e</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
+    <span class="k">try</span> <span class="p">{</span>
+        <span class="kr">const</span> <span class="nx">data</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">Auth</span><span class="p">.</span><span class="nx">confirmSignIn</span><span class="p">(</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">userObject</span><span class="p">,</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">code</span>
+        <span class="p">);</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Cognito User Data:&#39;</span><span class="p">,</span> <span class="nx">data</span><span class="p">);</span>
+        <span class="kr">const</span> <span class="nx">session</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">Auth</span><span class="p">.</span><span class="nx">currentSession</span><span class="p">();</span>
+        <span class="c1">// console.log(&#39;Cognito User Access Token:&#39;, session.getAccessToken().getJwtToken());</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Cognito User Identity Token:&#39;</span><span class="p">,</span> <span class="nx">session</span><span class="p">.</span><span class="nx">getIdToken</span><span class="p">().</span><span class="nx">getJwtToken</span><span class="p">());</span>
+        <span class="c1">// console.log(&#39;Cognito User Refresh Token&#39;, session.getRefreshToken().getToken());</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span> <span class="nx">stage</span><span class="o">:</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">email</span><span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="nx">password</span><span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="nx">code</span><span class="o">:</span> <span class="s1">&#39;&#39;</span> <span class="p">});</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">history</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="s1">&#39;/app&#39;</span><span class="p">);</span>
+    <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">alert</span><span class="p">(</span><span class="nx">err</span><span class="p">.</span><span class="nx">message</span><span class="p">);</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="s1">&#39;Auth.confirmSignIn(): &#39;</span><span class="p">,</span> <span class="nx">err</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p><strong>Save your changes</strong> to the <em>/website/src/auth/SignIn.js</em> file.</p>
+<h2 id="validate-sign-up-and-sign-in">Validate sign-up and sign-in</h2>
+<p>Now that you have integrated our Amplify code into our application, you need to test the site to see that authentication is working end-to-end.</p>
+<p>Return to your browser tab where you started your Wild Rydes application earlier after popping out from the Cloud9 IDE once in preview mode. This page automatically refreshes after you save any code changes so should now reflect all of your changes and be ready for testing.</p>
+<p>Visit the <strong>/register</strong> path to sign-up as a new user, providing a valid phone number with <code>+country_code</code> first preceeding the number. For a US-based phone number, an example would be <code>+14251234567</code>. You should then see that a verification message is sent with a one-time code upon registering, which is required before you're able to sign-in.</p>
+<p>After signing up as a new user, sign-in with the same user at the <em>/signin</em> path. If the page loads a map, sign-in was successful and you have successfully integrated Cognito for app authentication.</p>
+<ol>
+<li>
+<p>Visit <code>/register</code> path of your Cloud9's website to go to the registration page.</p>
+</li>
+<li>
+<p>Input your e-mail address, phone number with <code>+country_code</code> first preceeding the number, as well as your password twice. For a US-based phone number, an example would be <code>+14251234567</code>.</p>
+<div class="admonition tip">
+<p class="admonition-title">Your password must include 8 characters, including uppercase and lowercase characters, and at least 1 number and 1 special character.</p>
+</div>
+</li>
+<li>
+<p>Choose <strong>Let's Ryde</strong> to submit registration.</p>
+</li>
+<li>
+<p>On the verify e-mail screen, enter the one-time code sent to your e-mail address provided then choose <strong>Verify</strong>.</p>
+<div class="admonition tip">
+<p class="admonition-title">Be sure to check your spam folder for the e-mail with your verification code if you do not see it in your inbox.</p>
+</div>
+</li>
+<li>
+<p>Assuming no errors were encountered, you will be redirected to the Sign-in screen. Now, re-enter the same e-mail address and password you chose at registration.</p>
+</li>
+<li>
+<p>If the page then loads a map, sign-in was successful and you have successfully integrated Cognito for app authentication.</p>
+</li>
+<li>
+<p>Scroll down beyond the map to copy your user's identity token and decode it by pasting it into the 'encoded' input box at <a href="http://jwt.io" target="_blank">JWT.io</a>. You will see all of your user's attributes are encoded within the token, along with other standard attributes such as the time the token was issued, the time the token expires, the user's unique ID, and more.</p>
+</li>
+</ol>
+<p>Once you have finished setting up the user authentication, you can proceed to the next module.</p>
+                
+                  
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+          <a href="../00-env-setup/" title="Module 0: Environment setup" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+            </div>
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Module 0: Environment setup
+              </span>
+            </div>
+          </a>
+        
+        
+          <a href="../02-backend-auth/" title="Module 2: Backend authorization" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                Module 2: Backend authorization
+              </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            &copy; 2019, Amazon Web Services, Inc. or its affiliates. All rights reserved.
+          </div>
+        
+        powered by
+        <a href="https://www.mkdocs.org">MkDocs</a>
+        and
+        <a href="https://squidfunk.github.io/mkdocs-material/">
+          Material for MkDocs</a>
+      </div>
+      
+  <div class="md-footer-social">
+    <link rel="stylesheet" href="../assets/fonts/font-awesome.css">
+    
+      <a href="https://awssecworkshops.com" class="md-footer-social__link fa fa-home"></a>
+    
+      <a href="https://aws.amazon.com/security/" class="md-footer-social__link fa fa-shield"></a>
+    
+      <a href="https://twitter.com/awssecurityinfo?lang=en" class="md-footer-social__link fa fa-twitter"></a>
+    
+      <a href="https://aws.amazon.com/blogs/security/" class="md-footer-social__link fa fa-rss"></a>
+    
+  </div>
+
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../assets/javascripts/application.d9aa80ab.js"></script>
+      
+      <script>app.initialize({version:"1.0.4",url:{base:".."}})</script>
+      
+    
+  </body>
+</html>

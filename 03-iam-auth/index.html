@@ -1,0 +1,875 @@
+
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+        <meta name="description" content="In this workshop, you learn how to build a serverless microservices application demonstrating end-to-end authentication and authorization using Amazon Cognito, Amazon API Gateway, AWS Lambda, and all things IAM. You have the opportunity to build an end-to-end functional app with a secure identity provider showcasing user authentication patterns. All attendees need a laptop, an active AWS Account, an AWS IAM Administrator, and a familiarity with core AWS services.">
+      
+      
+        <link rel="canonical" href="https://serverless-idm.awssecworkshops.com/03-iam-auth/">
+      
+      
+        <meta name="author" content="aws-security-workshops@amazon.com">
+      
+      
+        <meta name="lang:clipboard.copy" content="Copy to clipboard">
+      
+        <meta name="lang:clipboard.copied" content="Copied to clipboard">
+      
+        <meta name="lang:search.language" content="en">
+      
+        <meta name="lang:search.pipeline.stopwords" content="True">
+      
+        <meta name="lang:search.pipeline.trimmer" content="True">
+      
+        <meta name="lang:search.result.none" content="No matching documents">
+      
+        <meta name="lang:search.result.one" content="1 matching document">
+      
+        <meta name="lang:search.result.other" content="# matching documents">
+      
+        <meta name="lang:search.tokenizer" content="[\s\-]+">
+      
+      <link rel="shortcut icon" href="../assets/images/aws-favicon.ico">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.0.2">
+    
+    
+      
+        <title>Module 3: IAM Authorization - Serverless authentication and authorization</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/application.982221ab.css">
+      
+      
+    
+    
+      <script src="../assets/javascripts/modernizr.1f0bcf2b.js"></script>
+    
+    
+      
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono">
+        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
+      
+    
+    <link rel="stylesheet" href="../assets/fonts/material-icons.css">
+    
+    
+      <link rel="stylesheet" href="../stylesheets/custom.css">
+    
+    
+      
+    
+    
+  </head>
+  
+    <body dir="ltr">
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+          <svg xmlns="http://www.w3.org/2000/svg" width="416" height="448"
+    viewBox="0 0 416 448" id="__github">
+  <path fill="currentColor" d="M160 304q0 10-3.125 20.5t-10.75 19-18.125
+        8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19 18.125-8.5
+        18.125 8.5 10.75 19 3.125 20.5zM320 304q0 10-3.125 20.5t-10.75
+        19-18.125 8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19
+        18.125-8.5 18.125 8.5 10.75 19 3.125 20.5zM360
+        304q0-30-17.25-51t-46.75-21q-10.25 0-48.75 5.25-17.75 2.75-39.25
+        2.75t-39.25-2.75q-38-5.25-48.75-5.25-29.5 0-46.75 21t-17.25 51q0 22 8
+        38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0
+        37.25-1.75t35-7.375 30.5-15 20.25-25.75 8-38.375zM416 260q0 51.75-15.25
+        82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5-41.75
+        1.125q-19.5 0-35.5-0.75t-36.875-3.125-38.125-7.5-34.25-12.875-30.25-20.25-21.5-28.75q-15.5-30.75-15.5-82.75
+        0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25
+        30.875q36.75-8.75 77.25-8.75 37 0 70 8 26.25-20.5
+        46.75-30.25t47.25-9.75q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34
+        99.5z" />
+</svg>
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
+    
+      <a href="#module-3-aws-integration-with-iam-based-authorization" tabindex="1" class="md-skip">
+        Skip to content
+      </a>
+    
+    
+      <!--
+  Copyright (c) 2016-2018 Martin Donath <martin.donath@squidfunk.com>
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to
+  deal in the Software without restriction, including without limitation the
+  rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+  sell copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+  The above copyright notice and this permission notice shall be included in
+  all copies or substantial portions of the Software.
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+  IN THE SOFTWARE.
+-->
+
+<!-- Application header -->
+<header class="md-header" data-md-component="header">
+
+    <!-- Top-level navigation -->
+    <nav class="md-header-nav md-grid">
+      <div class="md-flex">
+  
+        <!-- Link to home -->
+        <div class="md-flex__cell md-flex__cell--shrink">
+          <a href="https://aws.amazon.com/"
+              title="Amazon Web Services"
+              class="md-header-nav__button md-logo">
+            
+              <img src="../assets/images/aws_smile_logo.png" width="40" height="24" />
+            
+          </a>
+        </div>
+  
+        <!-- Button to toggle drawer -->
+        <div class="md-flex__cell md-flex__cell--shrink">
+          <label class="md-icon md-icon--menu md-header-nav__button"
+              for="__drawer"></label>
+        </div>
+  
+        <!-- Header title -->
+        <div class="md-flex__cell md-flex__cell--stretch">
+          <div class="md-flex__ellipsis md-header-nav__title"
+              data-md-component="title">
+            
+              
+                <span class="md-header-nav__topic">
+                  Serverless authentication and authorization
+                </span>
+                <span class="md-header-nav__topic">
+                  Module 3: IAM Authorization
+                </span>
+              
+            
+          </div>
+        </div>
+        
+        
+        <!-- Button to open search dialogue -->
+        <!--
+        <div class="md-flex__cell md-flex__cell--shrink">
+          
+            
+              <label class="md-icon md-icon--search md-header-nav__button"
+                  for="__search"></label>
+  
+              
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
+      <label class="md-icon md-search__icon" for="__search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
+        &#xE5CD;
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result">
+          <div class="md-search-result__meta">
+            Type to start searching
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+            
+          
+        </div>
+
+         -->
+         
+         <div class="md-flex__cell md-flex__cell--shrink">
+            <div class="md-flex__ellipsis md-header-nav__lang">
+                <div>
+                    <button onclick="window.location.href = 'https://awssecworkshops.com/';" class="md-lang-dropbtn fa fa-home"></button>
+                </div>
+            </div>
+        </div>
+  
+        <!-- Repository containing source -->
+        
+          <div class="md-flex__cell md-flex__cell--shrink">
+            <div class="md-header-nav__source">
+              
+
+
+  
+
+<a href="https://github.com/aws-samples/amazon-cognito-identity-management-workshop/" title="Go to repository" class="md-source" data-md-source="github">
+  
+    <div class="md-source__icon">
+      <svg viewBox="0 0 24 24" width="24" height="24">
+        <use xlink:href="#__github" width="24" height="24"></use>
+      </svg>
+    </div>
+  
+  <div class="md-source__repository">
+    aws-samples/amazon-cognito-identity-management-workshop
+  </div>
+</a>
+            </div>
+          </div>
+        
+      </div>
+    </nav>
+  </header>
+    
+    <div class="md-container">
+      
+        
+      
+      
+        
+
+<nav class="md-tabs" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  <li class="md-tabs__item">
+    
+      <a href=".." title="Overview" class="md-tabs__link md-tabs__link--active">
+        Overview
+      </a>
+    
+  </li>
+
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </ul>
+  </div>
+</nav>
+      
+      <main class="md-main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <!--
+  Copyright (c) 2016-2019 Martin Donath <martin.donath@squidfunk.com>
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to
+  deal in the Software without restriction, including without limitation the
+  rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+  sell copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+  The above copyright notice and this permission notice shall be included in
+  all copies or substantial portions of the Software.
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+  IN THE SOFTWARE.
+-->
+
+<!-- Main navigation -->
+<nav class="md-nav md-nav--primary" data-md-level="0">
+
+  <!-- Site title -->
+  <label class="md-nav__title md-nav__title--site" for="__drawer">
+    <a href="https://serverless-idm.awssecworkshops.com/"
+        title="Serverless authentication and authorization" class="md-nav__button md-logo">
+      
+        <img src="../assets/images/aws_smile_logo.png" width="48" height="48" />
+      
+    </a>
+    Serverless authentication and authorization
+  </label>
+
+  <!-- Repository containing source -->
+  
+    <div class="md-nav__source">
+      
+
+
+  
+
+<a href="https://github.com/aws-samples/amazon-cognito-identity-management-workshop/" title="Go to repository" class="md-source" data-md-source="github">
+  
+    <div class="md-source__icon">
+      <svg viewBox="0 0 24 24" width="24" height="24">
+        <use xlink:href="#__github" width="24" height="24"></use>
+      </svg>
+    </div>
+  
+  <div class="md-source__repository">
+    aws-samples/amazon-cognito-identity-management-workshop
+  </div>
+</a>
+    </div>
+  
+
+  <!-- Render item list -->
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href=".." title="Overview" class="md-nav__link">
+      Overview
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../00-env-setup/" title="Module 0: Environment setup" class="md-nav__link">
+      Module 0: Environment setup
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../01-user-auth/" title="Module 1: User authentication" class="md-nav__link">
+      Module 1: User authentication
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../02-backend-auth/" title="Module 2: Backend authorization" class="md-nav__link">
+      Module 2: Backend authorization
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Module 3: IAM Authorization
+      </label>
+    
+    <a href="./" title="Module 3: IAM Authorization" class="md-nav__link md-nav__link--active">
+      Module 3: IAM Authorization
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#architecture" title="Architecture" class="md-nav__link">
+    Architecture
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#setup-s3-bucket-for-use-with-aws-amplify" title="Setup S3 bucket for use with AWS Amplify" class="md-nav__link">
+    Setup S3 bucket for use with AWS Amplify
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configure-iam-permissions" title="Configure IAM permissions" class="md-nav__link">
+    Configure IAM permissions
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#update-application-to-upload-photos" title="Update application to upload photos" class="md-nav__link">
+    Update application to upload photos
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#high-level-instructions" title="High-Level Instructions" class="md-nav__link">
+    High-Level Instructions
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../04-clean-up/" title="Module 4: Clean up" class="md-nav__link">
+      Module 4: Clean up
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../contribute/" title="Contributing" class="md-nav__link">
+      Contributing
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../license/" title="License" class="md-nav__link">
+      License
+    </a>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#architecture" title="Architecture" class="md-nav__link">
+    Architecture
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#setup-s3-bucket-for-use-with-aws-amplify" title="Setup S3 bucket for use with AWS Amplify" class="md-nav__link">
+    Setup S3 bucket for use with AWS Amplify
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configure-iam-permissions" title="Configure IAM permissions" class="md-nav__link">
+    Configure IAM permissions
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#update-application-to-upload-photos" title="Update application to upload photos" class="md-nav__link">
+    Update application to upload photos
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#high-level-instructions" title="High-Level Instructions" class="md-nav__link">
+    High-Level Instructions
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/aws-samples/amazon-cognito-identity-management-workshop/edit/master/docs/03-iam-auth.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                
+                
+                <h1 id="module-3-aws-integration-with-iam-based-authorization">Module 3 <small>AWS integration with IAM-based authorization</small></h1>
+<p><strong>Time</strong>: 15 minutes</p>
+<p>In this module, you will expand your Wild Rydes application by enabling a profile management and profile photo management capabilities. <a href="https://aws.amazon.com/cognito/">Amazon Cognito</a> will be used to store your user's profile information and custom attributes whereas <a href="https://aws.amazon.com/s3/">Amazon S3</a> will store your user's profile pictures, with a link to the photo only being stored in the user's profile directly.</p>
+<h2 id="architecture">Architecture</h2>
+<p>Building on Modules 1 and 2, this module will add photo storage and management via an Amazon S3 bucket. For AWS resource access from a web application, Amazon Cognito will issue not only JWTs as we saw earlier, but then also allow users to assume an IAM role from within the application. This AWS IAM role will then allow their application to securely connect to upload and download photos from S3 (though any other AWS API would also work with this capability). To secure access to the photo storage and bucket, you will leverage IAM policies for fine-grained control.</p>
+<p><img alt="Module 3 architecture" src="../images/wildrydes-module3-architecture.png" /></p>
+<h2 id="setup-s3-bucket-for-use-with-aws-amplify">Setup S3 bucket for use with AWS Amplify</h2>
+<p>You will need to configure AWS Amplify to securely store profile images in an S3 bucket. To save time, the Serverless Backend CloudFormation template that created the serverless backend API for this workshop also created an S3 bucket for this purpose with the cross-origin resource sharing (CORS) settings already set. You just need to associate this bucket with your application's code.</p>
+<p>Browse to your CloudFormation stack created in the earlier modules and find the name of the S3 bucket under Outputs. Once you have the name, open your <em>amplify-config.js</em> file again and update the storage section with the bucket's name and region.</p>
+<ol>
+<li>
+<p>Go the AWS Management Console, click <strong>Services</strong> then select <strong>CloudFormation</strong> under Management Tools.</p>
+</li>
+<li>
+<p>In the CloudFormation console, click on your Wild Rydes stack name, such as <strong>WildRydesBackend</strong>.</p>
+</li>
+<li>
+<p>Click on the <strong>Outputs</strong> tab.</p>
+</li>
+<li>
+<p>Copy your bucket name to your clipboard. It is the name shown under <code>Value</code> for the key called <em>WildRydesProfilePicturesBucket</em>.</p>
+</li>
+<li>
+<p>Next, return to your Cloud9 IDE and open the file <em>/website/src/amplify-config.js</em>.</p>
+</li>
+<li>
+<p>Fill in values for both the bucket name, which you just copied, as well as the region where your CloudFormation template was launched</p>
+</li>
+<li>
+<p>Your final structure for the storage configuration of <em>amplify-config.js</em> should look like the following.</p>
+</li>
+</ol>
+<div class="codehilite"><pre><span></span>    Storage: {
+        bucket: &#39;wildrydes-profilepicturesbucket-1rmvuic97osxd&#39;,
+        region: &#39;us-east-1&#39;
+    }
+</pre></div>
+
+
+<h2 id="configure-iam-permissions">Configure IAM permissions</h2>
+<p>Though you could now attempt uploading photos via AWS Amplify, Amplify would use your Cognito Identity Pool roles that were created in module 1 which currently has no policies associated so you would not have access to the S3 bucket created. You need to next update our roles to have policies that grant access to our S3 photo bucket.</p>
+<p>Browse to the IAM console and find your Cognito Identity Pool's authenticated user role. Create an in-line policy on this role which provides for <a href="https://aws-amplify.github.io/docs/js/storage#file-access-levels">S3 bucket protected and private-level access</a> per-user by leveraging IAM policy variables. </p>
+<ol>
+<li>
+<p>Go the AWS Management Console, click <strong>Services</strong> then select <strong>IAM</strong> under Security, Identity, and Compliance.</p>
+</li>
+<li>
+<p>Choose <strong>Roles</strong>.</p>
+</li>
+<li>
+<p>Search for <em>WildRydes</em> to find the two roles which were created by Cognito Identity Pools when you created the Identity Pool in module one. Should you not be able to find the roles here, you can alternatively go to the <strong>Cognito Federated Identities</strong> console, find the correct identity pool, then click <strong>Edit Identity Pool</strong> in the top-right corner to see the roles listed. Each identity pool has both an Unauthenticated user role and an Authenticated user role.</p>
+</li>
+<li>
+<p>Once you have found the names of the roles, go back to the IAM console and <strong>select the <em>Auth</em> role</strong> for your authenticated users.</p>
+<div class="admonition tip">
+<p class="admonition-title">If the full name of the role is hidden from view due to column width, you can hover over the partially visible name of the role to see the full name of the role as a tool tip.</p>
+</div>
+<p><img alt="IAM WildRydes Auth Role Selction" src="../images/iam-wildrydes-role-selection.png" /></p>
+</li>
+<li>
+<p>We want to grant permissions to this role explicitly so we will use an inline policy, which would be deleted with this role if it were ever to be deleted.</p>
+</li>
+<li>
+<p>Choose <strong>Add inline policy</strong> on the right-hand side to create a new inline policy associated to this IAM role.</p>
+<p><img alt="Add inline policy to WildRydes auth role" src="../images/iam-wildrydes-auth-role-add-inline-policy.png" /></p>
+</li>
+<li>
+<p>Choose the <strong>JSON</strong> tab to allow you to free-form edit the new policy.</p>
+</li>
+<li>
+<p>Paste the following IAM policy statements for S3 access. After pasting, you will need to go <strong>replace the bucket name</strong> listed in all caps with your bucket name (a total of 4 times).</p>
+<blockquote>
+<p>Be sure to leave the parts of the resource names before and after the replacement value alone and not accidentally modify them.</p>
+<p>The following policy makes use of IAM policy variables where <em>${aws:userid}</em> represents the current authenticated user's unique Cognito identity ID. This policy's effective permissions will allow all authenticated users to read objects from the root of the bucket and any /protected path, but only allow users to read their own private sub-path and write to their sub-path within the protected path. These are default paths that are integrated with AWS Amplify to easily set <a href="https://aws-amplify.github.io/docs/js/storage#file-access-levels">file access levels</a>.</p>
+</blockquote>
+<p><code>{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:PutObject",
+                "s3:GetObject",
+                "s3:GetObjectVersion",
+                "s3:DeleteObject",
+                "s3:DeleteObjectVersion"
+            ],
+            "Resource": "arn:aws:s3:::REPLACE_WITH_YOUR_BUCKET_NAME/private/${aws:userid}/*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:GetObject",
+                "s3:GetObjectVersion"
+            ],
+            "Resource": "arn:aws:s3:::REPLACE_WITH_YOUR_BUCKET_NAME/protected/*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:PutObject",
+                "s3:DeleteObject",
+                "s3:DeleteObjectVersion"
+            ],
+            "Resource": "arn:aws:s3:::REPLACE_WITH_YOUR_BUCKET_NAME/protected/${aws:userid}/*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:PutObject",
+                "s3:GetObject",
+                "s3:GetObjectVersion",
+                "s3:DeleteObject",
+                "s3:DeleteObjectVersion"
+            ],
+            "Resource": "arn:aws:s3:::REPLACE_WITH_YOUR_BUCKET_NAME/public/*"
+        }
+    ]
+}</code>
+1. Choose <strong>Review policy</strong>.</p>
+</li>
+<li>
+<p>Name the policy <code>WildRydes-S3Access</code>.</p>
+</li>
+<li>
+<p>After reviewing for accuracy and any syntax errors, choose <strong>Create policy</strong>.</p>
+</li>
+</ol>
+<h2 id="update-application-to-upload-photos">Update application to upload photos</h2>
+<p>Now that your IAM policies and Amplify SDK are initialized, you will be able to upload photos and render S3 photos with minimal code using Amplify's built-in UI components. S3 image is the component used to both render image objects for a React application, as well as embeding an image picker to help with uploads.</p>
+<h4 id="high-level-instructions">High-Level Instructions</h4>
+<p>Authenticate in the Wild Rydes app if you're not already logged in, then browse to the <em>/profile</em> path. You will see that your Cognito User Pool attributes are being read dynamically by the system. Next, you will add an <a href="https://aws-amplify.github.io/docs/js/storage#s3image">image picker</a> from AWS Amplify to render a UI component for uploading and displaying photos stored in S3. These profile photos will be used to personalize the rider experience so unicorns know who to look for when picking up passengers.</p>
+<details>
+<summary><strong>Step-by-step instructions (expand for details)</strong></summary><p>
+
+1. After logging in to Wild Rydes (if you're not authenticated already), browse to the **/profile** path.
+
+1. You should see that your e-mail address and phone number you registered with are displayed which are all of your currently populated attributes.
+
+1. Open your Cloud9 IDE environment and open the file at */website/src/pages/Profile.js*.
+
+1. **Uncomment** the line that says *S3Image*. This instantiates an Amplify UI component for React apps for image rendering and uploading and only requires this single line of code.
+
+1. Go back to the Wild Rydes app and visit the **/profile** path after logging in. You should now be able to upload photos with the new image picker.
+
+## Store profile picture links in Cognito User Pools profile
+
+With our image uploads now working, all will work as expected until you close your browser, but at that point the reference between your user profile and your profile picture will be lost. To fix this, you will leverage a Cognito User Pools user attribute called *picture* to persist the S3 object key so the same image can be loaded upon each login and persisted to be shown to the unicorns when you request a ride. You will need to update */website/src/pages/Profile.js* and a method called *onImageLoad* to make this possible.
+
+#### High-Level Instructions
+
+Implement a method to persist the images uploaded to the current user's Cognito *picture* attribute each time the image is changed.
+
+<details>
+<summary><strong>Step-by-step instructions (expand for details)</strong></summary><p>
+
+1. Open your Cloud9 IDE environment and open the file at */website/src/pages/Profile.js*.
+
+1. The S3Image UI component has a built-in method called *onImageLoad* which provides in its invocation the full URL of any image uploaded. We will make use of this built-in function to persist our image URLs out to Cognito.
+
+1. Replace the existing *onImageLoad* function with the following code:
+
+    ```
+    async onImageLoad(url) {
+        if (!this.state.user.getSession) { return };
+        console.log('Profile Picture URL:', url);
+        try {
+            let result = await Auth.updateUserAttributes(this.state.user, {
+                'picture': this.state.image_key
+            });
+            console.log(result);
+        } catch (ex) {
+            console.error('Attribute update error:', ex);
+        }
+    }
+    ```
+
+1. Now with this new method in place, upload a new photo after logging into Wild Rydes then close your browser. Open a new window and try logging in again. Your photo should load as it did previously.
+
+## Conclusion
+
+Congratulations! You've completed the Wild Rydes Auth workshop. We hope that this time and interactive learning has been valuable for you. For further learning on this topic, please see our list of [Serverless Auth Resources](../Resources.md).
+
+Please proceed to the next module to run through the [Clean up steps](../9_CleanUp) to ensure you decommission all resources spun up during the workshop today.
+
+Thank you for participating in this workshop!
+                
+                  
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+          <a href="../02-backend-auth/" title="Module 2: Backend authorization" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+            </div>
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Module 2: Backend authorization
+              </span>
+            </div>
+          </a>
+        
+        
+          <a href="../04-clean-up/" title="Module 4: Clean up" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                Module 4: Clean up
+              </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            &copy; 2019, Amazon Web Services, Inc. or its affiliates. All rights reserved.
+          </div>
+        
+        powered by
+        <a href="https://www.mkdocs.org">MkDocs</a>
+        and
+        <a href="https://squidfunk.github.io/mkdocs-material/">
+          Material for MkDocs</a>
+      </div>
+      
+  <div class="md-footer-social">
+    <link rel="stylesheet" href="../assets/fonts/font-awesome.css">
+    
+      <a href="https://awssecworkshops.com" class="md-footer-social__link fa fa-home"></a>
+    
+      <a href="https://aws.amazon.com/security/" class="md-footer-social__link fa fa-shield"></a>
+    
+      <a href="https://twitter.com/awssecurityinfo?lang=en" class="md-footer-social__link fa fa-twitter"></a>
+    
+      <a href="https://aws.amazon.com/blogs/security/" class="md-footer-social__link fa fa-rss"></a>
+    
+  </div>
+
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../assets/javascripts/application.d9aa80ab.js"></script>
+      
+      <script>app.initialize({version:"1.0.4",url:{base:".."}})</script>
+      
+    
+  </body>
+</html>

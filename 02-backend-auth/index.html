@@ -1,0 +1,963 @@
+
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+        <meta name="description" content="In this workshop, you learn how to build a serverless microservices application demonstrating end-to-end authentication and authorization using Amazon Cognito, Amazon API Gateway, AWS Lambda, and all things IAM. You have the opportunity to build an end-to-end functional app with a secure identity provider showcasing user authentication patterns. All attendees need a laptop, an active AWS Account, an AWS IAM Administrator, and a familiarity with core AWS services.">
+      
+      
+        <link rel="canonical" href="https://serverless-idm.awssecworkshops.com/02-backend-auth/">
+      
+      
+        <meta name="author" content="aws-security-workshops@amazon.com">
+      
+      
+        <meta name="lang:clipboard.copy" content="Copy to clipboard">
+      
+        <meta name="lang:clipboard.copied" content="Copied to clipboard">
+      
+        <meta name="lang:search.language" content="en">
+      
+        <meta name="lang:search.pipeline.stopwords" content="True">
+      
+        <meta name="lang:search.pipeline.trimmer" content="True">
+      
+        <meta name="lang:search.result.none" content="No matching documents">
+      
+        <meta name="lang:search.result.one" content="1 matching document">
+      
+        <meta name="lang:search.result.other" content="# matching documents">
+      
+        <meta name="lang:search.tokenizer" content="[\s\-]+">
+      
+      <link rel="shortcut icon" href="../assets/images/aws-favicon.ico">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.0.2">
+    
+    
+      
+        <title>Module 2: Backend authorization - Serverless authentication and authorization</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/application.982221ab.css">
+      
+      
+    
+    
+      <script src="../assets/javascripts/modernizr.1f0bcf2b.js"></script>
+    
+    
+      
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono">
+        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
+      
+    
+    <link rel="stylesheet" href="../assets/fonts/material-icons.css">
+    
+    
+      <link rel="stylesheet" href="../stylesheets/custom.css">
+    
+    
+      
+    
+    
+  </head>
+  
+    <body dir="ltr">
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+          <svg xmlns="http://www.w3.org/2000/svg" width="416" height="448"
+    viewBox="0 0 416 448" id="__github">
+  <path fill="currentColor" d="M160 304q0 10-3.125 20.5t-10.75 19-18.125
+        8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19 18.125-8.5
+        18.125 8.5 10.75 19 3.125 20.5zM320 304q0 10-3.125 20.5t-10.75
+        19-18.125 8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19
+        18.125-8.5 18.125 8.5 10.75 19 3.125 20.5zM360
+        304q0-30-17.25-51t-46.75-21q-10.25 0-48.75 5.25-17.75 2.75-39.25
+        2.75t-39.25-2.75q-38-5.25-48.75-5.25-29.5 0-46.75 21t-17.25 51q0 22 8
+        38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0
+        37.25-1.75t35-7.375 30.5-15 20.25-25.75 8-38.375zM416 260q0 51.75-15.25
+        82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5-41.75
+        1.125q-19.5 0-35.5-0.75t-36.875-3.125-38.125-7.5-34.25-12.875-30.25-20.25-21.5-28.75q-15.5-30.75-15.5-82.75
+        0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25
+        30.875q36.75-8.75 77.25-8.75 37 0 70 8 26.25-20.5
+        46.75-30.25t47.25-9.75q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34
+        99.5z" />
+</svg>
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
+    
+      <a href="#module-1-backend-authorization" tabindex="1" class="md-skip">
+        Skip to content
+      </a>
+    
+    
+      <!--
+  Copyright (c) 2016-2018 Martin Donath <martin.donath@squidfunk.com>
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to
+  deal in the Software without restriction, including without limitation the
+  rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+  sell copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+  The above copyright notice and this permission notice shall be included in
+  all copies or substantial portions of the Software.
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+  IN THE SOFTWARE.
+-->
+
+<!-- Application header -->
+<header class="md-header" data-md-component="header">
+
+    <!-- Top-level navigation -->
+    <nav class="md-header-nav md-grid">
+      <div class="md-flex">
+  
+        <!-- Link to home -->
+        <div class="md-flex__cell md-flex__cell--shrink">
+          <a href="https://aws.amazon.com/"
+              title="Amazon Web Services"
+              class="md-header-nav__button md-logo">
+            
+              <img src="../assets/images/aws_smile_logo.png" width="40" height="24" />
+            
+          </a>
+        </div>
+  
+        <!-- Button to toggle drawer -->
+        <div class="md-flex__cell md-flex__cell--shrink">
+          <label class="md-icon md-icon--menu md-header-nav__button"
+              for="__drawer"></label>
+        </div>
+  
+        <!-- Header title -->
+        <div class="md-flex__cell md-flex__cell--stretch">
+          <div class="md-flex__ellipsis md-header-nav__title"
+              data-md-component="title">
+            
+              
+                <span class="md-header-nav__topic">
+                  Serverless authentication and authorization
+                </span>
+                <span class="md-header-nav__topic">
+                  Module 2: Backend authorization
+                </span>
+              
+            
+          </div>
+        </div>
+        
+        
+        <!-- Button to open search dialogue -->
+        <!--
+        <div class="md-flex__cell md-flex__cell--shrink">
+          
+            
+              <label class="md-icon md-icon--search md-header-nav__button"
+                  for="__search"></label>
+  
+              
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
+      <label class="md-icon md-search__icon" for="__search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
+        &#xE5CD;
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result">
+          <div class="md-search-result__meta">
+            Type to start searching
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+            
+          
+        </div>
+
+         -->
+         
+         <div class="md-flex__cell md-flex__cell--shrink">
+            <div class="md-flex__ellipsis md-header-nav__lang">
+                <div>
+                    <button onclick="window.location.href = 'https://awssecworkshops.com/';" class="md-lang-dropbtn fa fa-home"></button>
+                </div>
+            </div>
+        </div>
+  
+        <!-- Repository containing source -->
+        
+          <div class="md-flex__cell md-flex__cell--shrink">
+            <div class="md-header-nav__source">
+              
+
+
+  
+
+<a href="https://github.com/aws-samples/amazon-cognito-identity-management-workshop/" title="Go to repository" class="md-source" data-md-source="github">
+  
+    <div class="md-source__icon">
+      <svg viewBox="0 0 24 24" width="24" height="24">
+        <use xlink:href="#__github" width="24" height="24"></use>
+      </svg>
+    </div>
+  
+  <div class="md-source__repository">
+    aws-samples/amazon-cognito-identity-management-workshop
+  </div>
+</a>
+            </div>
+          </div>
+        
+      </div>
+    </nav>
+  </header>
+    
+    <div class="md-container">
+      
+        
+      
+      
+        
+
+<nav class="md-tabs" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  <li class="md-tabs__item">
+    
+      <a href=".." title="Overview" class="md-tabs__link md-tabs__link--active">
+        Overview
+      </a>
+    
+  </li>
+
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </ul>
+  </div>
+</nav>
+      
+      <main class="md-main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <!--
+  Copyright (c) 2016-2019 Martin Donath <martin.donath@squidfunk.com>
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to
+  deal in the Software without restriction, including without limitation the
+  rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+  sell copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+  The above copyright notice and this permission notice shall be included in
+  all copies or substantial portions of the Software.
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+  IN THE SOFTWARE.
+-->
+
+<!-- Main navigation -->
+<nav class="md-nav md-nav--primary" data-md-level="0">
+
+  <!-- Site title -->
+  <label class="md-nav__title md-nav__title--site" for="__drawer">
+    <a href="https://serverless-idm.awssecworkshops.com/"
+        title="Serverless authentication and authorization" class="md-nav__button md-logo">
+      
+        <img src="../assets/images/aws_smile_logo.png" width="48" height="48" />
+      
+    </a>
+    Serverless authentication and authorization
+  </label>
+
+  <!-- Repository containing source -->
+  
+    <div class="md-nav__source">
+      
+
+
+  
+
+<a href="https://github.com/aws-samples/amazon-cognito-identity-management-workshop/" title="Go to repository" class="md-source" data-md-source="github">
+  
+    <div class="md-source__icon">
+      <svg viewBox="0 0 24 24" width="24" height="24">
+        <use xlink:href="#__github" width="24" height="24"></use>
+      </svg>
+    </div>
+  
+  <div class="md-source__repository">
+    aws-samples/amazon-cognito-identity-management-workshop
+  </div>
+</a>
+    </div>
+  
+
+  <!-- Render item list -->
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href=".." title="Overview" class="md-nav__link">
+      Overview
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../00-env-setup/" title="Module 0: Environment setup" class="md-nav__link">
+      Module 0: Environment setup
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../01-user-auth/" title="Module 1: User authentication" class="md-nav__link">
+      Module 1: User authentication
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Module 2: Backend authorization
+      </label>
+    
+    <a href="./" title="Module 2: Backend authorization" class="md-nav__link md-nav__link--active">
+      Module 2: Backend authorization
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#architecture" title="Architecture" class="md-nav__link">
+    Architecture
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#launch-the-serverless-api-backend" title="Launch the Serverless API backend" class="md-nav__link">
+    Launch the Serverless API backend
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#integrate-your-api" title="Integrate your API" class="md-nav__link">
+    Integrate your API
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#validate-api-functionality-and-integration" title="Validate API functionality and integration" class="md-nav__link">
+    Validate API functionality and integration
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enable-api-gateway-authorization" title="Enable API Gateway authorization" class="md-nav__link">
+    Enable API Gateway authorization
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#optional-api-gateway-iam-authorization" title="Optional: API Gateway IAM Authorization" class="md-nav__link">
+    Optional: API Gateway IAM Authorization
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../03-iam-auth/" title="Module 3: IAM Authorization" class="md-nav__link">
+      Module 3: IAM Authorization
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../04-clean-up/" title="Module 4: Clean up" class="md-nav__link">
+      Module 4: Clean up
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../contribute/" title="Contributing" class="md-nav__link">
+      Contributing
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../license/" title="License" class="md-nav__link">
+      License
+    </a>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#architecture" title="Architecture" class="md-nav__link">
+    Architecture
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#launch-the-serverless-api-backend" title="Launch the Serverless API backend" class="md-nav__link">
+    Launch the Serverless API backend
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#integrate-your-api" title="Integrate your API" class="md-nav__link">
+    Integrate your API
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#validate-api-functionality-and-integration" title="Validate API functionality and integration" class="md-nav__link">
+    Validate API functionality and integration
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enable-api-gateway-authorization" title="Enable API Gateway authorization" class="md-nav__link">
+    Enable API Gateway authorization
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#optional-api-gateway-iam-authorization" title="Optional: API Gateway IAM Authorization" class="md-nav__link">
+    Optional: API Gateway IAM Authorization
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/aws-samples/amazon-cognito-identity-management-workshop/edit/master/docs/02-backend-auth.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                
+                
+                <h1 id="module-1-backend-authorization">Module 1 <small>Backend authorization</small></h1>
+<p><strong>Time</strong>: 15 minutes</p>
+<p>In this module, you will add a serverless backend to your Wild Rydes application leveraging <a href="https://aws.amazon.com/api-gateway/">Amazon API Gateway</a> and <a href="https://aws.amazon.com/lambda/">AWS Lambda</a>. You will then enable authentication and authorization on your API to secure the backend to only accept valid, authorized requests.</p>
+<h2 id="architecture">Architecture</h2>
+<p>Building on Module 1, this module will add a Serverless backend built using Amazon API Gateway and AWS Lambda. For persistence, you will use Amazon DynamoDB as a NoSQL data store. All of the above services are serverless so you can seamlessly scale your application as your demands grow. After creating the API, we will integrate our client application to call it via the AWS Amplify library.</p>
+<p><img alt="Module 2 architecture" src="../images/wildrydes-module2-architecture.png" /></p>
+<h2 id="launch-the-serverless-api-backend">Launch the Serverless API backend</h2>
+<p>You will be creating your Serverless API built with Amazon API Gateway, AWS Lambda, and Amazon DynamoDB via a CloudFormation template. Since this workshop is focused on authentication and authorization, this template will create the backend infrastructure, but not enable any security settings and the rest of the module will enable and configure such settings.</p>
+<p>Create a new WildRydes Serverless Backend stack by launching a CloudFormation stack based on the <strong>ServerlessBackend.yaml</strong> file in the module 2 folder. Name the stack <code>WildRydesBackend</code>.</p>
+<p>This WildRydes backend CloudFormation template will provision your API Gateway deployment with Lambda functions for compute, a DynamoDB database for persistence, and an S3 bucket for photo uploads which will be used in module 3. Additionally, the necessary function invocation permissions and execution role for the Lambda function will also be provisioned.</p>
+<table>
+<thead>
+<tr>
+<th>Region</th>
+<th>Deploy</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>us-east-1 (N. Virginia)</td>
+<td><a href="https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/new?stackName=serverless-idm-backend&templateURL=https://sa-security-specialist-workshops-us-east-1.s3.amazonaws.com/serverless-idm/serverless-backend.yaml" target="_blank"><img alt="Launch Cloud9 in us-east-1" src="../images/deploy-to-aws.png" /></a></td>
+</tr>
+<tr>
+<td>us-east-2 (Ohio)</td>
+<td><a href="https://console.aws.amazon.com/cloudformation/home?region=us-east-2#/stacks/new?stackName=serverless-idm-backend&templateURL=https://sa-security-specialist-workshops-us-east-2.s3.us-east-2.amazonaws.com/serverless-idm/serverless-backend.yaml" target="_blank"><img alt="Launch Cloud9 in us-east-2" src="../images/deploy-to-aws.png" /></td>
+</tr>
+<tr>
+<td>us-west-2 (Oregon)</td>
+<td><a href="https://console.aws.amazon.com/cloudformation/home?region=us-west-2#/stacks/new?stackName=serverless-idm-backend&templateURL=https://sa-security-specialist-workshops-us-west-2.s3-us-west-2.amazonaws.com/serverless-idm/serverless-backend.yaml" target="_blank"><img alt="Launch Cloud9 in us-west-2" src="../images/deploy-to-aws.png" /></td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li>
+<p>Click the <strong>Deploy to AWS</strong> button above.  This will automatically take you to the console to run the template.</p>
+</li>
+<li>
+<p>The <strong>Specify an Amazon S3 template URL</strong> is already selected and the template URL is automatically added.  Click <strong>Next</strong>.</p>
+</li>
+<li>
+<p>On the <strong>Specify Details</strong> click <strong>Next</strong>. </p>
+</li>
+<li>
+<p>On the <strong>Options</strong> click <strong>Next</strong> (leave everything on this page as the default).</p>
+</li>
+<li>
+<p>On the Review page, choose to <strong>Acknowledge that the CloudFormation template may create IAM resources with custom names</strong>, review the summary details, and then click <strong>Create stack</strong>.</p>
+<div class="admonition warning">
+<p class="admonition-title">It will take a few minutes for the Stack to create.</p>
+<p>Choose the <strong>Stack Info</strong> tab to go to the overall stack status page and wait until the stack is fully launched and shows a status of <em>CREATE_COMPLETE</em>. Click the refresh icon periodically to see progress update.</p>
+</div>
+</li>
+<li>
+<p>With the <em>WildRydesBackend</em> stack selected, click on the <strong>Outputs</strong> tab and copy the value shown for the <em>WildRydesApiInvokeUrl</em> to your Cloud9 scratchpad editor tab.</p>
+</li>
+</ol>
+<h2 id="integrate-your-api">Integrate your API</h2>
+<p>Now that you have created our Serverless API, you need to update your Wild Rydes web application to integrate with it. You will leverage the AWS Amplify client library to make API calls and inject security seamlessly to support your authentication and authorization scenarios.</p>
+<p>First, expand your <strong>amplify-config.js</strong> file to store your new API Gateway endpoint. Next, within <strong>MainApp.js</strong> under pages, enable the <strong>hasAPI</strong> method by uncommenting its functionality. Additionally, update the <strong>getData</strong> method to capture the latitude and longitude selected on the map and send to the API as a PickupLocation object including both the latitude and longitude.</p>
+<p>First, you need to update the <strong>/website/src/amplify-config.js</strong> file to include your new API Gateway endpoint. Store the endpoint including the /prod at the end in the endpoint property under the <strong>WildRydesAPI</strong> section.</p>
+<div class="admonition tip">
+<p class="admonition-title">Do not change the name <code>WildRydesAPI</code> in this configuration file.</p>
+</div>
+<div class="codehilite"><pre><span></span>API: {
+    endpoints: [
+        {
+            name: &#39;WildRydesAPI&#39;,
+            endpoint: &#39;https://1ngrgqjt6c.execute-api.us-east-1.amazonaws.com/prod&#39;,
+            region: &#39;us-east-1&#39;
+        }
+    ]
+},
+</pre></div>
+
+
+<p>Next, you need to enable the hasAPI method by uncommenting its code within <strong>/website/src/pages/MainApp.js</strong>.</p>
+<div class="codehilite"><pre><span></span><span class="nx">hasApi</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kr">const</span> <span class="nx">api</span> <span class="o">=</span> <span class="nx">awsConfig</span><span class="p">.</span><span class="nx">API</span><span class="p">.</span><span class="nx">endpoints</span><span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="nx">v</span> <span class="p">=&gt;</span> <span class="nx">v</span><span class="p">.</span><span class="nx">endpoint</span> <span class="o">!==</span> <span class="s1">&#39;&#39;</span><span class="p">);</span>
+    <span class="k">return</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">api</span> <span class="o">!==</span> <span class="s1">&#39;undefined&#39;</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>Finally, within the same file, we will implement the API request for a ride as a POST request to our API which sends a body containing the requested latitude and longitude as the pickup location. Update the <strong>getData()</strong> method to be as follows:</p>
+<div class="codehilite"><pre><span></span><span class="nx">async</span> <span class="nx">getData</span><span class="p">(</span><span class="nx">pin</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kr">const</span> <span class="nx">apiRequest</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="nx">body</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">PickupLocation</span><span class="o">:</span> <span class="p">{</span>
+            <span class="nx">Longitude</span><span class="o">:</span> <span class="nx">pin</span><span class="p">.</span><span class="nx">longitude</span><span class="p">,</span>
+            <span class="nx">Latitude</span><span class="o">:</span> <span class="nx">pin</span><span class="p">.</span><span class="nx">latitude</span>
+        <span class="p">}</span>
+        <span class="p">},</span>
+        <span class="nx">headers</span><span class="o">:</span> <span class="p">{</span>
+        <span class="s1">&#39;Authorization&#39;</span><span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="c1">// To be updated</span>
+        <span class="s1">&#39;Content-Type&#39;</span><span class="o">:</span> <span class="s1">&#39;application/json&#39;</span>
+        <span class="p">}</span>
+    <span class="p">};</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;API Request:&#39;</span><span class="p">,</span> <span class="nx">apiRequest</span><span class="p">);</span>
+    <span class="k">return</span> <span class="nx">await</span> <span class="nx">API</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="nx">apiName</span><span class="p">,</span> <span class="nx">apiPath</span><span class="p">,</span> <span class="nx">apiRequest</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<h2 id="validate-api-functionality-and-integration">Validate API functionality and integration</h2>
+<p>Now that you've integrated code changes to call your new Serverless API, you should test the end-to-end user experience to ensure the application is working correctly. The API currently requires no authentication so any request will currently be accepted until we enable required authentication.</p>
+<p>Go back to your browser tab with Wild Rydes running and sign-in again at <code>/signin</code>. Once signed in, click anywhere on the map to indicate a pickup location, then select the <strong>Request</strong> button to call your ride.</p>
+<p>You should be informed of your unicorn's arrival momentarily.</p>
+<h2 id="enable-api-gateway-authorization">Enable API Gateway authorization</h2>
+<p>Amazon API Gateway can use the JSON Web tokens (JWT) returned by Cognito User Pools to authenticate API calls. In this step, you'll configure an authorizer for your API to use the user pool you created in <a href="../1_UserAuthentication">module 1</a>.</p>
+<p>Since Cognito User Pools implements <a href="https://en.wikipedia.org/wiki/OpenID_Connect">OpenID Connect</a> JSON web tokens, API Gateway is able to compare the signature of an access or identity token against the known public keys of the Cognito User Pool which allows verification and authentication to happen without having to write additional code in your application.</p>
+<p>In the Amazon API Gateway console, create a new Cognito user pool authorizer for your API. Configure it to use the user pool that you created in the previous module. You can test the configuration in the console by copying and pasting the identity token printed to the console after you log in via the <code>/signin</code> path of your current website. Once setup, you will change your application's code to send the proper JSON web token with its API requests to authenticate.</p>
+<ol>
+<li>
+<p>In the AWS Management Console choose <strong>Services</strong> then select <strong>API Gateway</strong> under Networking and Content Delivery.</p>
+</li>
+<li>
+<p>Choose the API named <em>WildRydes</em>.</p>
+</li>
+<li>
+<p>Under your newly created API, choose <strong>Authorizers</strong>.</p>
+<p><img alt="API Authorizer Settings" src="../images/apigateway-authorizer-settings.png" /></p>
+</li>
+<li>
+<p>Chose <strong>Create New Authorizer</strong>.</p>
+</li>
+<li>
+<p>Enter <code>WildRydes</code> for the Authorizer name.</p>
+</li>
+<li>
+<p>Select <strong>Cognito</strong> for the type.</p>
+</li>
+<li>
+<p>In the Region drop-down under <strong>Cognito User Pool</strong>, select the Region where you created your Cognito user pool in the last module (by default the current region should be selected).</p>
+</li>
+<li>
+<p>Enter <code>WildRydes</code> (or the name you gave your user pool) in the <strong>Cognito User Pool</strong> input.</p>
+</li>
+<li>
+<p>Enter <code>Authorization</code> for the <strong>Token Source</strong>.</p>
+</li>
+<li>
+<p>Leave <em>Token Validation</em> <strong>blank</strong> without editing.</p>
+</li>
+<li>
+<p>Choose <strong>Create</strong>.</p>
+<p><img alt="Create user pool authorizer screenshot" src="../images/create-user-pool-authorizer.png" /></p>
+</li>
+</ol>
+<p><strong>Verify your authorizer configuration</strong></p>
+<ol>
+<li>
+<p>In a different browser tab, return to your Wild Rydes application and  sign-in if you're not already signed in. After signing in, you should be redirected to <em>/app</em>. Open your <a href="https://support.airtable.com/hc/en-us/articles/232313848-How-to-open-the-developer-console">browser's developer console</a> and browse to the console log output section.</p>
+</li>
+<li>
+<p>Look for the console log to say <em>Cognito User Identity Token:</em> and a long string beneath the message.</p>
+</li>
+<li>
+<p>Copy the long string to your clipboard without the intro message. You will need to copy across multiple lines to fully copy the token in its entirety.</p>
+</li>
+<li>
+<p>Go back to previous tab where you have just finished creating the Authorizer.</p>
+</li>
+<li>
+<p>Click <strong>Test</strong> at the bottom of the card for the authorizer.</p>
+</li>
+<li>
+<p>Paste the auth token into the <strong>Authorization Token</strong> field in the popup dialog.</p>
+<p><img alt="Test Authorizer screenshot" src="../images/apigateway-test-authorizer.png" /></p>
+</li>
+<li>
+<p>Click <strong>Test</strong> button and verify that the response code is 200 and that you see the claims for your user displayed. Since this is the identity token, the user's attributes are encoded within the JWT as claims which can be read parsed programatically.</p>
+<blockquote>
+<p>If you do not receive successful test results as shown below, do not proceed until you're able to validate the authorizer is configured properly and passes this test.</p>
+</blockquote>
+<p><img alt="Successful Authorizer test screenshot" src="../images/apigateway-authorizer-test.png" /></p>
+</li>
+</ol>
+<p><strong>Require Cognito authentication for API Gateway</strong></p>
+<ol>
+<li>
+<p>Browse to <strong>Resources</strong> while within your Wild Rydes API in the API Gateway console.</p>
+</li>
+<li>
+<p>Select the <strong>POST</strong> method under the <em>/ride</em> resource path.</p>
+</li>
+<li>
+<p>Choose <strong>Method Request</strong></p>
+<p><img alt="Method Request Selection" src="../images/apigateway-method-request-settings.png" /></p>
+</li>
+<li>
+<p>Choose the pencil icon next to <code>Authorization</code> to edit the setting.</p>
+</li>
+<li>
+<p>Select your new Cognito Authorizer from the list of options presented.
+    &gt; If you don't see this option listed, <strong>Reload</strong> the browser page then this authorizer option should appear in the drop-down list.</p>
+</li>
+</ol>
+<p><img alt="API Gateway Authorizer Selection" src="../images/apigateway-authorizer-cognito-selection.png" /></p>
+<ol>
+<li><strong>Save</strong> your selection by clicking the checkmark icon next to the drop down.</li>
+</ol>
+<p><img alt="API Gateway Authorizer Confirmation" src="../images/apigateway-authorizer-cognito-confirmation.png" /></p>
+<ol>
+<li>
+<p>Next, choose the <strong>Actions</strong> button at the top of the resources list.</p>
+</li>
+<li>
+<p>Choose <strong>Deploy API</strong> from the list of options presented.</p>
+</li>
+<li>
+<p>For deployment stage, select <code>prod</code> then click <strong>Deploy</strong>.</p>
+</li>
+<li>
+<p>You've now successfully deployed your new authentication integration to your API's production environment.</p>
+</li>
+</ol>
+<p><strong>Configure your Wild Rydes web app to authenticate API requests</strong></p>
+<p>Now that you've deployed the new authorizer configuration to production, all API requests must be authenticated to be processed.</p>
+<ol>
+<li>
+<p>Return to your Wild Rydes app, sign in at <em>/signin</em> if necessary, and attempt to request a ride.</p>
+</li>
+<li>
+<p>You should receive an <em>Error finding unicorn</em>. If you open the developer console, you will see that we received a HTTP 401 error, which means it was an unauthorized request. To authenticate our requests properly, we need to send an Authorization header.</p>
+<blockquote>
+<p>If you at first still that you requests go through without any errors, try requesting a ride again in 30-60 seconds to allow the API Gateway changes to fully propagate.</p>
+</blockquote>
+</li>
+<li>
+<p>Go back to Cloud9 and open the <em>/website/src/pages/MainApp.js</em> files.</p>
+</li>
+<li>
+<p>Browse down to the <em>getData</em> method you previously updated. You will notice that the headers for the request currently include a blank <em>Authorization</em> header.</p>
+</li>
+<li>
+<p>Replace your current <em>getData</em> method with the following code which sends your user's Cognito identity token, encoded as a JSON web token, in the <em>Authorization</em> header with every request.</p>
+</li>
+</ol>
+<div class="codehilite"><pre><span></span>    <span class="nx">async</span> <span class="nx">getData</span><span class="p">(</span><span class="nx">pin</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kr">const</span> <span class="nx">apiRequest</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="nx">body</span><span class="o">:</span> <span class="p">{</span>
+            <span class="nx">PickupLocation</span><span class="o">:</span> <span class="p">{</span>
+                <span class="nx">Longitude</span><span class="o">:</span> <span class="nx">pin</span><span class="p">.</span><span class="nx">longitude</span><span class="p">,</span>
+                <span class="nx">Latitude</span><span class="o">:</span> <span class="nx">pin</span><span class="p">.</span><span class="nx">latitude</span>
+            <span class="p">}</span>
+            <span class="p">},</span>
+            <span class="nx">headers</span><span class="o">:</span> <span class="p">{</span>
+            <span class="s1">&#39;Authorization&#39;</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">idToken</span><span class="p">,</span>
+            <span class="s1">&#39;Content-Type&#39;</span><span class="o">:</span> <span class="s1">&#39;application/json&#39;</span>
+            <span class="p">}</span>
+        <span class="p">};</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;API Request:&#39;</span><span class="p">,</span> <span class="nx">apiRequest</span><span class="p">);</span>
+        <span class="k">return</span> <span class="nx">await</span> <span class="nx">API</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="nx">apiName</span><span class="p">,</span> <span class="nx">apiPath</span><span class="p">,</span> <span class="nx">apiRequest</span><span class="p">);</span>
+    <span class="p">}</span>
+</pre></div>
+
+
+<p>Allow the application to refresh, sign-in again, and request a ride.</p>
+<p>The unicorn ride request should be fulfilled as before now. To see the full request headers which were sent, look at the developer console for an <em>API Request</em> informational message which includes the API Request details once expanded, including the full headers and body of the request.</p>
+<p><img alt="Cognito Authorizer Request Console Log" src="../images/cognito-authorizer-request-console-log.png" /></p>
+<p>If the API now invokes correctly and application funcions as expected summoning unicorns, you may <strong>proceed to complete either</strong>:</p>
+<hr />
+<h2 id="optional-api-gateway-iam-authorization">Optional: API Gateway IAM Authorization</h2>
+<ul>
+<li>
+<p><strong>Optional module 2 extension</strong> with <a href="./Optional-APIGateway-IAMAuth.md">Fine-grained IAM-based authorization with API Gateway</a></p>
+<p>OR</p>
+</li>
+<li>
+<p>To proceed to the module 3 <em>without completing the optional module extension</em>, choose <a href="../3_IAMAuthorization">client-side IAM-based Authorization</a>.</p>
+</li>
+</ul>
+                
+                  
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+          <a href="../01-user-auth/" title="Module 1: User authentication" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+            </div>
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Module 1: User authentication
+              </span>
+            </div>
+          </a>
+        
+        
+          <a href="../03-iam-auth/" title="Module 3: IAM Authorization" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                Module 3: IAM Authorization
+              </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            &copy; 2019, Amazon Web Services, Inc. or its affiliates. All rights reserved.
+          </div>
+        
+        powered by
+        <a href="https://www.mkdocs.org">MkDocs</a>
+        and
+        <a href="https://squidfunk.github.io/mkdocs-material/">
+          Material for MkDocs</a>
+      </div>
+      
+  <div class="md-footer-social">
+    <link rel="stylesheet" href="../assets/fonts/font-awesome.css">
+    
+      <a href="https://awssecworkshops.com" class="md-footer-social__link fa fa-home"></a>
+    
+      <a href="https://aws.amazon.com/security/" class="md-footer-social__link fa fa-shield"></a>
+    
+      <a href="https://twitter.com/awssecurityinfo?lang=en" class="md-footer-social__link fa fa-twitter"></a>
+    
+      <a href="https://aws.amazon.com/blogs/security/" class="md-footer-social__link fa fa-rss"></a>
+    
+  </div>
+
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../assets/javascripts/application.d9aa80ab.js"></script>
+      
+      <script>app.initialize({version:"1.0.4",url:{base:".."}})</script>
+      
+    
+  </body>
+</html>
