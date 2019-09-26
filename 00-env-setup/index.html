@@ -418,6 +418,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#run-the-website-locally" title="Run the website locally" class="md-nav__link">
+    Run the website locally
+  </a>
+  
+</li>
+      
       
       
       
@@ -549,6 +556,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#run-the-website-locally" title="Run the website locally" class="md-nav__link">
+    Run the website locally
+  </a>
+  
+</li>
+      
       
       
       
@@ -647,7 +661,7 @@
 <div class="codehilite"><pre><span></span>{
     &quot;Account&quot;: &quot;123456789012&quot;,
     &quot;UserId&quot;: &quot;AKIAI44QH8DHBEXAMPLE&quot;,
-    &quot;Arn&quot;: &quot;arn:aws:iam::123456789012:user/Alice&quot;
+    &quot;Arn&quot;: &quot;arn:aws:iam::123456789012:user/Sasquatch&quot;
 }
 </pre></div>
 
@@ -685,6 +699,28 @@ yarn install
 <div class="admonition info">
 <p class="admonition-title">Keep an open scratch pad open</p>
 <p>Keep an open scratch pad in Cloud9 or a text editor on your local computer for notes.  When the step-by-step directions tell you to note something such as an ID or Amazon Resource Name (ARN), copy and paste that into the scratch pad tab.</p>
+</div>
+<h2 id="run-the-website-locally">Run the website locally</h2>
+<ol>
+<li>
+<p>From your Cloud9 workspace, select the terminal window and when you are within your <strong>~/environment/amazon-cognito-identity-management-workshop/website</strong> directory, run the following command to start the local web server </p>
+<p><code>yarn start</code></p>
+<div class="admonition info">
+<p class="admonition-title">Wait for the development server to start. You can ignore any message saying <em>Compiled with warnings</em> as we will resolve these warnings as we add our functionality to the application.</p>
+</div>
+</li>
+<li>
+<p>Now that the development server has started, click <strong>Preview Running Application</strong> in the top of the screen next to the Run button.</p>
+<p><img alt="Cloud9 Preview" src="../images/cloud9-local-preview.png" />  </p>
+</li>
+<li>
+<p>The web application will load in a small window next to the terminal at the bottom of the Cloud9 IDE. Click the <strong>re-size button</strong> next to the word <strong>Browser</strong> to open this window in a new tab.</p>
+<p><img alt="Cloud9 Preview Re-size" src="../images/cloud9-resize-live-preview.png" />   </p>
+</li>
+</ol>
+<p>As you make changes to the web application, this tab will automatically refresh to reflect your changes. Leave this tab open and return to the Cloud9 IDE tab to continue the workshop.</p>
+<div class="admonition info">
+<p class="admonition-title">Though the Wild Rydes website may look functional, there is currently no integration for sign-up or sign-in requests to go anywhere.</p>
 </div>
 <hr />
 <p>After you have successfully setup your environment, you can proceed to the next module.</p>

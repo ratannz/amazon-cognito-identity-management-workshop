@@ -443,15 +443,29 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#enable-api-gateway-authorization" title="Enable API Gateway authorization" class="md-nav__link">
-    Enable API Gateway authorization
+  <a href="#enable-api-gateway-authorization-with-cognito" title="Enable API Gateway authorization with Cognito" class="md-nav__link">
+    Enable API Gateway authorization with Cognito
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#optional-api-gateway-iam-authorization" title="Optional: API Gateway IAM Authorization" class="md-nav__link">
-    Optional: API Gateway IAM Authorization
+  <a href="#end-of-module-2" title="End of Module 2" class="md-nav__link">
+    End of Module 2
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#optional-api-gateway-authorization-with-aws-iam" title="Optional: API Gateway Authorization with AWS IAM" class="md-nav__link">
+    Optional: API Gateway Authorization with AWS IAM
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#optional-api-gateway-authorization-with-a-lambda-authorizor" title="Optional: API Gateway Authorization with a Lambda authorizor" class="md-nav__link">
+    Optional: API Gateway Authorization with a Lambda authorizor
   </a>
   
 </li>
@@ -564,15 +578,29 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#enable-api-gateway-authorization" title="Enable API Gateway authorization" class="md-nav__link">
-    Enable API Gateway authorization
+  <a href="#enable-api-gateway-authorization-with-cognito" title="Enable API Gateway authorization with Cognito" class="md-nav__link">
+    Enable API Gateway authorization with Cognito
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#optional-api-gateway-iam-authorization" title="Optional: API Gateway IAM Authorization" class="md-nav__link">
-    Optional: API Gateway IAM Authorization
+  <a href="#end-of-module-2" title="End of Module 2" class="md-nav__link">
+    End of Module 2
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#optional-api-gateway-authorization-with-aws-iam" title="Optional: API Gateway Authorization with AWS IAM" class="md-nav__link">
+    Optional: API Gateway Authorization with AWS IAM
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#optional-api-gateway-authorization-with-a-lambda-authorizor" title="Optional: API Gateway Authorization with a Lambda authorizor" class="md-nav__link">
+    Optional: API Gateway Authorization with a Lambda authorizor
   </a>
   
 </li>
@@ -702,7 +730,7 @@
 <p>Now that you've integrated code changes to call your new Serverless API, you should test the end-to-end user experience to ensure the application is working correctly. The API currently requires no authentication so any request will currently be accepted until we enable required authentication.</p>
 <p>Go back to your browser tab with Wild Rydes running and sign-in again at <code>/signin</code>. Once signed in, click anywhere on the map to indicate a pickup location, then select the <strong>Request</strong> button to call your ride.</p>
 <p>You should be informed of your unicorn's arrival momentarily.</p>
-<h2 id="enable-api-gateway-authorization">Enable API Gateway authorization</h2>
+<h2 id="enable-api-gateway-authorization-with-cognito">Enable API Gateway authorization with Cognito</h2>
 <p>Amazon API Gateway can use the JSON Web tokens (JWT) returned by Cognito User Pools to authenticate API calls. In this step, you'll configure an authorizer for your API to use the user pool you created in module 1.</p>
 <p>Since Cognito User Pools implements <a href="https://openid.net/connect/" target="_blank">OpenID Connect</a> JSON web tokens, API Gateway is able to compare the signature of an access or identity token against the known public keys of the Cognito User Pool which allows verification and authentication to happen without having to write additional code in your application.</p>
 <p>In the Amazon API Gateway console, create a new Cognito user pool authorizer for your API. Configure it to use the user pool that you created in the previous module. You can test the configuration in the console by copying and pasting the identity token printed to the console after you log in via the <code>/signin</code> path of your current website. Once setup, you will change your application's code to send the proper JSON web token with its API requests to authenticate.</p>
@@ -858,11 +886,14 @@
 <p>The unicorn ride request should be fulfilled as before now. To see the full request headers which were sent, look at the developer console for an <em>API Request</em> informational message which includes the API Request details once expanded, including the full headers and body of the request.</p>
 <p><img alt="Cognito Authorizer Request Console Log" src="../images/cognito-authorizer-request-console-log.png" /></p>
 <p>If the API now invokes correctly and application functions as expected summoning unicorns, you may proceed to the next module.</p>
+<h2 id="end-of-module-2">End of Module 2</h2>
+<p>Once you have finished setting up the backend authorization please wait for the instructions from the presenter to move on to the next module (unless you're running this on your own).  If you've finished Module 2 early and to try out some alternative authorzation methods, feel free to run through the next few sections.</p>
 <hr />
-<h2 id="optional-api-gateway-iam-authorization">Optional: API Gateway IAM Authorization</h2>
+<h2 id="optional-api-gateway-authorization-with-aws-iam">Optional: API Gateway Authorization with AWS IAM</h2>
 <ul>
 <li><strong>Module 2 extension</strong> with <a href="../02-backend-auth-iam/">Fine-grained IAM-based authorization with API Gateway</a></li>
 </ul>
+<h2 id="optional-api-gateway-authorization-with-a-lambda-authorizor">Optional: API Gateway Authorization with a Lambda authorizor</h2>
                 
                   
                 
