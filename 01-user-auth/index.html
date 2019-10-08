@@ -445,22 +445,15 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#optional-customize-sign-up-workflow" title="Optional: Customize Sign-up Workflow" class="md-nav__link">
-    Optional: Customize Sign-up Workflow
+  <a href="#optional-pre-sign-up-validation" title="Optional: Pre sign-up validation" class="md-nav__link">
+    Optional: Pre sign-up validation
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#optional-custom-message-lambda" title="Optional: Custom Message Lambda" class="md-nav__link">
-    Optional: Custom Message Lambda
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#optional-pre-token-generation-lambda" title="Optional: Pre Token Generation Lambda" class="md-nav__link">
-    Optional: Pre Token Generation Lambda
+  <a href="#optional-customize-welcome-message" title="Optional: Customize welcome message" class="md-nav__link">
+    Optional: Customize welcome message
   </a>
   
 </li>
@@ -599,22 +592,15 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#optional-customize-sign-up-workflow" title="Optional: Customize Sign-up Workflow" class="md-nav__link">
-    Optional: Customize Sign-up Workflow
+  <a href="#optional-pre-sign-up-validation" title="Optional: Pre sign-up validation" class="md-nav__link">
+    Optional: Pre sign-up validation
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#optional-custom-message-lambda" title="Optional: Custom Message Lambda" class="md-nav__link">
-    Optional: Custom Message Lambda
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#optional-pre-token-generation-lambda" title="Optional: Pre Token Generation Lambda" class="md-nav__link">
-    Optional: Pre Token Generation Lambda
+  <a href="#optional-customize-welcome-message" title="Optional: Customize welcome message" class="md-nav__link">
+    Optional: Customize welcome message
   </a>
   
 </li>
@@ -675,6 +661,7 @@ The Cognito User Pool will store user profile information and provide sign-up an
 </li>
 <li>
 <p>Leave <strong>Username</strong> selected, but additionally select <strong>Also allow sign in with verified email address</strong> and <strong>Also allow sign in with verified phone number</strong>.</p>
+<p><img alt="User Pool Setup Step 2" src="../images/cognito-userpool-setup-step2.png" /></p>
 </li>
 <li>
 <p>Add a custom attribute for <strong>genre</strong> that is mutable.  This attribute is to give the Unicorn an idea of the riders favorite music genre</p>
@@ -686,7 +673,6 @@ The Cognito User Pool will store user profile information and provide sign-up an
 </li>
 <li>
 <p>Choose <strong>Next step</strong>.</p>
-<p><img alt="User Pool Setup Step 2" src="../images/cognito-userpool-setup-step2.png" /></p>
 </li>
 <li>
 <p>Leave password policies and user sign up settings set to default settings and choose <strong>Next step</strong>.</p>
@@ -986,14 +972,128 @@ The Cognito User Pool will store user profile information and provide sign-up an
 <p>Scroll down beyond the map to copy your user's identity token and decode it by pasting it into the 'encoded' input box at <a href="http://jwt.io" target="_blank">JWT.io</a>. You will see all of your user's attributes are encoded within the token, along with other standard attributes such as the time the token was issued, the time the token expires, the user's unique ID, and more.</p>
 </li>
 </ol>
-<p><strong>View user in User Pool</strong></p>
-<p>View user including device</p>
 <h2 id="end-of-module-1">End of Module 1</h2>
-<p>Once you have finished setting up the user authentication please wait for the instructions from the presenter to move on to the next module (unless you're running this on your own).  If you've finished Module 1 early and would like to further customize the user authentication, feel free to run through the next few sections.</p>
+<p>Once you have finished setting up the user authentication please wait for the instructions from the presenter to move on to the next module (unless you're running this on your own).  If you've finished Module 1 early and would like to further customize the user sign up experience, feel free to run through the next section below.</p>
 <hr />
-<h2 id="optional-customize-sign-up-workflow">Optional: Customize Sign-up Workflow</h2>
-<h2 id="optional-custom-message-lambda">Optional: Custom Message Lambda</h2>
-<h2 id="optional-pre-token-generation-lambda">Optional: Pre Token Generation Lambda</h2>
+<p>Your current configuration supports a fairly generic user sign-up and sign-in flow.  If you have unique requirments for customized flows, you can leverage the built Lambda triggers.  These will trigger AWS Lambda functions during user pool operation such as user sign-up, confirmation, and sign-in.  You add authentication challenges, migrate users, and customize verification messages.</p>
+<h2 id="optional-pre-sign-up-validation">Optional: Pre sign-up validation</h2>
+<p>Use the Lambda triggers to validate the email domain of the user to ensure it's a user from an approved domain prior to allowing them to sign-up.</p>
+<ol>
+<li>
+<p>In the AWS Management Console choose <strong>Services</strong> then select <strong>Lambda</strong> under Compute.</p>
+</li>
+<li>
+<p>Choose the <strong>serverless-idm-wksp-pre-sign-up</strong> function.</p>
+<div class="admonition info">
+<p class="admonition-title">The function was automatically created as part of the environment configuration CloudFormation template but is missing the application code.</p>
+</div>
+</li>
+<li>
+<p>Copy and paste the code below and save your function:</p>
+</li>
+</ol>
+<div class="codehilite"><pre><span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
+
+<span class="k">def</span> <span class="nf">lambda_handler</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
+
+    <span class="c1"># Log event</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
+
+    <span class="c1"># Set the user pool confirmation flags (you can user these to automatically confirm and a user and associated attributes)</span>
+    <span class="n">event</span><span class="p">[</span><span class="s1">&#39;response&#39;</span><span class="p">][</span><span class="s1">&#39;autoConfirmUser&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="n">event</span><span class="p">[</span><span class="s1">&#39;response&#39;</span><span class="p">][</span><span class="s1">&#39;autoVerifyEmail&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="n">event</span><span class="p">[</span><span class="s1">&#39;response&#39;</span><span class="p">][</span><span class="s1">&#39;autoVerifyPhone&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">False</span>
+
+    <span class="c1"># Set whitelisted domains</span>
+    <span class="n">domains</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;example.com&quot;</span><span class="p">]</span>
+
+    <span class="c1"># Split the email address so we can compare domains</span>
+    <span class="n">address</span> <span class="o">=</span> <span class="n">event</span><span class="p">[</span><span class="s1">&#39;request&#39;</span><span class="p">][</span><span class="s1">&#39;userAttributes&#39;</span><span class="p">][</span><span class="s1">&#39;email&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;@&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Validate the user is from a whitelisted domain&#39;</span>
+    <span class="k">if</span> <span class="n">address</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">in</span> <span class="n">domains</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Pre Sign Up validation succeeded for </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">event</span><span class="p">[</span><span class="s1">&#39;userName&#39;</span><span class="p">])</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Pre Sign Up validation failed for </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">event</span><span class="p">[</span><span class="s1">&#39;userName&#39;</span><span class="p">])</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Cannot sign up for the application with that email address.&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Return to Amazon Cognito</span>
+    <span class="k">return</span> <span class="n">event</span>
+</pre></div>
+
+
+<div class="admonition info">
+<p class="admonition-title">Be sure to replace the <em>example.com</em> domain with one of your choosing.</p>
+</div>
+<p>Now that your Lambda function is configured, you can configure the trigger within your Cognito User Pool.</p>
+<ol>
+<li>
+<p>In the AWS Management Console choose <strong>Services</strong> then select <strong>Cognito</strong>.</p>
+</li>
+<li>
+<p>Choose the <strong>WildRydes</strong> User Pool.</p>
+</li>
+<li>
+<p>Click <strong>Triggers</strong> on the left navigation.</p>
+</li>
+<li>
+<p>Under <strong>Pre sign-up</strong> choose <strong>serverless-idm-wksp-pre-sign-up</strong> and click <strong>Save Changes</strong>.</p>
+</li>
+</ol>
+<p>Now test out your pre validation logic by deleting the existing user in your User Pool (or create a new user) and ensure the function is triggering and properly validating the email address.  Feel free to play around with the logic to test out different validation scenarios. </p>
+<h2 id="optional-customize-welcome-message">Optional: Customize welcome message</h2>
+<p>Now leverage the <strong>Custom Message</strong> trigger to customize the welcome message.</p>
+<ol>
+<li>
+<p>In the AWS Management Console choose <strong>Services</strong> then select <strong>Lambda</strong> under Compute.</p>
+</li>
+<li>
+<p>Choose the <strong>serverless-idm-wksp-custom-message</strong> function.</p>
+<div class="admonition info">
+<p class="admonition-title">The function was automatically created as part of the environment configuration CloudFormation template but is missing the application code.</p>
+</div>
+</li>
+<li>
+<p>Copy and paste the code below and save your function:</p>
+</li>
+</ol>
+<div class="codehilite"><pre><span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
+
+<span class="k">def</span> <span class="nf">lambda_handler</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
+
+    <span class="c1"># Log event</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
+
+    <span class="c1"># This example uses a custom attribute &#39;custom:domain&#39;</span>
+    <span class="k">if</span> <span class="n">event</span><span class="p">[</span><span class="s1">&#39;triggerSource&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;CustomMessage_SignUp&quot;</span><span class="p">:</span>
+        <span class="n">event</span><span class="p">[</span><span class="s1">&#39;response&#39;</span><span class="p">][</span><span class="s1">&#39;smsMessage&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Bienvenido al servicio WildRydes. Su código de confirmación es </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">event</span><span class="p">[</span><span class="s1">&#39;request&#39;</span><span class="p">][</span><span class="s1">&#39;codeParameter&#39;</span><span class="p">]</span>
+        <span class="n">event</span><span class="p">[</span><span class="s1">&#39;response&#39;</span><span class="p">][</span><span class="s1">&#39;emailSubject&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Bienvenido a WildRydes!&#39;</span>
+        <span class="n">event</span><span class="p">[</span><span class="s1">&#39;response&#39;</span><span class="p">][</span><span class="s1">&#39;emailMessage&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Bienvenido al servicio WildRydes. Su código de confirmación es </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">event</span><span class="p">[</span><span class="s1">&#39;request&#39;</span><span class="p">][</span><span class="s1">&#39;codeParameter&#39;</span><span class="p">]</span>
+
+    <span class="c1"># Return to Amazon Cognito</span>
+    <span class="k">return</span> <span class="n">event</span>
+</pre></div>
+
+
+<div class="admonition question">
+<p class="admonition-title">Take note of the event TriggerSource.  When else will this Lambda function get triggered?</p>
+</div>
+<p>Now that your Lambda function is configured, you can configure the trigger within your Cognito User Pool.</p>
+<ol>
+<li>
+<p>In the AWS Management Console choose <strong>Services</strong> then select <strong>Cognito</strong>.</p>
+</li>
+<li>
+<p>Choose the <strong>WildRydes</strong> User Pool.</p>
+</li>
+<li>
+<p>Click <strong>Triggers</strong> on the left navigation.</p>
+</li>
+<li>
+<p>Under <strong>Custom Message</strong> choose <strong>serverless-idm-wksp-custom-message</strong> and click <strong>Save Changes</strong>.</p>
+</li>
+</ol>
+<p>Now follow the same steps as you previously did to test that the trigger is working as intended.</p>
                 
                   
                 
