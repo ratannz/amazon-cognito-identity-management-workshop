@@ -42,7 +42,7 @@
     
     
       
-        <title><i>Module 0</i>: Environment setup - AWS Identity: Using Cognito for serverless consumer apps</title>
+        <title>Module 0: Environment setup - AWS Identity: Using Cognito for serverless consumer apps</title>
       
     
     
@@ -160,7 +160,7 @@
                   AWS Identity: Using Cognito for serverless consumer apps
                 </span>
                 <span class="md-header-nav__topic">
-                  <i>Module 0</i>: Environment setup
+                  Module 0: Environment setup
                 </span>
               
             
@@ -373,11 +373,11 @@
     
     
       <label class="md-nav__link md-nav__link--active" for="__toc">
-        <i>Module 0</i>: Environment setup
+        Module 0: Environment setup
       </label>
     
-    <a href="./" title="<i>Module 0</i>: Environment setup" class="md-nav__link md-nav__link--active">
-      <i>Module 0</i>: Environment setup
+    <a href="./" title="Module 0: Environment setup" class="md-nav__link md-nav__link--active">
+      Module 0: Environment setup
     </a>
     
       
@@ -442,8 +442,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../01-user-auth/" title="<i>Module 1</i>: User signup and authentication" class="md-nav__link">
-      <i>Module 1</i>: User signup and authentication
+    <a href="../01-user-auth/" title="Module 1: Signup and authentication" class="md-nav__link">
+      Module 1: Signup and authentication
     </a>
   </li>
 
@@ -454,8 +454,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../02-backend-auth/" title="<i>Module 2</i>: Backend authorization with Amazon API Gateway" class="md-nav__link">
-      <i>Module 2</i>: Backend authorization with Amazon API Gateway
+    <a href="../02-backend-auth/" title="Module 2: Backend authorization" class="md-nav__link">
+      Module 2: Backend authorization
     </a>
   </li>
 
@@ -466,8 +466,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../03-iam-auth/" title="<i>Module 3</i>: Retrieving and using temporary AWS credentials" class="md-nav__link">
-      <i>Module 3</i>: Retrieving and using temporary AWS credentials
+    <a href="../03-iam-auth/" title="Module 3: Temporary AWS credentials" class="md-nav__link">
+      Module 3: Temporary AWS credentials
     </a>
   </li>
 
@@ -478,8 +478,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../04-clean-up/" title="<i>Module 4</i>: Clean up" class="md-nav__link">
-      <i>Module 4</i>: Clean up
+    <a href="../04-clean-up/" title="Module 4: Clean up" class="md-nav__link">
+      Module 4: Clean up
     </a>
   </li>
 
@@ -587,12 +587,14 @@
 <p>This section outlines the prerequisites to complete the workshop and instructions for launching a Cloud9 IDE environment that you will use throughout the workshop.</p>
 <h2 id="setup-your-cloud9-ide">Setup your Cloud9 IDE</h2>
 <p>To setup your environment please expand <strong>one</strong> of the following dropdown sections (depending on how you're doing this workshop) and follow the instructions: </p>
-<details class="info"><summary>Click here if you're at an <em>AWS event</em> where <em>Event Engine</em> is being used</summary><ol>
+<div class="admonition info">
+<p class="admonition-title">Click here if you're at an <em>AWS event</em> where <em>Event Engine</em> is being used</p>
+<ol>
 <li>Navigate to the <a href="https://dashboard.eventengine.run" target="_blank">Event Engine dashboard</a></li>
 <li>Enter the <strong>team hash</strong> code that was distributed to you by the instructors.</li>
 <li>Click <strong>AWS Console</strong>.  The CloudFormation template for this round has already been prerun.</li>
 </ol>
-</details>
+</div>
 <details class="info"><summary>Click here if you're running this individually in your own AWS Account</summary><p><strong>Cloud9 IDE Setup</strong></p>
 <p>In this section you will launch a CloudFormation stack that will create a a new <a href="https://aws.amazon.com/vpc/">Amazon VPC</a> environment and a <a href="https://aws.amazon.com/cloud9/">Cloud9 IDE</a> Instance that you will use for the rest of the workshop.</p>
 <table>
@@ -631,22 +633,20 @@
 <p>On the <strong>Options</strong> click <strong>Next</strong> (leave everything on this page as the default).</p>
 </li>
 <li>
-<p>On the Review page, review the summary details then click <strong>Create stack</strong>.</p>
+<p>On the Review page, review the summary details, click the checkbox to <strong>acknowledge IAM capabilities</strong>, and then click <strong>Create stack</strong>.</p>
 </li>
 </ol>
-<div class="admonition warning">
+<div class="admonition info">
 <p class="admonition-title">It will take a few minutes for the Stack to create.</p>
 <p>Choose the <strong>Stack Info</strong> tab to go to the overall stack status page and wait until the stack is fully launched and shows a status of <em>CREATE_COMPLETE</em>. Click the refresh icon periodically to see progress update.</p>
 </div>
 </details>
+<p>CloudFormation deploys a nested CloudFormation stack to launch the Cloud9 resources. You can safely ignore the template which is prefixed with <em>aws-cloud9-WildRydes-</em>.</p>
 <h2 id="browse-to-your-cloud9-ide">Browse to your Cloud9 IDE</h2>
 <p><a href="https://aws.amazon.com/cloud9/" target="_blank">AWS Cloud9</a> is a cloud-based integrated development environment (IDE) that lets you write, run, and debug your code with just a browser. It includes a code editor, debugger, and terminal. Cloud9 comes pre-packaged with essential tools for popular programming languages and the AWS Command Line Interface (CLI) pre-installed so you don’t need to install files or configure your laptop for this workshop. </p>
 <ol>
 <li>
 <p>With the <strong>serverless-idm-cloud9</strong> stack selected, click on the <strong>Outputs</strong> tab and copy the value shown for the <em>Cloud9IDE</em> to the clipboard. Browse to that URL in a new browser tab to load your IDE environment.</p>
-<div class="admonition info">
-<p class="admonition-title">When you launch the stack, CloudFormation deploys a nested CloudFormation stack to launch the Cloud9 resources. You can safely ignore that template which is prefixed with "aws-cloud9-WildRydes-".</p>
-</div>
 <p><img alt="CloudFormation Outputs open Cloud9" src="../images/cloud9_cfn_outputs.png" /></p>
 </li>
 </ol>
@@ -657,8 +657,9 @@
 </pre></div>
 
 
-<p>You should see output indicating your account and user information:</p>
-<div class="codehilite"><pre><span></span>{
+<p>You should see output, similar to the code below, indicating your account and user information:</p>
+<div class="codehilite"><pre><span></span>EXAMPLE OUTPUT - DO NOT COPY
+{
     &quot;Account&quot;: &quot;123456789012&quot;,
     &quot;UserId&quot;: &quot;AKIAI44QH8DHBEXAMPLE&quot;,
     &quot;Arn&quot;: &quot;arn:aws:iam::123456789012:user/Sasquatch&quot;
@@ -697,13 +698,15 @@ yarn install
 
 
 <div class="admonition info">
-<p class="admonition-title">Keep an open scratch pad open</p>
-<p>Keep an open scratch pad in Cloud9 or a text editor on your local computer for notes.  When the step-by-step directions tell you to note something such as an ID or Amazon Resource Name (ARN), copy and paste that into the scratch pad tab.</p>
+<p class="admonition-title">Keep a scratch pad for notes</p>
+<p>Keep a scratch pad in Cloud9 or a text editor on your local computer for notes.  When the step-by-step directions tell you to note something such as an ID or Amazon Resource Name (ARN), copy and paste that into the scratch pad tab.</p>
 </div>
+<p>Within Cloud9, click the <strong>+</strong> symbol and choose to create <strong>New File</strong>. You will use this new blank editor tab as a scratchpad for various resource names and variables.</p>
+<p><img alt="Cloud9 Create Scratchpad Tab" src="../images/cloud9-createscratchpadtab.png" /></p>
 <h2 id="run-the-website-locally">Run the website locally</h2>
 <ol>
 <li>
-<p>From your Cloud9 workspace, select the terminal window and when you are within your <strong>~/environment/amazon-cognito-identity-management-workshop/website</strong> directory, run the following command to start the local web server </p>
+<p>Run the following command to start the local web server </p>
 <p><code>yarn start</code></p>
 <div class="admonition info">
 <p class="admonition-title">Wait for the development server to start. You can ignore any message saying <em>Compiled with warnings</em> as we will resolve these warnings as we add our functionality to the application.</p>
@@ -759,13 +762,13 @@ yarn install
           </a>
         
         
-          <a href="../01-user-auth/" title="<i>Module 1</i>: User signup and authentication" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../01-user-auth/" title="Module 1: Signup and authentication" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
               <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                <i>Module 1</i>: User signup and authentication
+                Module 1: Signup and authentication
               </span>
             </div>
             <div class="md-flex__cell md-flex__cell--shrink">
