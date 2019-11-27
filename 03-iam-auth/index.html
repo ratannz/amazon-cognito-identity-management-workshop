@@ -462,6 +462,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#view-the-picture-attribute-in-user-pools" title="View the picture attribute in User Pools" class="md-nav__link">
+    View the picture attribute in User Pools
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#conclusion" title="Conclusion" class="md-nav__link">
     Conclusion
   </a>
@@ -571,6 +578,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#view-the-picture-attribute-in-user-pools" title="View the picture attribute in User Pools" class="md-nav__link">
+    View the picture attribute in User Pools
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#conclusion" title="Conclusion" class="md-nav__link">
     Conclusion
   </a>
@@ -628,10 +642,11 @@
 <p>Your final structure for the storage configuration of <strong>amplify-config.js</strong> should look like the following.</p>
 </li>
 </ol>
-<div class="codehilite"><pre><span></span>    Storage: {
-        bucket: &#39;wildrydes-profilepicturesbucket-1rmvuic97osxd&#39;,
-        region: &#39;us-east-1&#39;
-    }
+<div class="codehilite"><pre><span></span>EXAMPLE OUTPUT - DO NOT COPY
+Storage: {
+    bucket: &#39;wildrydes-profilepicturesbucket-1rmvuic97osxd&#39;,
+    region: &#39;us-east-2&#39;
+}
 </pre></div>
 
 
@@ -742,7 +757,7 @@
 <p>Open your Cloud9 IDE environment and open the file at <strong>/website/src/pages/Profile.js</strong>.</p>
 </li>
 <li>
-<p><strong>Uncomment</strong> the line that says <strong>S3Image</strong>.  It should end up looking like the following: </p>
+<p><strong>Uncomment</strong> the line that says <strong>S3Image</strong> (remove /* */).  It should end up looking like the following: </p>
 <p><code>{ &lt;S3Image imgKey={this.state.image_key} onLoad={(url) =&gt; this.onImageLoad(url)} picker/&gt; }</code></p>
 <p>This instantiates an Amplify UI component for React apps for image rendering and uploading and only requires this single line of code.</p>
 </li>
@@ -780,6 +795,22 @@
 
 
 <p>Now with this new method in place, upload a new photo after logging into Wild Rydes then close your browser. Open a new window and try logging in again. Your photo should load as it did previously.</p>
+<h2 id="view-the-picture-attribute-in-user-pools">View the picture attribute in User Pools</h2>
+<p>Lastly, you can view your user profile in User Pools to ensure the picture attribute has been set.</p>
+<ol>
+<li>
+<p>Open the <a href="https://console.aws.amazon.com/cognito/home?" target="_blank">Amazon Cognito</a> console.</p>
+</li>
+<li>
+<p>Click on the <strong>WildRydes</strong> User Pool.</p>
+</li>
+<li>
+<p>Click <strong>Users and groups</strong>.</p>
+</li>
+<li>
+<p>Click on your user and view the attributes.</p>
+</li>
+</ol>
 <h2 id="conclusion">Conclusion</h2>
 <p>Congratulations! You've completed the Wild Rydes Auth workshop. We hope that this time and interactive learning has been valuable for you. This workshop was an adaptation of an existing workshop located in the aws-serverless-workshops <a href="https://github.com/aws-samples/aws-serverless-workshops" target="_blank">repo</a>.</p>
 <p>Please proceed to the next module to run through the clean up steps to ensure you decommission all resources spun up during the workshop today.</p>

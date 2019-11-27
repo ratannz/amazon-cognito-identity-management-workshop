@@ -695,7 +695,7 @@ The Cognito User Pool will store user profile information and provide sign-up an
 <p><img alt="User Pool Setup Step 5" src="../images/cognito-userpool-setup-step5.png" /></p>
 </li>
 <li>
-<p>In the next screen, click the <strong>Add an app client</strong> <em>link</em>.</p>
+<p><strong>App clients</strong>: In the next screen, click the <strong>Add an app client</strong> <em>link</em>.</p>
 </li>
 <li>
 <p>Input <strong>wildrydes-web-app</strong> as the app client name.</p>
@@ -750,7 +750,7 @@ The Cognito User Pool will store user profile information and provide sign-up an
 <p>Expand <strong>Authentication providers</strong>.</p>
 </li>
 <li>
-<p>Within the Cognito tab, input the User Pool ID and App client Id you copied previously to the scratchpad tab.</p>
+<p>Within the Cognito tab, input the <strong>User Pool ID</strong> and <strong>App client ID</strong> you copied previously to the scratchpad tab.</p>
 <p><img alt="Identity Pool Setup Step 1" src="../images/cognito-identitypool-setup-step1.png" /></p>
 </li>
 <li>
@@ -760,7 +760,7 @@ The Cognito User Pool will store user profile information and provide sign-up an
 <p>Choose <strong>Allow</strong> to allow Cognito Identity Pools to setup IAM roles for your application's users. Permissions and settings of these roles can be customized later.</p>
 </li>
 <li>
-<p>Copy/paste the <strong>Identity Pool ID</strong>, highlighted in red within the code sample in the Get AWS Credentials section, into your Cloud9 scatchpad editor tab.</p>
+<p>Copy the <strong>Identity Pool ID</strong>, highlighted in red within the code sample in the Get AWS Credentials section, into your Cloud9 scatchpad editor tab.</p>
 <div class="admonition warning">
 <p class="admonition-title">Do not copy the quotation marks, but include the region code and ":" character.</p>
 </div>
@@ -941,7 +941,7 @@ The Cognito User Pool will store user profile information and provide sign-up an
 <p>Input the following: </p>
 <ul>
 <li><strong>e-mail address</strong> (needs to be a valid email address since you'll need to verify your account), </li>
-<li><strong>phone number</strong> with <code>+country_code</code> first preceeding the number (use a sample email address such as <code>+1234567890</code>)</li>
+<li><strong>phone number</strong> with <code>+country_code</code> first preceeding the number (use a sample phone number such as <code>+12345550100</code>)</li>
 <li><strong>favorite genre</strong> (e.g. <code>jazz</code>, <code>blues</code>, <code>classical</code>, etc.)</li>
 <li><strong>password</strong> twice (Your password must include 8 characters, including uppercase and lowercase characters, and at least 1 number and 1 special character.)</li>
 </ul>
@@ -1076,7 +1076,7 @@ The Cognito User Pool will store user profile information and provide sign-up an
 <p>Now that your Lambda function is configured, you can configure the trigger within your Cognito User Pool.</p>
 <ol>
 <li>
-<p>In the AWS Management Console choose <strong>Services</strong> then select <strong>Cognito</strong>.</p>
+<p>Open the <a href="https://console.aws.amazon.com/cognito/home?" target="_blank">Amazon Cognito</a> console.</p>
 </li>
 <li>
 <p>Choose the <strong>WildRydes</strong> User Pool.</p>
@@ -1089,9 +1089,6 @@ The Cognito User Pool will store user profile information and provide sign-up an
 </li>
 </ol>
 <p>Now follow the same steps as you previously did to test that the trigger is working as intended.</p>
-<div class="admonition info">
-<p class="admonition-title">Expect a small delay for the confirmation email.</p>
-</div>
                 
                   
                 
