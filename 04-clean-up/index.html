@@ -632,22 +632,30 @@
 <p>Before you delete the backend stack, you will need to remove the IAM Policy that you manually attached to the <strong>Auth</strong> role. </p>
 <ol>
 <li>
-<p>Navigate to the Identity and Access Management (IAM) Console and search for the <strong>Auth</strong> role and click into it.</p>
+<p>Open the <a href="https://console.aws.amazon.com/iam/home?" target="_blank">AWS IAM</a> console.</p>
+</li>
+<li>
+<p>Search for the <strong>Auth</strong> role and click into it.</p>
 <p><img alt="Find Auth Role" src="../images/iam-cleanup-findAuthRole.png" /></p>
 </li>
 <li>
 <p>On the Role Summary page, find the policy named <strong>WildRydesAPI-StandardUserPolicy</strong> in the Permissions tab. Once you locate the policy, click the <strong>X</strong> to remove this policy from the IAM Role. A popup window will ask you to confirm that you want to remove it - click the red <strong>Detach</strong> button.</p>
 </li>
 </ol>
+<div class="admonition info">
+<p class="admonition-title">Cognito Identity Pool Roles</p>
+<p>If you don't need the Identity Pool Roles for a different Pool you can delete the following roles:</p>
+<ul>
+<li><strong>Cognito_wildrydes_identity_poolUnauth_Role</strong></li>
+<li><strong>Cognito_wildrydes_identity_poolAuth_Role</strong></li>
+</ul>
+</div>
 <h2 id="remove-wildrydes-backend">Remove WildRydes Backend</h2>
 <p>Next, you will need to remove the <em>CloudFormation stack</em> for the API. This stack should be named <strong>serverless-idm-backend</strong>. Once again, from the your terminal window, run:</p>
 <div class="codehilite"><pre><span></span>aws cloudformation delete-stack --stack-name serverless-idm-backend
 </pre></div>
 
 
-<div class="admonition tip">
-<p class="admonition-title">If you changed the name of your stack from the default, you will need to update the stack name to what you changed it to.  If you clicked the quick link in the instructions, no adjustment to the above command is needed. You can run <code>aws cloudformation describe-stacks</code> to find the your stack name.</p>
-</div>
 <h2 id="remove-cloud9-and-vpc-stack">Remove Cloud9 and VPC Stack</h2>
 <ol>
 <li>Lastly, you will need to remove the <em>CloudFormation Stack</em> for the <strong>Cloud9 instance</strong> and the its VPC. This stack should be named <strong>serverless-idm-cloud9</strong>. Deleting this stack will <strong>shut down and permanently delete your Cloud9 environment</strong> and all code or projects within so be sure you want to proceed before executing this command.</li>
@@ -656,9 +664,6 @@
 </pre></div>
 
 
-<div class="admonition tip">
-<p class="admonition-title">If you changed the name of your stack from the default, you will need to update the stack name to what you changed it to.  If you clicked the quick link in the instructions, no adjustment to the command above is needed.  You can run <code>aws cloudformation describe-stacks</code> to find your stack name.</p>
-</div>
 <h2 id="finished">Finished!</h2>
 <p>Congratulations on completing this workshop! This is the workshop's permanent home, so feel free to revisit as often as you'd like.</p>
                 
