@@ -849,7 +849,7 @@ API: {
 <li>
 <p>You should receive an <em>Error finding unicorn</em>. If you open the developer console, you will see that we received a HTTP 401 error, which means it was an unauthorized request. To authenticate our requests properly, we need to send an Authorization header.</p>
 <div class="admonition tip">
-<p class="admonition-title">If you at first still that you requests go through without any errors, try requesting a ride again in 30-60 seconds to allow the API Gateway changes to fully propagate.</p>
+<p class="admonition-title">If at first your requests go through without any errors, try requesting a ride again in 30-60 seconds to allow the API Gateway changes to fully propagate.</p>
 </div>
 </li>
 <li>
@@ -941,14 +941,14 @@ API: {
 <p>Choose <strong>Attach policies</strong>.</p>
 </li>
 <li>
-<p>Search for <strong>WildRydes</strong> and check the box next to the policy named <em>WildRydesAPI-StandardUserAccess</em>.</p>
+<p>Search for <strong>WildRydes</strong> and check the box next to the policy named <em>WildRydesAPI-StandardUserPolicy</em>.</p>
 <p><img alt="Attach API Gateway IAM Policy" src="../images/iam-cognito-authrole-attach-apigateway-policy.png" /></p>
 </li>
 <li>
 <p>Choose <strong>Attach policy</strong>.</p>
 </li>
 <li>
-<p>You should now see the <em>WildRydesAPI-StandardUserAccess</em> policy associated with your Cognito IAM auth role.</p>
+<p>You should now see the <em>WildRydesAPI-StandardUserPolicy</em> policy associated with your Cognito IAM auth role.</p>
 <p><img alt="Permissions after adding IAM policy" src="../images/iam-cognito-authrole-permissions-after-policy-update.png" /></p>
 </li>
 </ol>
