@@ -668,9 +668,13 @@
 </ol>
 <h2 id="integrate-your-api">Integrate your API</h2>
 <p>Now that you have created our Serverless API, you need to update your Wild Rydes web application to integrate with it. You will leverage the AWS Amplify client library to make API calls and inject security seamlessly to support your authentication and authorization scenarios.</p>
-<p>First, you need to update the <strong>/website/src/amplify-config.js</strong> file to include your new API Gateway endpoint. Store the endpoint including the /prod at the end in the endpoint property under the <strong>WildRydesAPI</strong> section.</p>
-<div class="admonition tip">
-<p class="admonition-title">Do not change the name <code>WildRydesAPI</code> in this configuration file.</p>
+<p>First, you need to update the <strong>/website/src/amplify-config.js</strong> file to include the following:</p>
+<ul>
+<li><strong>endpoint:</strong> Your new API Gateway endpoint.</li>
+<li><strong>region:</strong> Your region.</li>
+</ul>
+<div class="admonition warning">
+<p class="admonition-title">Do NOT change the name <code>WildRydesAPI</code>.</p>
 </div>
 <div class="codehilite"><pre><span></span>API: {
     endpoints: [
@@ -714,7 +718,14 @@
 
 <h2 id="validate-api-functionality-and-integration">Validate API functionality and integration</h2>
 <p>Now that you've integrated code changes to call your new Serverless API, you should test the end-to-end user experience to ensure the application is working correctly. The API currently requires no authentication so any request will currently be accepted until we enable required authentication.</p>
-<p>Go back to your browser tab with Wild Rydes running and sign-in again at <code>/signin</code>. Once signed in, click anywhere on the map to indicate a pickup location, then select the <strong>Request</strong> button to call your ride.</p>
+<ol>
+<li>Go back to the home page of the Wild Rydes application.</li>
+<li>
+<p>Click on <strong>Giddy up</strong> to sign in.</p>
+<p><img alt="Giddy up!" src="../images/giddy-up.png" />
+3. Once signed in, click anywhere on the map to indicate a pickup location, then select the <strong>Request</strong> button to call your ride.</p>
+</li>
+</ol>
 <p>You should be informed of your unicorn's arrival momentarily.</p>
 <h2 id="enable-api-gateway-authorization-with-cognito">Enable API Gateway authorization with Cognito</h2>
 <p>Amazon API Gateway can use the JSON Web tokens (JWT) returned by Cognito User Pools to authenticate API calls. In this step, you'll configure an authorizer for your API to use the user pool you created in module 1.</p>
@@ -722,7 +733,7 @@
 <p>In the Amazon API Gateway console, create a new Cognito user pool authorizer for your API. Configure it to use the user pool that you created in the previous module. You can test the configuration in the console by copying and pasting the identity token printed to the console after you log in via the <code>/signin</code> path of your current website. Once setup, you will change your application's code to send the proper JSON web token with its API requests to authenticate.</p>
 <ol>
 <li>
-<p>In the AWS Management Console choose <strong>Services</strong> then select <strong>API Gateway</strong> under Networking and Content Delivery.</p>
+<p>Open the <a href="https://console.aws.amazon.com/apigateway/home?" target="_blank">Amazon API Gateway</a> console.</p>
 </li>
 <li>
 <p>Choose the API named <strong>WildRydes</strong>.</p>
@@ -735,7 +746,7 @@
 <p>Chose <strong>Create New Authorizer</strong>.</p>
 </li>
 <li>
-<p>Enter <code>WildRydes</code> for the Authorizer name.</p>
+<p>Enter <strong>WildRydes</strong> for the Authorizer name.</p>
 </li>
 <li>
 <p>Select <strong>Cognito</strong> for the type.</p>
@@ -744,13 +755,13 @@
 <p>In the Region drop-down under <strong>Cognito User Pool</strong>, select the Region where you created your Cognito user pool in the last module (by default the current region should be selected).</p>
 </li>
 <li>
-<p>Enter <code>WildRydes</code> (or the name you gave your user pool) in the <strong>Cognito User Pool</strong> input.</p>
+<p>Select <strong>WildRydes</strong> (or the name you gave your user pool) from the dropdown for the <strong>Cognito User Pool</strong> input.</p>
 </li>
 <li>
-<p>Enter <code>Authorization</code> for the <strong>Token Source</strong>.</p>
+<p>Enter <strong>Authorization</strong> for the <strong>Token Source</strong>.</p>
 </li>
 <li>
-<p>Leave <em>Token Validation</em> <strong>blank</strong> without editing.</p>
+<p>Leave <em>Token Validation</em> blank without editing.</p>
 </li>
 <li>
 <p>Choose <strong>Create</strong>.</p>
@@ -760,7 +771,10 @@
 <p><strong>Verify your authorizer configuration</strong></p>
 <ol>
 <li>
-<p>In a different browser tab, return to your Wild Rydes application and  sign-in if you're not already signed in. After signing in, you should be redirected to <em>/app</em>. Open your <a href="https://support.airtable.com/hc/en-us/articles/232313848-How-to-open-the-developer-console">browser's developer console</a> and browse to the console log output section.</p>
+<p>In a different browser tab, return to your Wild Rydes application and  sign-in if you're not already signed in. After signing in, you should be redirected to <em>/app</em>. </p>
+</li>
+<li>
+<p>Open your <a href="https://support.airtable.com/hc/en-us/articles/232313848-How-to-open-the-developer-console" target="_blank">browser's developer console</a> and browse to the console log output section.</p>
 </li>
 <li>
 <p>Look for the console log to say <strong>Cognito User Identity Token:</strong> and a long string beneath the message.</p>
@@ -799,21 +813,19 @@
 <p><img alt="Method Request Selection" src="../images/apigateway-method-request-settings.png" /></p>
 </li>
 <li>
-<p>Choose the pencil icon next to <code>Authorization</code> to edit the setting.</p>
+<p>Choose the pencil icon next to <strong>Authorization</strong> to edit the setting.</p>
 </li>
 <li>
 <p>Select your new Cognito Authorizer from the list of options presented.</p>
 <div class="admonition tip">
 <p class="admonition-title">If you don't see this option listed, <strong>Reload</strong> the browser page then this authorizer option should appear in the drop-down list.</p>
 </div>
-</li>
-</ol>
 <p><img alt="API Gateway Authorizer Selection" src="../images/apigateway-authorizer-cognito-selection.png" /></p>
-<ol>
-<li><strong>Save</strong> your selection by clicking the checkmark icon next to the drop down.</li>
-</ol>
+</li>
+<li>
+<p><strong>Save</strong> your selection by clicking the checkmark icon next to the drop down.</p>
 <p><img alt="API Gateway Authorizer Confirmation" src="../images/apigateway-authorizer-cognito-confirmation.png" /></p>
-<ol>
+</li>
 <li>
 <p>Next, choose the <strong>Actions</strong> button at the top of the resources list.</p>
 </li>
@@ -821,7 +833,7 @@
 <p>Choose <strong>Deploy API</strong> from the list of options presented.</p>
 </li>
 <li>
-<p>For deployment stage, select <code>prod</code> then click <strong>Deploy</strong>.</p>
+<p>For deployment stage, select <strong>prod</strong> then click <strong>Deploy</strong>.</p>
 </li>
 <li>
 <p>You've now successfully deployed your new authentication integration to your API's production environment.</p>
@@ -873,8 +885,10 @@
 <p><img alt="Cognito Authorizer Request Console Log" src="../images/cognito-authorizer-request-console-log.png" /></p>
 <p>If the API now invokes correctly and application functions as expected summoning unicorns, you may proceed to the next module.</p>
 <h2 id="end-of-module-2">End of Module 2</h2>
-<p>Once you have finished setting up the backend authorization please wait for the instructions from the presenter to move on to the next module (unless you're running this on your own).  If you've finished Module 2 early and to try out some alternative authorzation methods, feel free to run through the next few sections.</p>
+<p>Once you have finished setting up the backend authorization please wait for the instructions from the presenter to move on to the next module (unless you're running this on your own).  </p>
+<p><img alt="STOP" src="../images/stop.png" /></p>
 <hr />
+<p>If you've finished Module 2 early and to try out some alternative authorzation methods, feel free to run through the next few sections.</p>
 <p>In this optional extension, you will update your serverless backend for your Wild Rydes application leveraging Amazon API Gateway and AWS Lambda to use request signing with IAM-based authorization as a more secure authentication option.</p>
 <h2 id="optional-api-gateway-authorization-with-aws-iam">Optional: API Gateway Authorization with AWS IAM</h2>
 <p>This section updates your Serverless backend built earlier using Amazon API Gateway and AWS Lambda to use IAM-based authorization. This extends your authorization capability to offer fine-grained access control authorizing differently per API operation and enhancing security via request signing. By enabling IAM-based authorization, you will use the same type of authentication, authorization, and request signing used by all AWS services and SDKs.</p>
@@ -887,7 +901,7 @@
 <p>For you to be able to use request signing and IAM-based fine-grained access control, we'll first need to associate an IAM policy that provides permissions to invoke API operations for your API Gateway deployment. For further details, you can review <a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/permissions.html" target="_blank">controlling access to an API with IAM permissions</a> documentation.</p>
 <ol>
 <li>
-<p>Go the AWS Management Console, click <strong>Services</strong> then select <strong>IAM</strong> under Security, Identity, and Compliance.</p>
+<p>Open the <a href="https://console.aws.amazon.com/iam/home?" target="_blank">AWS IAM</a> console.</p>
 </li>
 <li>
 <p>Choose <strong>Policies</strong>.</p>
@@ -910,7 +924,7 @@
 <p>Choose <strong>Roles</strong>.</p>
 </li>
 <li>
-<p>Search for <em>WildRydes</em> to find the two roles which were created by Cognito Identity Pools when you created the Identity Pool in module one. </p>
+<p>Search for <strong>WildRydes</strong> to find the two roles which were created by Cognito Identity Pools when you created the Identity Pool in module one. </p>
 <div class="admonition info">
 <p class="admonition-title">Should you not be able to find the roles here, you can alternatively go to the <strong>Cognito Federated Identities</strong> console, find the correct identity pool, then click <strong>Edit Identity Pool</strong> in the top-right corner to see the roles listed. Each identity pool has both an Unauthenticated user role and an Authenticated user role.</p>
 </div>
@@ -926,7 +940,7 @@
 <p>Choose <strong>Attach policies</strong>.</p>
 </li>
 <li>
-<p>Search for <code>WildRydes</code> and check the box next to the policy named <em>WildRydesAPI-StandardUserAccess</em>.</p>
+<p>Search for <strong>WildRydes</strong> and check the box next to the policy named <em>WildRydesAPI-StandardUserAccess</em>.</p>
 <p><img alt="Attach API Gateway IAM Policy" src="../images/iam-cognito-authrole-attach-apigateway-policy.png" /></p>
 </li>
 <li>
@@ -942,7 +956,7 @@
 <p>In the Amazon API Gateway console, update the authorization type to <em>AWS_IAM</em> for the <em>POST</em> method on the <em>/ride</em> resource. Next, re-deploy the API to make your change take effect.</p>
 <ol>
 <li>
-<p>In the AWS Management Console choose <strong>Services</strong> then select <strong>API Gateway</strong> under Networking and Content Delivery.</p>
+<p>Open the <a href="https://console.aws.amazon.com/apigateway/home?" target="_blank">Amazon API Gateway</a> console.</p>
 </li>
 <li>
 <p>Choose the API named <strong>WildRydes</strong>.</p>
@@ -977,7 +991,7 @@
 <p>Choose <strong>Deploy API</strong> from the list of options presented.</p>
 </li>
 <li>
-<p>For deployment stage, select <code>prod</code> then click <strong>Deploy</strong>.</p>
+<p>For deployment stage, select <strong>prod</strong> then click <strong>Deploy</strong>.</p>
 </li>
 <li>
 <p>You've now successfully deployed your new authentication integration to your API's production environment.</p>
@@ -990,7 +1004,7 @@
 <p>Return to your Wild Rydes app, sign in at <em>/signin</em> if necessary, and attempt to request a ride.</p>
 </li>
 <li>
-<p>You should receive an <em>Error finding unicorn</em>. If you open the developer console, you will see that we received a HTTP 401 error, which means it was an unauthorized request.</p>
+<p>You should receive an <em>Error finding unicorn</em>. If you open the developer console, you will see that we received a HTTP 403 error, which means it was an forbidden request.</p>
 <div class="admonition tip">
 <p class="admonition-title">If at first your requests go through without any errors, try requesting a ride again in 30-60 seconds to allow time for the API Gateway changes to fully propagate.</p>
 </div>
@@ -999,7 +1013,13 @@
 <p>Go back to Cloud9 and open the <strong>/website/src/pages/MainApp.js</strong> files.</p>
 </li>
 <li>
-<p>Update your current <em>getData</em> method to the following method, which removes the <em>Authorization</em> header and adds debugging information to show us the request signature as requests are sent. The default behavior of the AWS Amplify library is the sign all requests with SigV4 signing when no authorization header is specified, so this will automatically sign all requests using this algorithm without extra development effort. <strong>Save your changes</strong> after making this update.</p>
+<p>Update your current <em>getData</em> method to the following method, which removes the <em>Authorization</em> header and adds debugging information to show us the request signature as requests are sent. </p>
+<div class="admonition info">
+<p class="admonition-title">The default behavior of the AWS Amplify library is the sign all requests with SigV4 signing when no authorization header is specified, so this will automatically sign all requests using this algorithm without extra development effort.</p>
+</div>
+</li>
+<li>
+<p><strong>Save your changes</strong> after making this update.</p>
 </li>
 </ol>
 <div class="codehilite"><pre><span></span>    <span class="nx">async</span> <span class="nx">getData</span><span class="p">(</span><span class="nx">pin</span><span class="p">)</span> <span class="p">{</span>
