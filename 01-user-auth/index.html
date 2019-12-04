@@ -458,6 +458,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#optional-customize-the-claims-in-the-id-token" title="Optional: Customize the claims in the ID Token" class="md-nav__link">
+    Optional: Customize the claims in the ID Token
+  </a>
+  
+</li>
+      
       
       
       
@@ -601,6 +608,13 @@
         <li class="md-nav__item">
   <a href="#optional-customize-welcome-message" title="Optional: Customize welcome message" class="md-nav__link">
     Optional: Customize welcome message
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#optional-customize-the-claims-in-the-id-token" title="Optional: Customize the claims in the ID Token" class="md-nav__link">
+    Optional: Customize the claims in the ID Token
   </a>
   
 </li>
@@ -1086,7 +1100,65 @@
 <p>Under <strong>Custom Message</strong> choose <strong>serverless-idm-wksp-custom-message</strong> and click <strong>Save Changes</strong>.</p>
 </li>
 </ol>
-<p>Now follow the same steps as you previously did to test that the trigger is working as intended.</p>
+<h2 id="optional-customize-the-claims-in-the-id-token">Optional: Customize the claims in the ID Token</h2>
+<p>Now leverage the <strong>pre token generation</strong> trigger to customize the claims in the ID token before it is issued.</p>
+<ol>
+<li>
+<p>Open the <a href="https://console.aws.amazon.com/lambda/home?" target="_blank">AWS Lambda</a> console.</p>
+</li>
+<li>
+<p>Choose the <strong>serverless-idm-wksp-pre-token-gen</strong> function.</p>
+<div class="admonition info">
+<p class="admonition-title">The function was automatically created as part of the environment configuration CloudFormation template but is missing the application code.</p>
+</div>
+</li>
+<li>
+<p>Copy and paste the code below and save your function:</p>
+</li>
+</ol>
+<div class="codehilite"><pre><span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
+
+<span class="k">def</span> <span class="nf">lambda_handler</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
+
+    <span class="c1"># Log event</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
+
+    <span class="c1"># Customize the token</span>
+    <span class="k">if</span> <span class="n">event</span><span class="p">[</span><span class="s1">&#39;triggerSource&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;TokenGeneration_Authentication&#39;</span><span class="p">:</span>
+        <span class="n">event</span><span class="p">[</span><span class="s1">&#39;response&#39;</span><span class="p">][</span><span class="s1">&#39;claimsOverrideDetails&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="c1"># Suppress the phone number claims</span>
+            <span class="s1">&#39;claimsToSuppress&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;phone_number&#39;</span><span class="p">,</span> <span class="s1">&#39;phone_number_verified&#39;</span><span class="p">],</span>
+            <span class="c1"># Add a rewards claim</span>
+            <span class="s1">&#39;claimsToAddOrOverride&#39;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;rewards&quot;</span><span class="p">:</span> <span class="s2">&quot;platinum&quot;</span>
+            <span class="p">},</span>
+        <span class="p">}</span>
+
+    <span class="c1"># Return to Amazon Cognito</span>
+
+    <span class="k">return</span> <span class="n">event</span>
+</pre></div>
+
+
+<div class="admonition question">
+<p class="admonition-title">Take note of the event TriggerSource.  When else will this Lambda function get triggered?</p>
+</div>
+<p>Now that your Lambda function is configured, you can configure the trigger within your Cognito User Pool.</p>
+<ol>
+<li>
+<p>Open the <a href="https://console.aws.amazon.com/cognito/home?" target="_blank">Amazon Cognito</a> console.</p>
+</li>
+<li>
+<p>Choose the <strong>WildRydes</strong> User Pool.</p>
+</li>
+<li>
+<p>Click <strong>Triggers</strong> on the left navigation.</p>
+</li>
+<li>
+<p>Under <strong>Pre Token Generation</strong> choose <strong>serverless-idm-wksp-pre-token-gen</strong> and click <strong>Save Changes</strong>.</p>
+</li>
+</ol>
+<p>Now you can authenticate to the application again, copy the ID token, and paste it into <a href="http://jwt.io" target="_blank">JWT.io</a> to verify that the claims have been dynamically updated.</p>
 <p><img alt="STOP" src="../images/stop.png" /></p>
                 
                   
