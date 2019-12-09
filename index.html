@@ -428,8 +428,8 @@
 
 
   <li class="md-nav__item">
-    <a href="01-user-auth/" title="Module 1: Sign-up and sign-in" class="md-nav__link">
-      Module 1: Sign-up and sign-in
+    <a href="01-user-auth/" title="Module 1: User flows" class="md-nav__link">
+      Module 1: User flows
     </a>
   </li>
 
@@ -568,14 +568,14 @@
 <p>The microservices application you'll be building enables users to request unicorn rides from the Wild Rydes fleet. The application will present users with a user interface for signing-up, signing-in, indicating their location to request a ride, and managing their rider profile.</p>
 <p>The application architecture demonstrates end-to-end authentication and authorization patterns through the use of <strong>Amazon Cognito</strong>, <strong>Amazon API Gateway</strong>, <strong>AWS Lambda</strong>, and <strong>AWS IAM</strong>. A single page <a href="https://reactjs.org/" target="_blank">React JS</a> web app hosts the HTML, CSS, and JavaScript to render the front-end which then connects to a public serverless backend API built using Amazon API Gateway and AWS Lambda. Amazon Cognito provides user identity management and authentication functions to secure the backend API. Finally, DynamoDB provides a persistence layer where data is stored and retrieved via the API's Lambda function.</p>
 <p>See the diagram below for a depiction of the complete architecture.</p>
-<p><img alt="Wild Rydes Web Application Architecture" src="images/wildrydes-complete-architecture.png" /></p>
+<p><img alt="Wild Rydes Web Application Architecture" src="images/wildrydes-complete-architecture2.png" /></p>
 <h2 id="presentation-deck">Presentation deck</h2>
 <p><a href="./images/SEC403.pdf" target="_blank">Workshop Presentation Deck</a></p>
 <h2 id="modules">Modules</h2>
 <p>This workshop is split into multiple modules. Each module builds upon the previous module as you expand the Wild Rydes application. You must complete each module before proceeding to the next.</p>
 <ol>
 <li>
-<p><strong>User sign-up and sign-in</strong> - In this module, you will create a Cognito User Pool for identity management and user authentication and will integrate it with a pre-existing WildRydes React JS Web Application. You will also configure Cognito Identity Pools, which provides the ability to assume an Identity and Access Management (IAM) role from within an application.</p>
+<p><strong>User flows</strong> - In this module, you will create a Cognito User Pool for identity management and user authentication and will integrate it with a pre-existing WildRydes React JS Web Application. You will also configure Cognito Identity Pools, which provides the ability to assume an Identity and Access Management (IAM) role from within an application.</p>
 </li>
 <li>
 <p><strong>Backend authorization with Amazon API Gatway</strong> - In this module, you will add a serverless backend to our Wild Rydes application leveraging API Gateway and Lambda. You will then enable authentication and authorization on your API to secure the backend to only accept valid, authorized requests.</p>

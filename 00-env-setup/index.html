@@ -391,15 +391,22 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#setup-your-cloud9-ide" title="Setup your Cloud9 IDE" class="md-nav__link">
-    Setup your Cloud9 IDE
+  <a href="#setup-your-aws-cloud9-ide" title="Setup your AWS Cloud9 IDE" class="md-nav__link">
+    Setup your AWS Cloud9 IDE
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#browse-to-your-cloud9-ide" title="Browse to your Cloud9 IDE" class="md-nav__link">
-    Browse to your Cloud9 IDE
+  <a href="#browse-to-your-aws-cloud9-ide" title="Browse to your AWS Cloud9 IDE" class="md-nav__link">
+    Browse to your AWS Cloud9 IDE
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#create-a-scratch-pad" title="Create a scratch pad" class="md-nav__link">
+    Create a scratch pad
   </a>
   
 </li>
@@ -442,8 +449,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../01-user-auth/" title="Module 1: Sign-up and sign-in" class="md-nav__link">
-      Module 1: Sign-up and sign-in
+    <a href="../01-user-auth/" title="Module 1: User flows" class="md-nav__link">
+      Module 1: User flows
     </a>
   </li>
 
@@ -529,15 +536,22 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#setup-your-cloud9-ide" title="Setup your Cloud9 IDE" class="md-nav__link">
-    Setup your Cloud9 IDE
+  <a href="#setup-your-aws-cloud9-ide" title="Setup your AWS Cloud9 IDE" class="md-nav__link">
+    Setup your AWS Cloud9 IDE
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#browse-to-your-cloud9-ide" title="Browse to your Cloud9 IDE" class="md-nav__link">
-    Browse to your Cloud9 IDE
+  <a href="#browse-to-your-aws-cloud9-ide" title="Browse to your AWS Cloud9 IDE" class="md-nav__link">
+    Browse to your AWS Cloud9 IDE
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#create-a-scratch-pad" title="Create a scratch pad" class="md-nav__link">
+    Create a scratch pad
   </a>
   
 </li>
@@ -584,18 +598,16 @@
                 
                 <h1 id="module-0-environment-setup">Module 0 <small>Environment setup</small></h1>
 <p><strong>Time</strong>: 10 minutes</p>
-<p>This section outlines the prerequisites to complete the workshop and instructions for launching a Cloud9 IDE environment that you will use throughout the workshop.</p>
-<h2 id="setup-your-cloud9-ide">Setup your Cloud9 IDE</h2>
+<p>This section outlines the prerequisites to complete the workshop and instructions for launching a Cloud9 IDE environment that you will use throughout the remaining modules.</p>
+<h2 id="setup-your-aws-cloud9-ide">Setup your AWS Cloud9 IDE</h2>
 <p>To setup your environment please expand <strong>one</strong> of the following dropdown sections (depending on how you're doing this workshop) and follow the instructions: </p>
-<div class="admonition info">
-<p class="admonition-title">Click here if you're at an <em>AWS event</em> where <em>Event Engine</em> is being used</p>
-<ol>
+<details class="info"><summary>Click here if you're at an AWS event where Event Engine is being used:</summary><ol>
 <li>Navigate to the <a href="https://dashboard.eventengine.run" target="_blank">Event Engine dashboard</a></li>
 <li>Enter the <strong>team hash</strong> code that was distributed to you by the instructors.</li>
 <li>Click <strong>AWS Console</strong>.  The CloudFormation template for this round has already been prerun.</li>
 </ol>
-</div>
-<details class="info"><summary>Click here if you're running this individually in your own AWS Account</summary><p><strong>Cloud9 IDE Setup</strong></p>
+</details>
+<details class="info"><summary>Click here if you're running this individually in your own AWS Account:</summary><p><strong>Launch the AWS CloudFormation Stack</strong></p>
 <p>In this section you will launch a CloudFormation stack that will create a a new <a href="https://aws.amazon.com/vpc/">Amazon VPC</a> environment and a <a href="https://aws.amazon.com/cloud9/">Cloud9 IDE</a> Instance that you will use for the rest of the workshop.</p>
 <table>
 <thead>
@@ -606,15 +618,15 @@
 </thead>
 <tbody>
 <tr>
-<td>us-east-1 (N. Virginia)</td>
+<td>N. Virginia (us-east-1)</td>
 <td><a href="https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/new?stackName=serverless-idm-cloud9&templateURL=https://sa-security-specialist-workshops-us-east-1.s3.amazonaws.com/serverless-idm/env-setup.yaml" target="_blank"><img alt="Launch Cloud9 in us-east-1" src="../images/deploy-to-aws.png" /></a></td>
 </tr>
 <tr>
-<td>us-east-2 (Ohio)</td>
+<td>Ohio (us-east-2)</td>
 <td><a href="https://console.aws.amazon.com/cloudformation/home?region=us-east-2#/stacks/new?stackName=serverless-idm-cloud9&templateURL=https://sa-security-specialist-workshops-us-east-2.s3.us-east-2.amazonaws.com/serverless-idm/env-setup.yaml" target="_blank"><img alt="Launch Cloud9 in us-east-2" src="../images/deploy-to-aws.png" /></td>
 </tr>
 <tr>
-<td>us-west-2 (Oregon)</td>
+<td>Oregon (us-west-2)</td>
 <td><a href="https://console.aws.amazon.com/cloudformation/home?region=us-west-2#/stacks/new?stackName=serverless-idm-cloud9&templateURL=https://sa-security-specialist-workshops-us-west-2.s3-us-west-2.amazonaws.com/serverless-idm/env-setup.yaml" target="_blank"><img alt="Launch Cloud9 in us-west-2" src="../images/deploy-to-aws.png" /></td>
 </tr>
 </tbody>
@@ -633,81 +645,57 @@
 <p>On the <strong>Options</strong> click <strong>Next</strong> (leave everything on this page as the default).</p>
 </li>
 <li>
-<p>On the Review page, review the summary details, click the checkbox to <strong>acknowledge IAM capabilities</strong>, and then click <strong>Create stack</strong>.</p>
+<p>On the Review page click the checkbox to <strong>acknowledge IAM capabilities</strong> and then click <strong>Create stack</strong>.</p>
 </li>
+<li>Choose the <strong>Stack Info</strong> tab to go to the overall stack status page and wait until the stack is fully launched and shows a status of <em>CREATE_COMPLETE</em>. Click the refresh icon periodically to see progress update.  The stack will take a couple minutes to complete.</li>
 </ol>
-<div class="admonition info">
-<p class="admonition-title">It will take a few minutes for the Stack to create.</p>
-<p>Choose the <strong>Stack Info</strong> tab to go to the overall stack status page and wait until the stack is fully launched and shows a status of <em>CREATE_COMPLETE</em>. Click the refresh icon periodically to see progress update.</p>
-</div>
 </details>
-<p>CloudFormation deploys a nested CloudFormation stack to launch the Cloud9 resources. You can safely ignore the template which is prefixed with <em>aws-cloud9-serverless-idm-wksp</em>.</p>
-<h2 id="browse-to-your-cloud9-ide">Browse to your Cloud9 IDE</h2>
+<h2 id="browse-to-your-aws-cloud9-ide">Browse to your AWS Cloud9 IDE</h2>
 <p><a href="https://aws.amazon.com/cloud9/" target="_blank">AWS Cloud9</a> is a cloud-based integrated development environment (IDE) that lets you write, run, and debug your code with just a browser. It includes a code editor, debugger, and terminal. Cloud9 comes pre-packaged with essential tools for popular programming languages and the AWS Command Line Interface (CLI) pre-installed so you don’t need to install files or configure your laptop for this workshop. </p>
 <ol>
 <li>
-<p>Open the <a href="https://console.aws.amazon.com/cloudformation/home?" target="_blank">AWS CloudFormation</a> console.</p>
+<p>Open the <a href="https://console.aws.amazon.com/cloud9/home?" target="_blank">AWS Cloud9</a> console.</p>
 </li>
 <li>
-<p>With the <strong>serverless-idm-cloud9</strong> stack selected (if you're using Event Engine you'll select <strong>mod-xxxx-ServerlessIDMCloud9-xxxx</strong>), click on the <strong>Outputs</strong> tab and browse to the URL shown for the <strong>Cloud9IDE</strong> in a new browser tab to load your IDE environment.</p>
-<p><img alt="CloudFormation Outputs open Cloud9" src="../images/cloud9_cfn_outputs.png" /></p>
+<p>Click <strong>Open IDE</strong> on the <strong>serverless-idm-wksp-ide</strong> environment.</p>
 </li>
 </ol>
-<p>Once you have launched and navigated to your Cloud9 workspace URL shown in your CloudFormation stack outputs, you should have an IDE environment as shown below:</p>
-<p><img alt="Cloud9 Initial Welcome Screen" src="../images/cloud9_initial_screen.png" /></p>
-<p>You can run AWS CLI commands in here just like you would on your local computer. Verify that your user is logged in by running the following:</p>
-<div class="codehilite"><pre><span></span>aws sts get-caller-identity
-</pre></div>
-
-
-<p>You should see output, similar to the code below, indicating your account and user information:</p>
-<div class="codehilite"><pre><span></span>EXAMPLE OUTPUT - DO NOT COPY
-{
-    &quot;Account&quot;: &quot;123456789012&quot;,
-    &quot;UserId&quot;: &quot;AKIAI44QH8DHBEXAMPLE&quot;,
-    &quot;Arn&quot;: &quot;arn:aws:iam::123456789012:user/Sasquatch&quot;
-}
-</pre></div>
-
-
 <div class="admonition warning">
-<p class="admonition-title">Keep your AWS Cloud9 IDE opened in a tab throughout this workshop as you'll be using it for most all activities.</p>
+<p class="admonition-title">Keep your AWS Cloud9 IDE opened in a tab</p>
+<p>You will be using your IDE throughout the entirety of this workshop so be sure to always have a tab open.</p>
 </div>
+<h2 id="create-a-scratch-pad">Create a scratch pad</h2>
+<p>Keep a scratch pad in Cloud9 or a text editor on your local computer for notes.  When the step-by-step directions tell you to note something such as an ID or Amazon Resource Name (ARN), copy and paste that into the scratch pad tab.</p>
+<ol>
+<li>
+<p>Within Cloud9, click the <strong>+</strong> symbol and choose to create <strong>New File</strong>. You will use this new blank editor tab as a scratchpad for various resource names and variables.</p>
+<p><img alt="Cloud9 Create Scratchpad Tab" src="../images/cloud9-createscratchpadtab.png" /></p>
+</li>
+</ol>
 <h2 id="download-your-workshop-code">Download your workshop code</h2>
 <ol>
-<li><strong>Validate</strong> that your code has been downloaded by ensuring the <strong>amazon-cognito-identity-management-workshop</strong> folder exists in the left navigation within your Cloud9 IDE.  If it <strong>does not</strong>, run the following command.</li>
+<li>Run the following command to download your application code:</li>
 </ol>
 <div class="codehilite"><pre><span></span>git clone https://github.com/aws-samples/amazon-cognito-identity-management-workshop.git
 </pre></div>
 
 
 <h2 id="initialize-your-developer-workspace">Initialize your developer workspace</h2>
-<p>Run the following commands to upgrade your Node.js version to the latest version of Node.js 8. The <a href="https://aws-amplify.github.io/" target="_blank">AWS Amplify</a> JavaScript library which we will be using requires Node.js 8 or higher.</p>
-<div class="codehilite"><pre><span></span>nvm i 8
-nvm alias default 8
-</pre></div>
-
-
-<p>Install the yarn package manager and website dependencies by running the following commands</p>
+<p>Run the following commands to install the yarn package manager and website dependencies:</p>
 <div class="codehilite"><pre><span></span>npm install -g yarn
 cd ~/environment/amazon-cognito-identity-management-workshop/website/
 yarn install
 </pre></div>
 
 
-<div class="admonition info">
-<p class="admonition-title">Keep a scratch pad for notes</p>
-<p>Keep a scratch pad in Cloud9 or a text editor on your local computer for notes.  When the step-by-step directions tell you to note something such as an ID or Amazon Resource Name (ARN), copy and paste that into the scratch pad tab.</p>
-</div>
-<p>Within Cloud9, click the <strong>+</strong> symbol and choose to create <strong>New File</strong>. You will use this new blank editor tab as a scratchpad for various resource names and variables.</p>
-<p><img alt="Cloud9 Create Scratchpad Tab" src="../images/cloud9-createscratchpadtab.png" /></p>
 <h2 id="run-the-website-locally">Run the website locally</h2>
 <ol>
 <li>
-<p>Run the following command to start the local web server </p>
+<p>Run the following command to start the local web server:</p>
 <p><code>yarn start</code></p>
-<div class="admonition info">
-<p class="admonition-title">Wait for the development server to start. You can ignore any message saying <em>Compiled with warnings</em> as we will resolve these warnings as we add our functionality to the application.</p>
+<div class="admonition warning">
+<p class="admonition-title">Wait for the development server to start</p>
+<p>You can ignore any message saying <em>Compiled with warnings</em> as we will resolve these warnings as we add our functionality to the application."</p>
 </div>
 </li>
 <li>
@@ -720,8 +708,9 @@ yarn install
 </li>
 </ol>
 <p>As you make changes to the web application, this tab will automatically refresh to reflect your changes. Leave this tab open and return to the Cloud9 IDE tab to continue the workshop.</p>
-<div class="admonition info">
-<p class="admonition-title">Though the Wild Rydes website may look functional, there is currently no integration for sign-up or sign-in requests to go anywhere.</p>
+<div class="admonition warning">
+<p class="admonition-title">Website is not fully functional yet</p>
+<p>Though the Wild Rydes website may look functional, there is currently no integration for sign-up or sign-in requests to go anywhere.</p>
 </div>
 <hr />
 <p>After you have successfully setup your environment, you can proceed to the next module.</p>
@@ -760,13 +749,13 @@ yarn install
           </a>
         
         
-          <a href="../01-user-auth/" title="Module 1: Sign-up and sign-in" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../01-user-auth/" title="Module 1: User flows" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
               <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                Module 1: Sign-up and sign-in
+                Module 1: User flows
               </span>
             </div>
             <div class="md-flex__cell md-flex__cell--shrink">

@@ -42,7 +42,7 @@
     
     
       
-        <title>Module 1: Sign-up and sign-in - AWS Identity: Using Amazon Cognito for serverless consumer apps</title>
+        <title>Module 1: User flows - AWS Identity: Using Amazon Cognito for serverless consumer apps</title>
       
     
     
@@ -102,7 +102,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#module-1-user-sign-up-and-sign-in" tabindex="1" class="md-skip">
+      <a href="#module-1-user-flows-configuration" tabindex="1" class="md-skip">
         Skip to content
       </a>
     
@@ -160,7 +160,7 @@
                   AWS Identity: Using Amazon Cognito for serverless consumer apps
                 </span>
                 <span class="md-header-nav__topic">
-                  Module 1: Sign-up and sign-in
+                  Module 1: User flows
                 </span>
               
             
@@ -385,11 +385,11 @@
     
     
       <label class="md-nav__link md-nav__link--active" for="__toc">
-        Module 1: Sign-up and sign-in
+        Module 1: User flows
       </label>
     
-    <a href="./" title="Module 1: Sign-up and sign-in" class="md-nav__link md-nav__link--active">
-      Module 1: Sign-up and sign-in
+    <a href="./" title="Module 1: User flows" class="md-nav__link md-nav__link--active">
+      Module 1: User flows
     </a>
     
       
@@ -440,27 +440,6 @@
         <li class="md-nav__item">
   <a href="#end-of-module-1" title="End of Module 1" class="md-nav__link">
     End of Module 1
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#optional-pre-sign-up-validation" title="Optional: Pre sign-up validation" class="md-nav__link">
-    Optional: Pre sign-up validation
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#optional-customize-welcome-message" title="Optional: Customize welcome message" class="md-nav__link">
-    Optional: Customize welcome message
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#optional-customize-the-claims-in-the-id-token" title="Optional: Customize the claims in the ID Token" class="md-nav__link">
-    Optional: Customize the claims in the ID Token
   </a>
   
 </li>
@@ -598,27 +577,6 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#optional-pre-sign-up-validation" title="Optional: Pre sign-up validation" class="md-nav__link">
-    Optional: Pre sign-up validation
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#optional-customize-welcome-message" title="Optional: Customize welcome message" class="md-nav__link">
-    Optional: Customize welcome message
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#optional-customize-the-claims-in-the-id-token" title="Optional: Customize the claims in the ID Token" class="md-nav__link">
-    Optional: Customize the claims in the ID Token
-  </a>
-  
-</li>
-      
       
       
       
@@ -638,20 +596,15 @@
                   <a href="https://github.com/aws-samples/amazon-cognito-identity-management-workshop/edit/master/docs/01-user-auth.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
                 
                 
-                <h1 id="module-1-user-sign-up-and-sign-in">Module 1 <small>User sign-up and sign-in</small></h1>
+                <h1 id="module-1-user-flows-configuration">Module 1 <small>User flows configuration</small></h1>
 <p><strong>Time</strong>: 40 minutes</p>
 <p>In this module, you will create an Amazon Cognito User Pool and Identity Pool for the Wild Rydes application. The Cognito User Pool will store user profile information and provide sign-up and sign-in capabilities, with the Cognito Identity Pool providing the ability to assume an Identity and Access Management (IAM) role from within the application.</p>
 <p>Since Wild Rydes is a ride sharing application, a key requirement is that all users must sign-up and sign-in before they're allowed to request a ride. You will configure the application to integrate with <a href="https://aws.amazon.com/cognito/" target="_blank">Amazon Cognito</a> for these purposes via the <a href="https://aws-amplify.github.io/" target="_blank">AWS Amplify</a> JavaScript library.</p>
 <h2 id="architecture">Architecture</h2>
-<p>The architecture for this module is very straightforward. All of your static web content including HTML, CSS JavaScript, images and other files will be served locally from your Cloud9 workspace. As you make changes to the website application code, all changes will be automatically updated and shown in your browser via live reload capabilities.</p>
-<p>For this module, we will be creating a Cognito User Pool as our secure user directory then configuring our application to use the AWS Amplify library to easily integrate Amazon Cognito into our application.</p>
+<p>For this module, we will be creating a Cognito User Pool as our secure user directory then configuring our application to use the AWS Amplify library to easily integrate Amazon Cognito into our application.  You will also configure a number of Lambda Triggers to further customize the user flows.  Below is a sequence diagram to show the interactions with the different components of this module.</p>
 <p><img alt="Website architecture" src="../images/wildrydes-module1-architecture.png" /></p>
 <h2 id="create-a-cognito-user-pool">Create a Cognito User Pool</h2>
 <p>Amazon Cognito User Pools lets you add user sign-up and sign-in capabilities to your web and mobile apps quickly and easily. In this step, we'll create a Cognito user pool for our Wild Rydes app.</p>
-<p>Use the AWS console to create an Amazon Cognito User Pool requiring e-mail verification.</p>
-<div class="admonition warning">
-<p class="admonition-title">The console's region will default to the last region you were using previously. Change this to the same region where you launched your Cloud9 environment previously.</p>
-</div>
 <ol>
 <li>
 <p>Open the <a href="https://console.aws.amazon.com/cognito/home?" target="_blank">Amazon Cognito</a> console.</p>
@@ -670,19 +623,20 @@
 <p><img alt="User Pool Setup Step 1" src="../images/cognito-userpool-setup-step1.png" /></p>
 </li>
 <li>
-<p>Leave <strong>Username</strong> selected, but additionally select <strong>Also allow sign in with verified email address</strong> and <strong>Also allow sign in with verified phone number</strong>.</p>
+<p><strong>Attributes</strong>: Leave <strong>Username</strong> selected, but additionally select the following:</p>
+<ul>
+<li><em>Also allow sign in with verified email address</em></li>
+<li><em>Also allow sign in with verified phone number</em></li>
+</ul>
 <p><img alt="User Pool Setup Step 2" src="../images/cognito-userpool-setup-step2.png" /></p>
 </li>
 <li>
-<p>Add a custom attribute for <strong>genre</strong> that is mutable.  This attribute is to give the Unicorn an idea of the riders favorite music genre</p>
+<p><strong>Attributes</strong>: Add a custom attribute for <strong>genre</strong> that is mutable.  This attribute is to give the Unicorn an idea of the riders favorite music genre. Then choose <strong>Next step</strong>.</p>
 <p><img alt="Custom attribute" src="../images/custom-attribute.png" /></p>
 <div class="admonition info">
 <p class="admonition-title">User Pool Attributes</p>
 <p>Cognito User Pools have a standard set of attributes available for all users in the pool.  These are implemented following the <a href="https://openid.net/specs/openid-connect-core-1_0.html#StandardClaims" target="_blank">OpenID Connect specification</a>.  You can also optionally create up to 25 custom attributes to match any unique claims requirements you may have for your applications.</p>
 </div>
-</li>
-<li>
-<p>Choose <strong>Next step</strong>.</p>
 </li>
 <li>
 <p><strong>Policies</strong>: Leave password policies and user sign up settings set to default settings and choose <strong>Next step</strong>.</p>
@@ -691,61 +645,59 @@
 </li>
 <li>
 <p><strong>MFA and verifications</strong>: Leave the default settings for MFA and email verification and choose <strong>Next step</strong>.</p>
-<div class="admonition info">
-<p class="admonition-title">MFA configurations are outside the scope of this workshop</p>
-</div>
 </li>
 <li>
-<p><strong>Message customizations</strong>:Leave the default for message and SES defaults and choose <strong>Next step</strong>.</p>
-<!-- <img alt="User Pool Setup Step 4" src="./images/cognito-userpool-setup-step4.png" /> -->
-
+<p><strong>Message customizations</strong>: Leave the default for message and SES defaults and choose <strong>Next step</strong>.</p>
 </li>
 <li>
 <p><strong>Tags</strong>: Skip adding any tags and click <strong>Next step</strong>.</p>
 </li>
 <li>
 <p><strong>Devices</strong>: Choose <strong>No</strong> to not remember your user's devices then click <strong>Next step</strong>.</p>
-<p><img alt="User Pool Setup Step 5" src="../images/cognito-userpool-setup-step5.png" /></p>
 </li>
 <li>
 <p><strong>App clients</strong>: In the next screen, click the <strong>Add an app client</strong> <em>link</em>.</p>
 </li>
 <li>
-<p>Input <strong>wildrydes-web-app</strong> as the app client name.</p>
+<p><strong>App clients</strong>: Input <strong>wildrydes-web-app</strong> as the app client name.</p>
 </li>
 <li>
-<p><strong>Uncheck</strong> <em>Generate client secret</em>. </p>
+<p><strong>App clients</strong>: Uncheck the following:</p>
+<ul>
+<li><em>Generate client secret</em></li>
+<li><em>Enable lambda trigger based custom authentication</em>. </li>
+</ul>
 <div class="admonition info">
-<p class="admonition-title">Client secrets are used for server-side applications authentication and are not needed for JavaScript applications.  They are also are not compatible with the Amplify JS SDK since it's a client library.</p>
+<p class="admonition-title">Client secrets</p>
+<p>Client secrets are known only to your application and the authorization server. They are used for server-side applications authentication and are not needed for JavaScript applications.  They are also are not compatible with the Amplify JS SDK since it's a client library.</p>
 </div>
 <p><img alt="User Pool Setup Step 6" src="../images/cognito-userpool-setup-step6.png" /></p>
+<div class="admonition info">
+<p class="admonition-title">Auth Flows Configuration</p>
+<p>This configuration allows you to configure the allowed authentication flows for the app client.  These authentication flows are all specific to the <a href="https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-authentication-flow.html" target="_blank">Amazon Cognito APIs</a>, <strong>not</strong> the OAuth flows made available through the hosted Cognito authorization server.</p>
+</div>
 </li>
 <li>
-<p>Choose <strong>Create app client</strong> and click <strong>Next step</strong>.</p>
+<p><strong>App clients</strong>: Choose <strong>Create app client</strong> and click <strong>Next step</strong>.</p>
 </li>
 <li>
 <p><strong>Triggers</strong>: Leave all Lambda trigger settings set to <em>none</em> and choose <strong>Next step</strong>. </p>
 <div class="admonition info">
 <p class="admonition-title">Lambda Triggers</p>
-<p>These trigger settings allow you to extend the out-of-the-box sign-up and sign-in flows with your own custom logic.  You can add authentication challenges, migrate users, and customize verification messages.</p>
+<p>These trigger settings allow you to extend the out-of-the-box sign-up and sign-in flows with your own custom logic.  You can add authentication challenges, migrate users, and customize verification messages.  The optional extensions at the end of this module will walk through configuring a variety of Lambda triggers. </p>
 </div>
 </li>
 <li>
 <p>Review summary of all provided settings for accuracy then choose <strong>Create pool</strong>.</p>
-<p><img alt="User Pool Setup Step 7" src="../images/cognito-userpool-setup-step7.png" /></p>
-</li>
-<li>
-<p>Back in the AWS Cognito console, copy your new <strong>User Pool Id</strong> into the scratchpad.</p>
-<p><img alt="Copy User Pool ID" src="../images/cognito-userpool-copy-userpool-id.png" /></p>
-</li>
-<li>
-<p>Choose <strong>App clients</strong> heading under <em>General settings</em> within the Cognito navigation panel.</p>
-</li>
-<li>
-<p>Copy the <strong>App client ID</strong> over to your scratchpad. You will be using both of these values later on.</p>
-<p><img alt="Copy User Pool App Client ID" src="../images/cognito-userpool-copy-appclient-id.png" /></p>
 </li>
 </ol>
+<div class="admonition note">
+<p class="admonition-title">Copy to scratch pad</p>
+<p>In the AWS Cognito console, copy your new <strong>User Pool Id</strong>: </p>
+<p><img alt="Copy User Pool ID" src="../images/cognito-userpool-copy-userpool-id.png" /></p>
+<p>And your <strong>App client ID</strong>:</p>
+<p><img alt="Copy User Pool App Client ID" src="../images/cognito-userpool-copy-appclient-id.png" /></p>
+</div>
 <h2 id="create-a-cognito-identity-pool">Create a Cognito Identity Pool</h2>
 <p>Cognito Identity Pools are used to provide AWS credentials via IAM roles to end-user applications. Since we'll be integrating our Cognito deployment and users with other AWS services, we'll go ahead and create this identity pool now.</p>
 <p>You will need to create a Cognito Identity Pool linked to the Cognito User Pool and app client ID you just created. Your application will not require un-authenticated users to access any AWS resources, so you do not need to enable access to unauthenticated identities. </p>
@@ -771,41 +723,42 @@
 </li>
 <li>
 <p>Choose <strong>Allow</strong> to allow Cognito Identity Pools to setup IAM roles for your application's users. Permissions and settings of these roles can be customized later.</p>
-</li>
-<li>
-<p>Copy the <strong>Identity Pool ID</strong>, highlighted in red within the code sample in the Get AWS Credentials section, into your Cloud9 scatchpad editor tab.</p>
-<div class="admonition warning">
-<p class="admonition-title">Do not copy the quotation marks, but include the region code and ":" character.</p>
+<div class="admonition info">
+<p class="admonition-title">Identity pools AWS IAM Roles</p>
+<p>When you first configure a Cognito identity pool, it will automatically create two AWS IAM Roles on your behalf.  One for authenticated users and a second for unauthenticated users.  You can also optionally define rules to choose different roles for each user based on claims in the user's ID token.</p>
 </div>
-<p><img alt="Copy Identity Pool Id to Cloud9 scratchpad" src="../images/cognito-identitypool-copyId.png" /></p>
-</li>
-<li>
-<p>Your scratchpad should now have values for the following Cognito resources:</p>
-<p><img alt="Cognito Setup IDs Scratchpad" src="../images/cognito-setup-scratchpad.png" /></p>
 </li>
 </ol>
+<div class="admonition note">
+<p class="admonition-title">Copy to scratch pad</p>
+<p>Copy the identity pool ID to your scratch pad:</p>
+<p><img alt="Copy Identity Pool Id to Cloud9 scratchpad" src="../images/cognito-identitypool-copyId.png" /></p>
+<p>Your scratchpad should now have values for the following Cognito resources:</p>
+<p><img alt="Cognito Setup IDs Scratchpad" src="../images/cognito-setup-scratchpad.png" /></p>
+</div>
 <h2 id="integrate-your-application-with-amazon-cognito">Integrate your application with Amazon Cognito</h2>
 <p>Now that you've created and configured your Cognito User Pool and Identity Pool, you need to configure your application to integrate to Amazon Cognito so it can store user profiles and enable sign-up and sign-in.</p>
 <p>You will import the <a href="https://aws-amplify.github.io/" target="_blank">AWS Amplify</a> JavaScript library into the project then add sign-up and sign-in utility classes to integrate with our existing UI and front-end components.</p>
-<p>You'll need to complete the implementation of the onSubmitForm and onSubmitVerification methods within the <strong>/website/src/auth/signIn.js</strong> file, as well as the methods of the same name within the <strong>/website/src/auth/signUp.js</strong> file. Finally, you'll need to complete the implementation of a method to check whether the user is authenticated within the <strong>/website/src/index.js</strong> page.</p>
+<p>Before using any AWS Amplify modules, you first need to configure Amplify to use your newly created Cognito resources.</p>
 <ol>
 <li>
-<p>Before using any AWS Amplify modules, we first need to configure Amplify to use our newly created Cognito resources by updating <strong>/website/src/amplify-config.js</strong>.  Open this file in your Cloud9 IDE editor.</p>
+<p>Open <strong>/website/src/amplify-config.js</strong> in your Cloud9 IDE editor.</p>
 </li>
 <li>
-<p>Copy the following parameter values from your previous scratchpad into the config value parameter placeholders:</p>
+<p>Copy the following parameter values from your previous scratchpad into the config value parameter placeholders under <strong>Auth</strong>:</p>
 <ul>
 <li><code>identityPoolId</code></li>
 <li><code>region</code></li>
 <li><code>userPoolId</code></li>
 <li><code>userPoolWebClientId (App Client ID)</code></li>
 </ul>
-<div class="admonition warning">
-<p class="admonition-title">Be sure to fill in the <strong>'' blanks</strong> with your config values. You do not need to modify the example values shown in the comments as they are just for reference and not leveraged by your application.</p>
-</div>
 </li>
 <li>
-<p><strong>Save your changes</strong> to the Amplify config file so your new  settings take effect. Any unsaved changes to a file are indicated by a dot icon in the tab of the editor so if you see a gray dot next to the file name, you may have forgotten to save.</p>
+<p><strong>Save your changes</strong> to the Amplify config file so your new  settings take effect. </p>
+<div class="admonition warning">
+<p class="admonition-title">Unsaved changes</p>
+<p>Any unsaved changes to a file are indicated by a dot icon in the tab of the editor so if you see a gray dot next to the file name, you may have forgotten to save.</p>
+</div>
 </li>
 <li>
 <p>Next, edit the <strong>website/src/index.js</strong> file to add the following lines to the <strong>top of the file</strong> <strong>(but below all the other imports)</strong> to configure Amplify then save your changes:</p>
@@ -954,7 +907,7 @@
 <p>Input the following: </p>
 <ul>
 <li><strong>e-mail address</strong> (needs to be a valid email address since you'll need to verify your account), </li>
-<li><strong>phone number</strong> with <code>+country_code</code> first preceeding the number (use a sample phone number such as <code>+12345550100</code>)</li>
+<li><strong>phone number</strong> with <code>+country_code</code> first preceeding the number (use a sample phone number such as <code>+1234555010</code>)</li>
 <li><strong>favorite genre</strong> (e.g. <code>jazz</code>, <code>blues</code>, <code>classical</code>, etc.)</li>
 <li><strong>password</strong> twice (Your password must include 8 characters, including uppercase and lowercase characters, and at least 1 number and 1 special character.)</li>
 </ul>
@@ -981,185 +934,10 @@
 <h2 id="end-of-module-1">End of Module 1</h2>
 <p>Once you have finished setting up the user authentication please wait for the instructions from the presenter to move on to the next module (unless you're running this on your own).</p>
 <hr />
-<p>If you've finished Module 1 early and would like to further customize the user sign up experience, feel free to run through the next section below.</p>
-<p>Your current configuration supports a fairly generic user sign-up and sign-in flow.  If you have unique requirments for customized flows, you can leverage the built Lambda triggers.  These will trigger AWS Lambda functions during user pool operation such as user sign-up, confirmation, and sign-in.  You add authentication challenges, migrate users, and customize verification messages.</p>
-<h2 id="optional-pre-sign-up-validation">Optional: Pre sign-up validation</h2>
-<p>Use the Lambda triggers to validate the email domain of the user to ensure it's a user from an approved domain prior to allowing them to sign-up.</p>
-<ol>
-<li>
-<p>Open the <a href="https://console.aws.amazon.com/lambda/home?" target="_blank">AWS Lambda</a> console.</p>
-</li>
-<li>
-<p>Choose the <strong>serverless-idm-wksp-pre-sign-up</strong> function.</p>
-<div class="admonition info">
-<p class="admonition-title">The function was automatically created as part of the environment configuration CloudFormation template but is missing the application code.</p>
-</div>
-</li>
-<li>
-<p>Copy and paste the code below and save your function:</p>
-</li>
-</ol>
-<div class="codehilite"><pre><span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
-
-<span class="k">def</span> <span class="nf">lambda_handler</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
-
-    <span class="c1"># Log event</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
-
-    <span class="c1"># Set the user pool confirmation flags (you can user these to automatically confirm and a user and associated attributes)</span>
-    <span class="n">event</span><span class="p">[</span><span class="s1">&#39;response&#39;</span><span class="p">][</span><span class="s1">&#39;autoConfirmUser&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">False</span>
-    <span class="n">event</span><span class="p">[</span><span class="s1">&#39;response&#39;</span><span class="p">][</span><span class="s1">&#39;autoVerifyEmail&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">False</span>
-    <span class="n">event</span><span class="p">[</span><span class="s1">&#39;response&#39;</span><span class="p">][</span><span class="s1">&#39;autoVerifyPhone&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">False</span>
-
-    <span class="c1"># Set whitelisted domains</span>
-    <span class="n">domains</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;example.com&quot;</span><span class="p">]</span>
-
-    <span class="c1"># Split the email address so we can compare domains</span>
-    <span class="n">address</span> <span class="o">=</span> <span class="n">event</span><span class="p">[</span><span class="s1">&#39;request&#39;</span><span class="p">][</span><span class="s1">&#39;userAttributes&#39;</span><span class="p">][</span><span class="s1">&#39;email&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;@&#39;</span><span class="p">)</span>
-
-    <span class="c1"># Validate the user is from a whitelisted domain&#39;</span>
-    <span class="k">if</span> <span class="n">address</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">in</span> <span class="n">domains</span><span class="p">:</span>
-        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Pre Sign Up validation succeeded for </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">event</span><span class="p">[</span><span class="s1">&#39;userName&#39;</span><span class="p">])</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Pre Sign Up validation failed for </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">event</span><span class="p">[</span><span class="s1">&#39;userName&#39;</span><span class="p">])</span>
-        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Cannot sign up for the application with that email address.&quot;</span><span class="p">)</span>
-
-    <span class="c1"># Return to Amazon Cognito</span>
-    <span class="k">return</span> <span class="n">event</span>
-</pre></div>
-
-
-<div class="admonition info">
-<p class="admonition-title">Be sure to replace the <em>example.com</em> domain after you've tested so that your user can pass the pre-signup validation.</p>
-</div>
-<p>Now that your Lambda function is configured, you can configure the trigger within your Cognito User Pool.</p>
-<ol>
-<li>
-<p>Open the <a href="https://console.aws.amazon.com/cognito/home?" target="_blank">Amazon Cognito</a> console.</p>
-</li>
-<li>
-<p>Choose the <strong>WildRydes</strong> User Pool.</p>
-</li>
-<li>
-<p>Click <strong>Triggers</strong> on the left navigation.</p>
-</li>
-<li>
-<p>Under <strong>Pre sign-up</strong> choose <strong>serverless-idm-wksp-pre-sign-up</strong> and click <strong>Save Changes</strong>.</p>
-</li>
-</ol>
-<p>Now test out your pre validation logic by deleting the existing user in your User Pool (or create a new user) and ensure the function is triggering and properly validating the email address.  Feel free to play around with the logic to test out different validation scenarios. </p>
-<h2 id="optional-customize-welcome-message">Optional: Customize welcome message</h2>
-<p>Now leverage the <strong>Custom Message</strong> trigger to customize the welcome message.</p>
-<ol>
-<li>
-<p>Open the <a href="https://console.aws.amazon.com/lambda/home?" target="_blank">AWS Lambda</a> console.</p>
-</li>
-<li>
-<p>Choose the <strong>serverless-idm-wksp-custom-message</strong> function.</p>
-<div class="admonition info">
-<p class="admonition-title">The function was automatically created as part of the environment configuration CloudFormation template but is missing the application code.</p>
-</div>
-</li>
-<li>
-<p>Copy and paste the code below and save your function:</p>
-</li>
-</ol>
-<div class="codehilite"><pre><span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
-
-<span class="k">def</span> <span class="nf">lambda_handler</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
-
-    <span class="c1"># Log event</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
-
-    <span class="c1"># This example uses a custom attribute &#39;custom:domain&#39;</span>
-    <span class="k">if</span> <span class="n">event</span><span class="p">[</span><span class="s1">&#39;triggerSource&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;CustomMessage_SignUp&quot;</span><span class="p">:</span>
-        <span class="n">event</span><span class="p">[</span><span class="s1">&#39;response&#39;</span><span class="p">][</span><span class="s1">&#39;smsMessage&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Bienvenido al servicio WildRydes. Su código de confirmación es </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">event</span><span class="p">[</span><span class="s1">&#39;request&#39;</span><span class="p">][</span><span class="s1">&#39;codeParameter&#39;</span><span class="p">]</span>
-        <span class="n">event</span><span class="p">[</span><span class="s1">&#39;response&#39;</span><span class="p">][</span><span class="s1">&#39;emailSubject&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Bienvenido a WildRydes!&#39;</span>
-        <span class="n">event</span><span class="p">[</span><span class="s1">&#39;response&#39;</span><span class="p">][</span><span class="s1">&#39;emailMessage&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Bienvenido al servicio WildRydes. Su código de confirmación es </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">event</span><span class="p">[</span><span class="s1">&#39;request&#39;</span><span class="p">][</span><span class="s1">&#39;codeParameter&#39;</span><span class="p">]</span>
-
-    <span class="c1"># Return to Amazon Cognito</span>
-    <span class="k">return</span> <span class="n">event</span>
-</pre></div>
-
-
-<div class="admonition question">
-<p class="admonition-title">Take note of the event TriggerSource.  When else will this Lambda function get triggered?</p>
-</div>
-<p>Now that your Lambda function is configured, you can configure the trigger within your Cognito User Pool.</p>
-<ol>
-<li>
-<p>Open the <a href="https://console.aws.amazon.com/cognito/home?" target="_blank">Amazon Cognito</a> console.</p>
-</li>
-<li>
-<p>Choose the <strong>WildRydes</strong> User Pool.</p>
-</li>
-<li>
-<p>Click <strong>Triggers</strong> on the left navigation.</p>
-</li>
-<li>
-<p>Under <strong>Custom Message</strong> choose <strong>serverless-idm-wksp-custom-message</strong> and click <strong>Save Changes</strong>.</p>
-</li>
-</ol>
-<h2 id="optional-customize-the-claims-in-the-id-token">Optional: Customize the claims in the ID Token</h2>
-<p>Now leverage the <strong>pre token generation</strong> trigger to customize the claims in the ID token before it is issued.</p>
-<ol>
-<li>
-<p>Open the <a href="https://console.aws.amazon.com/lambda/home?" target="_blank">AWS Lambda</a> console.</p>
-</li>
-<li>
-<p>Choose the <strong>serverless-idm-wksp-pre-token-gen</strong> function.</p>
-<div class="admonition info">
-<p class="admonition-title">The function was automatically created as part of the environment configuration CloudFormation template but is missing the application code.</p>
-</div>
-</li>
-<li>
-<p>Copy and paste the code below and save your function:</p>
-</li>
-</ol>
-<div class="codehilite"><pre><span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
-
-<span class="k">def</span> <span class="nf">lambda_handler</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
-
-    <span class="c1"># Log event</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
-
-    <span class="c1"># Customize the token</span>
-    <span class="k">if</span> <span class="n">event</span><span class="p">[</span><span class="s1">&#39;triggerSource&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;TokenGeneration_Authentication&#39;</span><span class="p">:</span>
-        <span class="n">event</span><span class="p">[</span><span class="s1">&#39;response&#39;</span><span class="p">][</span><span class="s1">&#39;claimsOverrideDetails&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="c1"># Suppress the phone number claims</span>
-            <span class="s1">&#39;claimsToSuppress&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;phone_number&#39;</span><span class="p">,</span> <span class="s1">&#39;phone_number_verified&#39;</span><span class="p">],</span>
-            <span class="c1"># Add a rewards claim</span>
-            <span class="s1">&#39;claimsToAddOrOverride&#39;</span><span class="p">:</span> <span class="p">{</span>
-                <span class="s2">&quot;rewards&quot;</span><span class="p">:</span> <span class="s2">&quot;platinum&quot;</span>
-            <span class="p">},</span>
-        <span class="p">}</span>
-
-    <span class="c1"># Return to Amazon Cognito</span>
-
-    <span class="k">return</span> <span class="n">event</span>
-</pre></div>
-
-
-<div class="admonition question">
-<p class="admonition-title">Take note of the event TriggerSource.  When else will this Lambda function get triggered?</p>
-</div>
-<p>Now that your Lambda function is configured, you can configure the trigger within your Cognito User Pool.</p>
-<ol>
-<li>
-<p>Open the <a href="https://console.aws.amazon.com/cognito/home?" target="_blank">Amazon Cognito</a> console.</p>
-</li>
-<li>
-<p>Choose the <strong>WildRydes</strong> User Pool.</p>
-</li>
-<li>
-<p>Click <strong>Triggers</strong> on the left navigation.</p>
-</li>
-<li>
-<p>Under <strong>Pre Token Generation</strong> choose <strong>serverless-idm-wksp-pre-token-gen</strong> and click <strong>Save Changes</strong>.</p>
-</li>
-</ol>
-<p>Now you can authenticate to the application again, copy the ID token, and paste it into <a href="http://jwt.io" target="_blank">JWT.io</a> to verify that the claims have been dynamically updated.</p>
-<p><img alt="STOP" src="../images/stop.png" /></p>
+<p>If you've finished Module 1 early and would like to further customize the user sign up experience, feel free to run through any of the extensions below:</p>
+<ul>
+<li><strong>Extension 1</strong>: <a href="../01-user-auth-triggers/">Lambda triggers</a></li>
+</ul>
                 
                   
                 

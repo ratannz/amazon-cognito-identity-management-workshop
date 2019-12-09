@@ -13,7 +13,7 @@
         <meta name="description" content="In this workshop, you learn how to build a serverless customer-facing microservices application demonstrating end-to-end authentication and authorization using Amazon Cognito, Amazon API Gateway, AWS Lambda, and all things AWS Identity and Access Management (IAM). You have the opportunity to build an end-to-end functional app with a secure identity provider showcasing user authentication patterns.">
       
       
-        <link rel="canonical" href="https://serverless-idm.awssecworkshops.com/04-clean-up/">
+        <link rel="canonical" href="https://serverless-idm.awssecworkshops.com/01-user-auth-triggers/">
       
       
         <meta name="author" content="aws-security-workshops@amazon.com">
@@ -42,7 +42,7 @@
     
     
       
-        <title>Module 4: Clean up - AWS Identity: Using Amazon Cognito for serverless consumer apps</title>
+        <title>Module 1 <small>Extension 1 - Lambda Triggers</small> - AWS Identity: Using Amazon Cognito for serverless consumer apps</title>
       
     
     
@@ -102,7 +102,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#module-4-clean-up" tabindex="1" class="md-skip">
+      <a href="#module-1-extension-1-lambda-triggers" tabindex="1" class="md-skip">
         Skip to content
       </a>
     
@@ -160,7 +160,7 @@
                   AWS Identity: Using Amazon Cognito for serverless consumer apps
                 </span>
                 <span class="md-header-nav__topic">
-                  Module 4: Clean up
+                  Module 1 <small>Extension 1 - Lambda Triggers</small>
                 </span>
               
             
@@ -410,84 +410,11 @@
       
       
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active">
-    
-    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-    
-      
-    
-    
-      <label class="md-nav__link md-nav__link--active" for="__toc">
-        Module 4: Clean up
-      </label>
-    
-    <a href="./" title="Module 4: Clean up" class="md-nav__link md-nav__link--active">
+  <li class="md-nav__item">
+    <a href="../04-clean-up/" title="Module 4: Clean up" class="md-nav__link">
       Module 4: Clean up
     </a>
-    
-      
-<nav class="md-nav md-nav--secondary">
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">Table of contents</label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#empty-and-delete-the-s3-bucket" title="Empty and delete the S3 Bucket" class="md-nav__link">
-    Empty and delete the S3 Bucket
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#remove-the-cognito-resources" title="Remove the Cognito Resources" class="md-nav__link">
-    Remove the Cognito Resources
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#delete-roles-and-detach-iam-policy" title="Delete Roles and detach IAM Policy" class="md-nav__link">
-    Delete Roles and detach IAM Policy
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#remove-wildrydes-backend" title="Remove WildRydes Backend" class="md-nav__link">
-    Remove WildRydes Backend
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#remove-cloud9-and-vpc-stack" title="Remove Cloud9 and VPC Stack" class="md-nav__link">
-    Remove Cloud9 and VPC Stack
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#finished" title="Finished!" class="md-nav__link">
-    Finished!
-  </a>
-  
-</li>
-      
-      
-      
-      
-      
-    </ul>
-  
-</nav>
-    
   </li>
 
     
@@ -536,43 +463,22 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#empty-and-delete-the-s3-bucket" title="Empty and delete the S3 Bucket" class="md-nav__link">
-    Empty and delete the S3 Bucket
+  <a href="#pre-sign-up-validation" title="Pre sign-up validation" class="md-nav__link">
+    Pre sign-up validation
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#remove-the-cognito-resources" title="Remove the Cognito Resources" class="md-nav__link">
-    Remove the Cognito Resources
+  <a href="#customize-welcome-message" title="Customize welcome message" class="md-nav__link">
+    Customize welcome message
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#delete-roles-and-detach-iam-policy" title="Delete Roles and detach IAM Policy" class="md-nav__link">
-    Delete Roles and detach IAM Policy
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#remove-wildrydes-backend" title="Remove WildRydes Backend" class="md-nav__link">
-    Remove WildRydes Backend
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#remove-cloud9-and-vpc-stack" title="Remove Cloud9 and VPC Stack" class="md-nav__link">
-    Remove Cloud9 and VPC Stack
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#finished" title="Finished!" class="md-nav__link">
-    Finished!
+  <a href="#customize-the-claims-in-the-id-token" title="Customize the claims in the ID Token" class="md-nav__link">
+    Customize the claims in the ID Token
   </a>
   
 </li>
@@ -593,81 +499,189 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/aws-samples/amazon-cognito-identity-management-workshop/edit/master/docs/04-clean-up.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                  <a href="https://github.com/aws-samples/amazon-cognito-identity-management-workshop/edit/master/docs/01-user-auth-triggers.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
                 
                 
-                <h1 id="module-4-clean-up">Module 4: Clean up</h1>
-<div class="admonition warning">
-<p class="admonition-title">If you are doing this workshop as part of an AWS sponsored event where Event Engine is being used, you can SKIP clean up.  The Event Engine system will take care of the clean up.</p>
-</div>
-<p>To prevent your account from accruing additional charges, you should remove any resources that are no longer needed.</p>
-<h2 id="empty-and-delete-the-s3-bucket">Empty and delete the S3 Bucket</h2>
-<p>First, you need to empty the <strong><em>S3 bucket</em></strong> that was created by the Serverless Backend CloudFormation template.</p>
-<p>From your <strong>Cloud9 developer environment</strong> run the following:</p>
-<div class="codehilite"><pre><span></span>aws s3 rb s3://MY-BUCKET-NAME --force 
-</pre></div>
-
-
-<div class="admonition tip">
-<p class="admonition-title">Copy and paste your Bucket name from your scratch pad.</p>
-</div>
-<h2 id="remove-the-cognito-resources">Remove the Cognito Resources</h2>
-<p>From your <strong>Cloud9 developer environment</strong> run the following:</p>
-<div class="codehilite"><pre><span></span>aws cognito-identity delete-identity-pool --identity-pool-id YOUR-IDENTITY-POOL-ID-HERE
-</pre></div>
-
-
-<div class="admonition tip">
-<p class="admonition-title">Copy and paste your Cognito identity pool ID from your scratch pad (example: us-west-2:b4b755cd-d359-42a1-9b49-f0e73f5b2571).</p>
-</div>
-<p>Next, run the following command to delete the Cognito User Pool you created:</p>
-<div class="codehilite"><pre><span></span>aws cognito-idp delete-user-pool --user-pool-id YOUR-USER-POOL-ID-HERE
-</pre></div>
-
-
-<div class="admonition tip">
-<p class="admonition-title">Copy and paste your user pool ID from your scratch pad (example: us-west-2:us-west-2_srLwFQiEC).</p>
-</div>
-<h2 id="delete-roles-and-detach-iam-policy">Delete Roles and detach IAM Policy</h2>
-<p>Before you delete the backend stack, you will need to remove the IAM Policy that you manually attached to the <strong>Auth</strong> role. </p>
+                <h1 id="module-1-extension-1-lambda-triggers">Module 1 <small>Extension 1 - Lambda Triggers</small></h1>
+<p><strong>Time</strong>: 10 minutes</p>
+<p>Your current configuration supports a fairly generic user sign-up and sign-in flow.  If you have unique requirments for customized flows, you can leverage the built Lambda triggers.  These will trigger AWS Lambda functions during user pool operation such as user sign-up, confirmation, and sign-in.  You add authentication challenges, migrate users, and customize verification messages.</p>
+<h2 id="pre-sign-up-validation">Pre sign-up validation</h2>
+<p>Use the Lambda triggers to validate the email domain of the user to ensure it's a user from an approved domain prior to allowing them to sign-up.</p>
 <ol>
 <li>
-<p>Open the <a href="https://console.aws.amazon.com/iam/home?" target="_blank">AWS IAM</a> console.</p>
+<p>Open the <a href="https://console.aws.amazon.com/lambda/home?" target="_blank">AWS Lambda</a> console.</p>
 </li>
 <li>
-<p>Search for the <strong>Auth</strong> role and click into it.</p>
-<p><img alt="Find Auth Role" src="../images/iam-cleanup-findAuthRole.png" /></p>
-</li>
-</ol>
+<p>Choose the <strong>serverless-idm-wksp-pre-sign-up</strong> function.</p>
 <div class="admonition info">
-<p class="admonition-title">Cognito Identity Pool Roles</p>
-<p>If you don't need the Identity Pool Roles for a different Pool you can delete the following roles:</p>
-<ul>
-<li><strong>Cognito_wildrydes_identity_poolUnauth_Role</strong></li>
-<li><strong>Cognito_wildrydes_identity_poolAuth_Role</strong></li>
-</ul>
+<p class="admonition-title">The function was automatically created as part of the environment configuration CloudFormation template but is missing the application code.</p>
 </div>
-<p><strong>If you completed the Module 2 extension and need to keep your Cognito Roles, you can complete the next two steps to delete the attached policy</strong></p>
-<ol>
-<li>On the Role Summary page, find the policy named <strong>WildRydesAPI-StandardUserPolicy</strong> in the Permissions tab. Once you locate the policy, click the <strong>X</strong> to remove this policy from the IAM Role. A popup window will ask you to confirm that you want to remove it - click the red <strong>Detach</strong> button.</li>
-<li>Repeat for the policy named <strong>WildRydes-S3Access</strong>.</li>
+</li>
+<li>
+<p>Copy and paste the code below and save your function:</p>
+</li>
 </ol>
-<h2 id="remove-wildrydes-backend">Remove WildRydes Backend</h2>
-<p>Next, you will need to remove the <em>CloudFormation stack</em> for the API. This stack should be named <strong>serverless-idm-backend</strong>. Once again, from the your terminal window, run:</p>
-<div class="codehilite"><pre><span></span>aws cloudformation delete-stack --stack-name serverless-idm-backend
+<div class="codehilite"><pre><span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
+
+<span class="k">def</span> <span class="nf">lambda_handler</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
+
+    <span class="c1"># Log event</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
+
+    <span class="c1"># Set the user pool confirmation flags (you can user these to automatically confirm and a user and associated attributes)</span>
+    <span class="n">event</span><span class="p">[</span><span class="s1">&#39;response&#39;</span><span class="p">][</span><span class="s1">&#39;autoConfirmUser&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="n">event</span><span class="p">[</span><span class="s1">&#39;response&#39;</span><span class="p">][</span><span class="s1">&#39;autoVerifyEmail&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="n">event</span><span class="p">[</span><span class="s1">&#39;response&#39;</span><span class="p">][</span><span class="s1">&#39;autoVerifyPhone&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">False</span>
+
+    <span class="c1"># Set whitelisted domains</span>
+    <span class="n">domains</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;example.com&quot;</span><span class="p">]</span>
+
+    <span class="c1"># Split the email address so we can compare domains</span>
+    <span class="n">address</span> <span class="o">=</span> <span class="n">event</span><span class="p">[</span><span class="s1">&#39;request&#39;</span><span class="p">][</span><span class="s1">&#39;userAttributes&#39;</span><span class="p">][</span><span class="s1">&#39;email&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;@&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Validate the user is from a whitelisted domain&#39;</span>
+    <span class="k">if</span> <span class="n">address</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">in</span> <span class="n">domains</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Pre Sign Up validation succeeded for </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">event</span><span class="p">[</span><span class="s1">&#39;userName&#39;</span><span class="p">])</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Pre Sign Up validation failed for </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">event</span><span class="p">[</span><span class="s1">&#39;userName&#39;</span><span class="p">])</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Cannot sign up for the application with that email address.&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Return to Amazon Cognito</span>
+    <span class="k">return</span> <span class="n">event</span>
 </pre></div>
 
 
-<h2 id="remove-cloud9-and-vpc-stack">Remove Cloud9 and VPC Stack</h2>
+<div class="admonition info">
+<p class="admonition-title">Be sure to replace the <em>example.com</em> domain after you've tested so that your user can pass the pre-signup validation.</p>
+</div>
+<p>Now that your Lambda function is configured, you can configure the trigger within your Cognito User Pool.</p>
 <ol>
-<li>Lastly, you will need to remove the <em>CloudFormation Stack</em> for the <strong>Cloud9 instance</strong> and the its VPC. This stack should be named <strong>serverless-idm-cloud9</strong>. Deleting this stack will <strong>shut down and permanently delete your Cloud9 environment</strong> and all code or projects within so be sure you want to proceed before executing this command.</li>
+<li>
+<p>Open the <a href="https://console.aws.amazon.com/cognito/home?" target="_blank">Amazon Cognito</a> console.</p>
+</li>
+<li>
+<p>Choose the <strong>WildRydes</strong> User Pool.</p>
+</li>
+<li>
+<p>Click <strong>Triggers</strong> on the left navigation.</p>
+</li>
+<li>
+<p>Under <strong>Pre sign-up</strong> choose <strong>serverless-idm-wksp-pre-sign-up</strong> and click <strong>Save Changes</strong>.</p>
+</li>
 </ol>
-<div class="codehilite"><pre><span></span>aws cloudformation delete-stack --stack-name serverless-idm-cloud9
+<p>Now test out your pre validation logic by deleting the existing user in your User Pool (or create a new user) and ensure the function is triggering and properly validating the email address.  Feel free to play around with the logic to test out different validation scenarios. </p>
+<h2 id="customize-welcome-message">Customize welcome message</h2>
+<p>Now leverage the <strong>Custom Message</strong> trigger to customize the welcome message.</p>
+<ol>
+<li>
+<p>Open the <a href="https://console.aws.amazon.com/lambda/home?" target="_blank">AWS Lambda</a> console.</p>
+</li>
+<li>
+<p>Choose the <strong>serverless-idm-wksp-custom-message</strong> function.</p>
+<div class="admonition info">
+<p class="admonition-title">The function was automatically created as part of the environment configuration CloudFormation template but is missing the application code.</p>
+</div>
+</li>
+<li>
+<p>Copy and paste the code below and save your function:</p>
+</li>
+</ol>
+<div class="codehilite"><pre><span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
+
+<span class="k">def</span> <span class="nf">lambda_handler</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
+
+    <span class="c1"># Log event</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
+
+    <span class="c1"># This example uses a custom attribute &#39;custom:domain&#39;</span>
+    <span class="k">if</span> <span class="n">event</span><span class="p">[</span><span class="s1">&#39;triggerSource&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;CustomMessage_SignUp&quot;</span><span class="p">:</span>
+        <span class="n">event</span><span class="p">[</span><span class="s1">&#39;response&#39;</span><span class="p">][</span><span class="s1">&#39;smsMessage&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Bienvenido al servicio WildRydes. Su código de confirmación es </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">event</span><span class="p">[</span><span class="s1">&#39;request&#39;</span><span class="p">][</span><span class="s1">&#39;codeParameter&#39;</span><span class="p">]</span>
+        <span class="n">event</span><span class="p">[</span><span class="s1">&#39;response&#39;</span><span class="p">][</span><span class="s1">&#39;emailSubject&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Bienvenido a WildRydes!&#39;</span>
+        <span class="n">event</span><span class="p">[</span><span class="s1">&#39;response&#39;</span><span class="p">][</span><span class="s1">&#39;emailMessage&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Bienvenido al servicio WildRydes. Su código de confirmación es </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">event</span><span class="p">[</span><span class="s1">&#39;request&#39;</span><span class="p">][</span><span class="s1">&#39;codeParameter&#39;</span><span class="p">]</span>
+
+    <span class="c1"># Return to Amazon Cognito</span>
+    <span class="k">return</span> <span class="n">event</span>
 </pre></div>
 
 
-<h2 id="finished">Finished!</h2>
-<p>Congratulations on completing this workshop! This is the workshop's permanent home, so feel free to revisit as often as you'd like.</p>
+<div class="admonition question">
+<p class="admonition-title">Take note of the event TriggerSource.  When else will this Lambda function get triggered?</p>
+</div>
+<p>Now that your Lambda function is configured, you can configure the trigger within your Cognito User Pool.</p>
+<ol>
+<li>
+<p>Open the <a href="https://console.aws.amazon.com/cognito/home?" target="_blank">Amazon Cognito</a> console.</p>
+</li>
+<li>
+<p>Choose the <strong>WildRydes</strong> User Pool.</p>
+</li>
+<li>
+<p>Click <strong>Triggers</strong> on the left navigation.</p>
+</li>
+<li>
+<p>Under <strong>Custom Message</strong> choose <strong>serverless-idm-wksp-custom-message</strong> and click <strong>Save Changes</strong>.</p>
+</li>
+</ol>
+<h2 id="customize-the-claims-in-the-id-token">Customize the claims in the ID Token</h2>
+<p>Now leverage the <strong>pre token generation</strong> trigger to customize the claims in the ID token before it is issued.</p>
+<ol>
+<li>
+<p>Open the <a href="https://console.aws.amazon.com/lambda/home?" target="_blank">AWS Lambda</a> console.</p>
+</li>
+<li>
+<p>Choose the <strong>serverless-idm-wksp-pre-token-gen</strong> function.</p>
+<div class="admonition info">
+<p class="admonition-title">The function was automatically created as part of the environment configuration CloudFormation template but is missing the application code.</p>
+</div>
+</li>
+<li>
+<p>Copy and paste the code below and save your function:</p>
+</li>
+</ol>
+<div class="codehilite"><pre><span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
+
+<span class="k">def</span> <span class="nf">lambda_handler</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
+
+    <span class="c1"># Log event</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
+
+    <span class="c1"># Customize the token</span>
+    <span class="k">if</span> <span class="n">event</span><span class="p">[</span><span class="s1">&#39;triggerSource&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;TokenGeneration_Authentication&#39;</span><span class="p">:</span>
+        <span class="n">event</span><span class="p">[</span><span class="s1">&#39;response&#39;</span><span class="p">][</span><span class="s1">&#39;claimsOverrideDetails&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="c1"># Suppress the phone number claims</span>
+            <span class="s1">&#39;claimsToSuppress&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;phone_number&#39;</span><span class="p">,</span> <span class="s1">&#39;phone_number_verified&#39;</span><span class="p">],</span>
+            <span class="c1"># Add a rewards claim</span>
+            <span class="s1">&#39;claimsToAddOrOverride&#39;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;rewards&quot;</span><span class="p">:</span> <span class="s2">&quot;platinum&quot;</span>
+            <span class="p">},</span>
+        <span class="p">}</span>
+
+    <span class="c1"># Return to Amazon Cognito</span>
+
+    <span class="k">return</span> <span class="n">event</span>
+</pre></div>
+
+
+<div class="admonition question">
+<p class="admonition-title">Take note of the event TriggerSource.  When else will this Lambda function get triggered?</p>
+</div>
+<p>Now that your Lambda function is configured, you can configure the trigger within your Cognito User Pool.</p>
+<ol>
+<li>
+<p>Open the <a href="https://console.aws.amazon.com/cognito/home?" target="_blank">Amazon Cognito</a> console.</p>
+</li>
+<li>
+<p>Choose the <strong>WildRydes</strong> User Pool.</p>
+</li>
+<li>
+<p>Click <strong>Triggers</strong> on the left navigation.</p>
+</li>
+<li>
+<p>Under <strong>Pre Token Generation</strong> choose <strong>serverless-idm-wksp-pre-token-gen</strong> and click <strong>Save Changes</strong>.</p>
+</li>
+</ol>
+<p>Now you can authenticate to the application again, copy the ID token, and paste it into <a href="http://jwt.io" target="_blank">JWT.io</a> to verify that the claims have been dynamically updated.</p>
+<p><a href="https://serverless-idm.awssecworkshops.com/01-user-auth/#end-of-module-1"><strong>Back to Module 1</strong></a></p>
                 
                   
                 
@@ -684,41 +698,6 @@
       
         
 <footer class="md-footer">
-  
-    <div class="md-footer-nav">
-      <nav class="md-footer-nav__inner md-grid">
-        
-          <a href="../03-iam-auth/" title="Module 3: Temporary AWS credentials" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
-            <div class="md-flex__cell md-flex__cell--shrink">
-              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
-            </div>
-            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
-              <span class="md-flex__ellipsis">
-                <span class="md-footer-nav__direction">
-                  Previous
-                </span>
-                Module 3: Temporary AWS credentials
-              </span>
-            </div>
-          </a>
-        
-        
-          <a href="../contribute/" title="Contributing" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
-            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
-              <span class="md-flex__ellipsis">
-                <span class="md-footer-nav__direction">
-                  Next
-                </span>
-                Contributing
-              </span>
-            </div>
-            <div class="md-flex__cell md-flex__cell--shrink">
-              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
-            </div>
-          </a>
-        
-      </nav>
-    </div>
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
