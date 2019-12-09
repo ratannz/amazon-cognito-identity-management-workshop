@@ -457,8 +457,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#optional-api-gateway-authorization-with-aws-iam" title="Optional: API Gateway Authorization with AWS IAM" class="md-nav__link">
-    Optional: API Gateway Authorization with AWS IAM
+  <a href="#optional-extensions" title="Optional extensions" class="md-nav__link">
+    Optional extensions
   </a>
   
 </li>
@@ -585,8 +585,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#optional-api-gateway-authorization-with-aws-iam" title="Optional: API Gateway Authorization with AWS IAM" class="md-nav__link">
-    Optional: API Gateway Authorization with AWS IAM
+  <a href="#optional-extensions" title="Optional extensions" class="md-nav__link">
+    Optional extensions
   </a>
   
 </li>
@@ -888,165 +888,11 @@ API: {
 <h2 id="end-of-module-2">End of Module 2</h2>
 <p>Once you have finished setting up the backend authorization please wait for the instructions from the presenter to move on to the next module (unless you're running this on your own).  </p>
 <hr />
-<p>If you've finished Module 2 early and to try out some alternative authorzation methods, feel free to run through the next few sections.</p>
-<p>In this optional extension, you will update your serverless backend for your Wild Rydes application leveraging Amazon API Gateway and AWS Lambda to use request signing with IAM-based authorization as a more secure authentication option.</p>
-<h2 id="optional-api-gateway-authorization-with-aws-iam">Optional: API Gateway Authorization with AWS IAM</h2>
-<p>This section updates your Serverless backend built earlier using Amazon API Gateway and AWS Lambda to use IAM-based authorization. This extends your authorization capability to offer fine-grained access control authorizing differently per API operation and enhancing security via request signing. By enabling IAM-based authorization, you will use the same type of authentication, authorization, and request signing used by all AWS services and SDKs.</p>
-<p><a href="https://docs.aws.amazon.com/general/latest/gr/signing_aws_api_requests.html" target="_blank">Request signing</a> is a more secure implementation of API request authentication where each API request made is signed with a signature unique to the request itself. Hence, no static API keys or bearer tokens are directly sent to the backend service and any man-in-the-middle attacks would not be able to use such API keys or bearer tokens to impersonate a valid user with the backend resources. AWS APIs and SDKs use a request signing algorithm named <a href="https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html" target="_blank">Signature V4 (Sigv4)</a> which is what you will enable your API to use in this module.</p>
-<div class="admonition tip">
-<p class="admonition-title">For production APIs, you should use either the token-based authorization OR request signing authorization via IAM demonstrated in this module, but not use both for the same API.</p>
-</div>
-<p><img alt="Module 2 architecture" src="../images/wildrydes-module2-iam-architecture.png" /></p>
-<p><strong>Attach an IAM policy to your Cognito authenticated users' role</strong></p>
-<p>For you to be able to use request signing and IAM-based fine-grained access control, we'll first need to associate an IAM policy that provides permissions to invoke API operations for your API Gateway deployment. For further details, you can review <a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/permissions.html" target="_blank">controlling access to an API with IAM permissions</a> documentation.</p>
-<ol>
-<li>
-<p>Open the <a href="https://console.aws.amazon.com/iam/home?" target="_blank">AWS IAM</a> console.</p>
-</li>
-<li>
-<p>Choose <strong>Policies</strong>.</p>
-</li>
-<li>
-<p>Search for <strong>WildRydes</strong> to see the <strong>WildRydesAPI-StandardUserPolicy</strong> which was created by the Serverless Backed CloudFormation template.</p>
-<p><img alt="WildRydes API IAM Policy Search" src="../images/iam-policies-wildrydesapi-search.png" /></p>
-</li>
-<li>
-<p>Click the <strong>WildRydesAPI-StandardUserPolicy</strong> policy name.</p>
-</li>
-<li>
-<p>Review the policy which was created by CloudFormation to authorize requests to your API Gateway deployment.</p>
-<p><img alt="WildRydesAPI Policy Details" src="../images/iam-wildrydesapi-policy-details.png" /></p>
-<div class="admonition info">
-<p class="admonition-title">This policy allows access to invoke any method on the /ride path for any API stage of your API gateway backend. For more details about authoring IAM policies for API Gateway, visit the <a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/permissions.html" target="_blank">controlling access to an API with IAM permissions</a> documentation.</p>
-</div>
-</li>
-<li>
-<p>Choose <strong>Roles</strong>.</p>
-</li>
-<li>
-<p>Search for <strong>WildRydes</strong> to find the two roles which were created by Cognito Identity Pools when you created the Identity Pool in module one. </p>
-<div class="admonition info">
-<p class="admonition-title">Should you not be able to find the roles here, you can alternatively go to the <strong>Cognito Federated Identities</strong> console, find the correct identity pool, then click <strong>Edit Identity Pool</strong> in the top-right corner to see the roles listed. Each identity pool has both an Unauthenticated user role and an Authenticated user role.</p>
-</div>
-</li>
-<li>
-<p>Select the <strong>Auth* role</strong> for your authenticated users.</p>
-<div class="admonition info">
-<p class="admonition-title">If the full name of the role is hidden from view due to column width, you can hover over the partially visible name of the role to see the full name of the role as a tool tip.</p>
-</div>
-<p><img alt="IAM WildRydes Auth Role Selction" src="../images/iam-wildrydes-role-selection.png" /></p>
-</li>
-<li>
-<p>Choose <strong>Attach policies</strong>.</p>
-</li>
-<li>
-<p>Search for <strong>WildRydes</strong> and check the box next to the policy named <em>WildRydesAPI-StandardUserPolicy</em>.</p>
-<p><img alt="Attach API Gateway IAM Policy" src="../images/iam-cognito-authrole-attach-apigateway-policy.png" /></p>
-</li>
-<li>
-<p>Choose <strong>Attach policy</strong>.</p>
-</li>
-<li>
-<p>You should now see the <em>WildRydesAPI-StandardUserPolicy</em> policy associated with your Cognito IAM auth role.</p>
-<p><img alt="Permissions after adding IAM policy" src="../images/iam-cognito-authrole-permissions-after-policy-update.png" /></p>
-</li>
-</ol>
-<p><strong>Enable API Gateway authorization with AWS IAM</strong></p>
-<p>In addition to using JSON Web Tokens (JWTs) for authentication, API Gateway can leverage AWS request signing and parse the request signature to determine the requesting user. In this step, you'll update your authorization type to <em>IAM</em> for your API which will then use AWS's Identity and Access Management (IAM) capabilities to authorize requests via IAM policies.</p>
-<p>In the Amazon API Gateway console, update the authorization type to <em>AWS_IAM</em> for the <em>POST</em> method on the <em>/ride</em> resource. Next, re-deploy the API to make your change take effect.</p>
-<ol>
-<li>
-<p>Open the <a href="https://console.aws.amazon.com/apigateway/home?" target="_blank">Amazon API Gateway</a> console.</p>
-</li>
-<li>
-<p>Choose the API named <strong>WildRydes</strong>.</p>
-</li>
-<li>
-<p>Browse to <strong>Resources</strong> while within your Wild Rydes API in the API Gateway console.</p>
-</li>
-<li>
-<p>Select the <strong>POST</strong> method under the <em>/ride</em> resource path.</p>
-</li>
-<li>
-<p>Choose <strong>Method Request</strong></p>
-<p><img alt="Method Request Selection" src="../images/apigateway-method-request-settings.png" /></p>
-</li>
-<li>
-<p>Choose the pencil icon next to <strong>Authorization</strong> to edit the setting.</p>
-</li>
-<li>
-<p>Select <strong>AWS_IAM</strong> from the list of authorization options presented.</p>
-</li>
-</ol>
-<p><img alt="API Gateway Authorizer Selection" src="../images/apigateway-authorizer-iam-selection.png" /></p>
-<ol>
-<li><strong>Save</strong> your selection by clicking the checkmark icon next to the drop down.</li>
-</ol>
-<p><img alt="API Gateway Authorizer Confirmation" src="../images/apigateway-authorizer-iam-confirmation.png" /></p>
-<ol>
-<li>
-<p>Next, choose the <strong>Actions</strong> button at the top of the resources list.</p>
-</li>
-<li>
-<p>Choose <strong>Deploy API</strong> from the list of options presented.</p>
-</li>
-<li>
-<p>For deployment stage, select <strong>prod</strong> then click <strong>Deploy</strong>.</p>
-</li>
-<li>
-<p>You've now successfully deployed your new authentication integration to your API's production environment.</p>
-</li>
-</ol>
-<p><strong>Configure your app to authenticate API requests</strong></p>
-<p>Now that you've deployed the new authorizer configuration to production, all API requests must be authenticated to be processed.</p>
-<ol>
-<li>
-<p>Return to your Wild Rydes app, sign in at <em>/signin</em> if necessary, and attempt to request a ride.</p>
-</li>
-<li>
-<p>You should receive an <em>Error finding unicorn</em>. If you open the developer console, you will see that we received a HTTP 403 error, which means it was an forbidden request.</p>
-<div class="admonition tip">
-<p class="admonition-title">If at first your requests go through without any errors, try requesting a ride again in 30-60 seconds to allow time for the API Gateway changes to fully propagate.</p>
-</div>
-</li>
-<li>
-<p>Go back to Cloud9 and open the <strong>/website/src/pages/MainApp.js</strong> files.</p>
-</li>
-<li>
-<p>Update your current <em>getData</em> method to the following method, which removes the <em>Authorization</em> header and adds debugging information to show us the request signature as requests are sent. </p>
-<div class="admonition info">
-<p class="admonition-title">The default behavior of the AWS Amplify library is the sign all requests with SigV4 signing when no authorization header is specified, so this will automatically sign all requests using this algorithm without extra development effort.</p>
-</div>
-</li>
-<li>
-<p><strong>Save your changes</strong> after making this update.</p>
-</li>
-</ol>
-<div class="codehilite"><pre><span></span>    <span class="nx">async</span> <span class="nx">getData</span><span class="p">(</span><span class="nx">pin</span><span class="p">)</span> <span class="p">{</span>
-        <span class="nx">Amplify</span><span class="p">.</span><span class="nx">Logger</span><span class="p">.</span><span class="nx">LOG_LEVEL</span> <span class="o">=</span> <span class="s1">&#39;DEBUG&#39;</span><span class="p">;</span>
-        <span class="kr">const</span> <span class="nx">apiRequest</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="nx">body</span><span class="o">:</span> <span class="p">{</span>
-            <span class="nx">PickupLocation</span><span class="o">:</span> <span class="p">{</span>
-                <span class="nx">Longitude</span><span class="o">:</span> <span class="nx">pin</span><span class="p">.</span><span class="nx">longitude</span><span class="p">,</span>
-                <span class="nx">Latitude</span><span class="o">:</span> <span class="nx">pin</span><span class="p">.</span><span class="nx">latitude</span>
-            <span class="p">}</span>
-            <span class="p">},</span>
-            <span class="nx">headers</span><span class="o">:</span> <span class="p">{</span>
-            <span class="s1">&#39;Content-Type&#39;</span><span class="o">:</span> <span class="s1">&#39;application/json&#39;</span>
-            <span class="p">}</span>
-        <span class="p">};</span>
-        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;API Request:&#39;</span><span class="p">,</span> <span class="nx">apiRequest</span><span class="p">);</span>
-        <span class="k">return</span> <span class="nx">await</span> <span class="nx">API</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="nx">apiName</span><span class="p">,</span> <span class="nx">apiPath</span><span class="p">,</span> <span class="nx">apiRequest</span><span class="p">);</span>
-    <span class="p">}</span>
-</pre></div>
-
-
-<p>Allow the application to refresh, sign-in again, and request a ride.</p>
-<p>The unicorn ride request should be fulfilled as before now. To see the full request headers which were sent, look at the developer console for an message which includes the API Request details, including the full signature and headers of the request.</p>
-<div class="admonition tip">
-<p class="admonition-title">This message starts with POST /prod/ride then shows the headers of the request made.</p>
-<p>You may notice that there were both x-amz-date and x-amz-security-token headers sent among other headers. These two headers are part of the overall request signature, along with the Authorization header.</p>
-</div>
+<h2 id="optional-extensions">Optional extensions</h2>
+<p>If you've finished Module 2 early and to try out some alternative authorzation methods, feel free to run through the optional extension:</p>
+<ul>
+<li><strong>Extension 1</strong>: <a href="../02-backend-auth-iam/">API Gateway Authorization with AWS IAM</a></li>
+</ul>
                 
                   
                 
