@@ -1,43 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-    <url>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url>
      <loc>https://serverless-idm.awssecworkshops.com/</loc>
-     <lastmod>2019-12-08</lastmod>
+     <lastmod>2020-08-14</lastmod>
      <changefreq>daily</changefreq>
-    </url>
-    <url>
+    </url><url>
      <loc>https://serverless-idm.awssecworkshops.com/00-env-setup/</loc>
-     <lastmod>2019-12-08</lastmod>
+     <lastmod>2020-08-14</lastmod>
      <changefreq>daily</changefreq>
-    </url>
-    <url>
+    </url><url>
      <loc>https://serverless-idm.awssecworkshops.com/01-user-auth/</loc>
-     <lastmod>2019-12-08</lastmod>
+     <lastmod>2020-08-14</lastmod>
      <changefreq>daily</changefreq>
-    </url>
-    <url>
+    </url><url>
      <loc>https://serverless-idm.awssecworkshops.com/02-backend-auth/</loc>
-     <lastmod>2019-12-08</lastmod>
+     <lastmod>2020-08-14</lastmod>
      <changefreq>daily</changefreq>
-    </url>
-    <url>
+    </url><url>
      <loc>https://serverless-idm.awssecworkshops.com/03-iam-auth/</loc>
-     <lastmod>2019-12-08</lastmod>
+     <lastmod>2020-08-14</lastmod>
      <changefreq>daily</changefreq>
-    </url>
-    <url>
+    </url><url>
      <loc>https://serverless-idm.awssecworkshops.com/04-clean-up/</loc>
-     <lastmod>2019-12-08</lastmod>
+     <lastmod>2020-08-14</lastmod>
      <changefreq>daily</changefreq>
-    </url>
-    <url>
+    </url><url>
      <loc>https://serverless-idm.awssecworkshops.com/contribute/</loc>
-     <lastmod>2019-12-08</lastmod>
+     <lastmod>2020-08-14</lastmod>
      <changefreq>daily</changefreq>
-    </url>
-    <url>
+    </url><url>
      <loc>https://serverless-idm.awssecworkshops.com/license/</loc>
-     <lastmod>2019-12-08</lastmod>
+     <lastmod>2020-08-14</lastmod>
      <changefreq>daily</changefreq>
     </url>
 </urlset>
